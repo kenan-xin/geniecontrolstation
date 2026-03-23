@@ -419,7 +419,7 @@ export function StationSelector() {
                   {schedules.map((schedule, index) => (
                     <div
                       key={index}
-                      className="grid grid-cols-[1fr_1fr_1fr_2fr_auto] gap-2 items-center"
+                      className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_1fr_2fr_auto] gap-2 items-center"
                     >
                       <Select
                         value={schedule.dayOfWeek}
@@ -579,7 +579,7 @@ export function StationSelector() {
                   {schedules.map((schedule, index) => (
                     <div
                       key={index}
-                      className="grid grid-cols-[1fr_1fr_1fr_2fr_auto] gap-2 items-center"
+                      className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_1fr_2fr_auto] gap-2 items-center"
                     >
                       <Select
                         value={schedule.dayOfWeek}

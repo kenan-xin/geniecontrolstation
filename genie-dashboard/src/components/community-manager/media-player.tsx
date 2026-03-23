@@ -339,37 +339,37 @@ export function MediaPlayer({ station }: MediaPlayerProps) {
   return (
     <Card>
       <CardContent className="py-6">
-        <div className="flex items-center gap-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-6">
           {/* Station Icon/Logo */}
-          <div className="shrink-0">
+          <div className="shrink-0 mx-auto sm:mx-0">
             {station ? (
-              <div className="flex size-24 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/20">
+              <div className="flex size-20 sm:size-24 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/20">
                 {station.logo ? (
                   <img
                     src={station.logo}
                     alt={station.name}
-                    className="size-16 rounded-lg object-cover"
+                    className="size-14 sm:size-16 rounded-lg object-cover"
                   />
                 ) : (
-                  <Radio className="size-10 text-white" />
+                  <Radio className="size-8 sm:size-10 text-white" />
                 )}
               </div>
             ) : (
-              <div className="flex size-24 items-center justify-center rounded-xl bg-muted">
-                <AudioLines className="size-10 text-muted-foreground/40" />
+              <div className="flex size-20 sm:size-24 items-center justify-center rounded-xl bg-muted">
+                <AudioLines className="size-8 sm:size-10 text-muted-foreground/40" />
               </div>
             )}
           </div>
 
           {/* Controls */}
-          <div className="flex-1 space-y-4">
+          <div className="flex-1 space-y-4 text-center sm:text-left">
             {/* Station Name */}
             <div>
               {station ? (
                 <>
                   <h3 className="text-lg font-semibold">{station.name}</h3>
                   {station.url && (
-                    <p className="text-sm text-muted-foreground truncate max-w-md">
+                    <p className="text-sm text-muted-foreground truncate max-w-md mx-auto sm:mx-0">
                       {station.url}
                     </p>
                   )}
@@ -379,15 +379,15 @@ export function MediaPlayer({ station }: MediaPlayerProps) {
               )}
             </div>
 
-            {/* Buttons Row */}
-            <div className="flex items-center gap-3">
+            {/* Buttons Row - stack on mobile */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
               {/* Play/Pause Button */}
               <Button
                 variant={isPlaying ? "default" : "outline"}
                 size="lg"
                 disabled={!hasUrl || isRecording}
                 onClick={isPlaying ? handlePause : handlePlay}
-                className="gap-2"
+                className="gap-2 w-full sm:w-auto"
               >
                 {isPlaying ? (
                   <>
@@ -408,7 +408,7 @@ export function MediaPlayer({ station }: MediaPlayerProps) {
                 size="lg"
                 disabled={!hasUrl || isPlaying || isStartingRecording}
                 onClick={isRecording ? stopRecording : startRecording}
-                className={`gap-2 ${isRecording ? "animate-pulse" : ""}`}
+                className={`gap-2 w-full sm:w-auto ${isRecording ? "animate-pulse" : ""}`}
               >
                 {isStartingRecording ? (
                   <Loader2 className="size-4 animate-spin" data-icon="inline-start" />
@@ -426,7 +426,7 @@ export function MediaPlayer({ station }: MediaPlayerProps) {
                   variant="outline"
                   size="lg"
                   onClick={handleDownload}
-                  className="gap-2"
+                  className="gap-2 w-full sm:w-auto"
                 >
                   <Download className="size-4" data-icon="inline-start" />
                   Download
@@ -435,7 +435,7 @@ export function MediaPlayer({ station }: MediaPlayerProps) {
             </div>
 
             {/* Status */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center sm:justify-start gap-2">
               <div
                 className={`size-2 rounded-full ${
                   isRecording

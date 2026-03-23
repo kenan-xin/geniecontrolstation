@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronDown, Mail, XCircle } from "lucide-react";
+import { ChevronDown, Mail, XCircle, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { DetailLayout } from "../detail-layout";
 import type { SectionItem } from "../section-nav";
@@ -33,6 +33,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useUpdateNewsArticle } from "@/hooks/use-news-articles";
+import { useNewsFactCheck } from "@/hooks/use-news-fact-check";
+import { AiInsightsDrawer, AiInsightsFab } from "../ai-insights-drawer";
+import { generateJuniorEditorialNotes } from "@/lib/editorial-notes";
 import type { NewsArticle, NewNewsArticle, EditorialNote } from "@/types";
 
 // Helper to safely parse JSON that may already be an object
@@ -76,6 +79,7 @@ export function UnverifiedView({ article }: UnverifiedViewProps) {
   const [proceedDialogOpen, setProceedDialogOpen] = useState(false);
   const [requestInfoDialogOpen, setRequestInfoDialogOpen] = useState(false);
   const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
+  const [aiDrawerOpen, setAiDrawerOpen] = useState(false);
 
   const [editorialNotes, setEditorialNotes] = useState("");
   const [requestSubject, setRequestSubject] = useState(
@@ -85,6 +89,34 @@ export function UnverifiedView({ article }: UnverifiedViewProps) {
   const [rejectReason, setRejectReason] = useState("");
 
   const updateMutation = useUpdateNewsArticle();
+
+  // AI Fact-check hook - auto-fetches when title/description are available
+  const { data: factCheckData, isLoading: factCheckLoading, isFetching: factCheckFetching, isError: factCheckError, error: factCheckErrorObj, refetch: refetchFactCheck } = useNewsFactCheck(article.storyTitle || "", article.storyDescription || "");
+
+  // Calculate warning count for FAB badge
+  const warningCount = useMemo(() => {
+    if (!factCheckData) return 0;
+    const items = [
+      ...factCheckData.factualAccuracy.items,
+      ...factCheckData.contentIntegrity.items,
+    ];
+    return items.filter((item) => item.status === "error" || item.status === "warning").length;
+  }, [factCheckData]);
+
+  // Pre-fill editorial notes when dialog opens with AI-generated notes
+  useEffect(() => {
+    if (proceedDialogOpen && factCheckData && !editorialNotes) {
+      setEditorialNotes(generateJuniorEditorialNotes(factCheckData, article));
+    }
+  }, [proceedDialogOpen, factCheckData, article, editorialNotes]);
+
+  // Regenerate AI notes
+  const handleRegenerateNotes = () => {
+    if (factCheckData) {
+      setEditorialNotes(generateJuniorEditorialNotes(factCheckData, article));
+      toast.success("AI notes regenerated");
+    }
+  };
 
   const sections: SectionItem[] = [
     { id: 0, name: "Personal Details", icon: User },
@@ -193,7 +225,7 @@ export function UnverifiedView({ article }: UnverifiedViewProps) {
     <div className="flex gap-2">
       <Button
         variant="default"
-        className="gap-1.5"
+        className="gap-1.5 min-[400px]:w-auto w-full"
         onClick={() => setProceedDialogOpen(true)}
       >
         Proceed to Approval
@@ -201,7 +233,7 @@ export function UnverifiedView({ article }: UnverifiedViewProps) {
       </Button>
       <DropdownMenu>
         <DropdownMenuTrigger
-          render={<Button variant="outline" size="icon" className="shrink-0" />}
+          render={<Button variant="outline" size="icon" className="shrink-0 hidden min-[400px]:flex" />}
         >
           <ChevronDown className="size-4" />
         </DropdownMenuTrigger>
@@ -269,20 +301,25 @@ export function UnverifiedView({ article }: UnverifiedViewProps) {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            <Alert>
-              <AlertDescription className="text-xs">
-                Notes will be pre-filled by AI analysis in Phase 5
-              </AlertDescription>
-            </Alert>
-            <div className="space-y-2">
+            <div className="flex items-center justify-between">
               <Label>Editorial Notes</Label>
-              <Textarea
-                value={editorialNotes}
-                onChange={(e) => setEditorialNotes(e.target.value)}
-                placeholder="Enter your editorial notes..."
-                rows={12}
-              />
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleRegenerateNotes}
+                disabled={!factCheckData}
+                className="h-7 gap-1 text-xs"
+              >
+                <Sparkles className="h-3 w-3" />
+                Regenerate AI Notes
+              </Button>
             </div>
+            <Textarea
+              value={editorialNotes}
+              onChange={(e) => setEditorialNotes(e.target.value)}
+              placeholder="Enter your editorial notes..."
+              rows={12}
+            />
           </div>
           <DialogFooter>
             <Button
@@ -392,6 +429,24 @@ export function UnverifiedView({ article }: UnverifiedViewProps) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* AI Insights FAB and Drawer */}
+      <AiInsightsFab
+        warningCount={warningCount}
+        isLoading={factCheckLoading}
+        isFetching={factCheckFetching}
+        onClick={() => setAiDrawerOpen(true)}
+      />
+      <AiInsightsDrawer
+        factCheckData={factCheckData}
+        isLoading={factCheckLoading}
+        isFetching={factCheckFetching}
+        isError={factCheckError}
+        error={factCheckErrorObj}
+        onRegenerate={() => void refetchFactCheck()}
+        open={aiDrawerOpen}
+        onOpenChange={setAiDrawerOpen}
+      />
     </>
   );
 }

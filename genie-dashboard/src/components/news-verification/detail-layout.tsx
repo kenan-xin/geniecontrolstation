@@ -49,7 +49,7 @@ export function DetailLayout({
             </h1>
           </div>
           {actionButtons && (
-            <div className="flex items-center gap-2 shrink-0">{actionButtons}</div>
+            <div className="flex items-center gap-2 shrink-0 max-[400px]:w-full max-[400px]:justify-center">{actionButtons}</div>
           )}
         </div>
 

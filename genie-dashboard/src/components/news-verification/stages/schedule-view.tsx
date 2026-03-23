@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import {
   ChevronDown,
   Check,
   XCircle,
   RotateCcw,
+  Sparkles,
 } from "lucide-react";
 import { toast } from "sonner";
 import { DetailLayout } from "../detail-layout";
@@ -40,6 +41,9 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { useUpdateNewsArticle } from "@/hooks/use-news-articles";
+import { useNewsFactCheck } from "@/hooks/use-news-fact-check";
+import { AiInsightsDrawer, AiInsightsFab } from "../ai-insights-drawer";
+import { generatePublisherNotes } from "@/lib/editorial-notes";
 import type { NewsArticle, NewNewsArticle, EditorialNote, PublishingDetails } from "@/types";
 
 // Helper to safely parse JSON that may already be an object
@@ -87,6 +91,7 @@ export function ScheduleView({ article }: ScheduleViewProps) {
   const [publishDialogOpen, setPublishDialogOpen] = useState(false);
   const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
   const [revertDialogOpen, setRevertDialogOpen] = useState(false);
+  const [aiDrawerOpen, setAiDrawerOpen] = useState(false);
 
   const [rejectReason, setRejectReason] = useState("");
   const [revertReason, setRevertReason] = useState("");
@@ -103,6 +108,38 @@ export function ScheduleView({ article }: ScheduleViewProps) {
     selectedChannels: existingDetails?.selectedChannels || [],
     publisherNotes: existingDetails?.publisherNotes || "",
   });
+
+  // AI Fact-check hook - auto-fetches when title/description are available
+  const { data: factCheckData, isLoading: factCheckLoading, isFetching: factCheckFetching, isError: factCheckError, error: factCheckErrorObj, refetch: refetchFactCheck } = useNewsFactCheck(article.storyTitle || "", article.storyDescription || "");
+
+  // Calculate warning count for FAB badge
+  const warningCount = useMemo(() => {
+    if (!factCheckData) return 0;
+    const items = [
+      ...factCheckData.factualAccuracy.items,
+      ...factCheckData.contentIntegrity.items,
+    ];
+    return items.filter((item) => item.status === "error" || item.status === "warning").length;
+  }, [factCheckData]);
+
+  // Pre-fill publisher notes on mount if empty
+  useEffect(() => {
+    if (!scheduleData.publisherNotes) {
+      setScheduleData(prev => ({
+        ...prev,
+        publisherNotes: generatePublisherNotes(article),
+      }));
+    }
+  }, [article, scheduleData.publisherNotes]);
+
+  // Regenerate AI notes
+  const handleRegeneratePublisherNotes = () => {
+    setScheduleData(prev => ({
+      ...prev,
+      publisherNotes: generatePublisherNotes(article),
+    }));
+    toast.success("Publisher notes regenerated");
+  };
 
   // Sections with confirmed status (all except Publishing Schedule)
   const sections: SectionItem[] = [
@@ -242,7 +279,7 @@ export function ScheduleView({ article }: ScheduleViewProps) {
     <div className="flex gap-2">
       <Button
         variant="default"
-        className="gap-1.5"
+        className="gap-1.5 min-[400px]:w-auto w-full"
         onClick={() => setPublishDialogOpen(true)}
       >
         <Check className="size-4" />
@@ -250,7 +287,7 @@ export function ScheduleView({ article }: ScheduleViewProps) {
       </Button>
       <DropdownMenu>
         <DropdownMenuTrigger
-          render={<Button variant="outline" size="icon" className="shrink-0" />}
+          render={<Button variant="outline" size="icon" className="shrink-0 hidden min-[400px]:flex" />}
         >
           <ChevronDown className="size-4" />
         </DropdownMenuTrigger>
@@ -278,6 +315,7 @@ export function ScheduleView({ article }: ScheduleViewProps) {
           <PublishingScheduleSection
             scheduleData={scheduleData}
             onChange={setScheduleData}
+            onRegeneratePublisherNotes={handleRegeneratePublisherNotes}
           />
         );
       case 1:
@@ -480,6 +518,24 @@ export function ScheduleView({ article }: ScheduleViewProps) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* AI Insights FAB and Drawer */}
+      <AiInsightsFab
+        warningCount={warningCount}
+        isLoading={factCheckLoading}
+        isFetching={factCheckFetching}
+        onClick={() => setAiDrawerOpen(true)}
+      />
+      <AiInsightsDrawer
+        factCheckData={factCheckData}
+        isLoading={factCheckLoading}
+        isFetching={factCheckFetching}
+        isError={factCheckError}
+        error={factCheckErrorObj}
+        onRegenerate={() => void refetchFactCheck()}
+        open={aiDrawerOpen}
+        onOpenChange={setAiDrawerOpen}
+      />
     </>
   );
 }
