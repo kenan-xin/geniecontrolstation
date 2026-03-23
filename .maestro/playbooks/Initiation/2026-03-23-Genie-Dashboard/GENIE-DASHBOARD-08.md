@@ -12,7 +12,7 @@ This phase adds the finishing touches that make the dashboard production-ready: 
 
 ## Tasks
 
-- [ ] Implement responsive design across all pages and components. Review each page at mobile (375px), tablet (768px), laptop (1024px), and desktop (1440px+) breakpoints and fix layout issues:
+- [x] Implement responsive design across all pages and components. Review each page at mobile (375px), tablet (768px), laptop (1024px), and desktop (1440px+) breakpoints and fix layout issues:
   - **Dashboard layout (sidebar + header)**:
     - Desktop (>=1024px): Sidebar is visible and collapsible (260px expanded, 64px collapsed). Main content adjusts width.
     - Tablet/Mobile (<1024px): Sidebar hidden by default. Header shows hamburger menu icon. Clicking opens sidebar as a Sheet overlay (slides in from left). Clicking outside or a nav link closes it.
