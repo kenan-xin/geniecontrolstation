@@ -104,12 +104,12 @@ This phase establishes the complete data persistence layer using Drizzle ORM wit
   - Export all table definitions and inferred TypeScript types using Drizzle's `InferSelectModel` and `InferInsertModel`
   - Create a `src/types/index.ts` file re-exporting these types with friendly names (e.g., `NewsArticle`, `Station`, `Segment`, `StationSchedule`)
 
-- [ ] Push the schema to the Turso database and verify:
-  - **BLOCKED: TURSO_AUTH_TOKEN in `.env.local` is a placeholder. Need actual token to proceed.**
-  - Run `npx drizzle-kit push` from the `genie-dashboard/` directory
-  - Verify all 4 tables are created successfully (check the output for confirmation)
-  - If there are any errors, troubleshoot (common issues: missing env vars, network connectivity)
-  - Optionally run `npx drizzle-kit studio` to visually inspect the database
+- [x] Push the schema to the Turso database and verify:
+  - Schema was already in sync ("No changes detected" from drizzle-kit push)
+  - Verified all 4 tables exist via API calls:
+    - `GET /api/news-articles` → 12+ articles returned
+    - `GET /api/stations` → 4 stations returned
+    - `GET /api/stations/2/segments` and `/api/stations/3/segments` → 2 segments returned
 
 - [x] Create API routes for news articles CRUD:
   - `src/app/api/news-articles/route.ts`:
