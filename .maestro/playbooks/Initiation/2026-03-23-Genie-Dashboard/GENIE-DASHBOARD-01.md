@@ -104,7 +104,7 @@ This phase bootstraps the `genie-dashboard/` Next.js 15 project inside the curre
   - Use shadcn Card, Button, Badge components
   - Make it visually impressive — this is the first thing users see
 
-- [ ] Create placeholder pages for both features:
+- [x] Create placeholder pages for both features:
   - `src/app/(dashboard)/news-verification/page.tsx`:
     - Page title "News Verification" with brief description text
     - Row of 4 status summary cards (Unverified, Approval, Schedule, Published) with zero counts and matching color accents (red, amber, blue, green)
