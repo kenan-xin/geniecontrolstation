@@ -30,7 +30,7 @@ This phase adds the finishing touches that make the dashboard production-ready: 
     - Modals: full width on mobile (`max-w-full sm:max-w-lg`)
   - Test each breakpoint in browser DevTools. Ensure no horizontal overflow on any page at any size.
 
-- [ ] Add consistent loading states, error handling, and empty states throughout the application:
+- [x] Add consistent loading states, error handling, and empty states throughout the application:
   - **Create reusable components** in `src/components/shared/`:
     - `loading-skeleton.tsx` — Configurable skeleton layouts:
       - `CardGridSkeleton` — 4 skeleton cards in a row (for status cards, station cards)

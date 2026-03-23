@@ -13,6 +13,7 @@ import { RegenerateModal } from "@/components/community-manager/regenerate-modal
 import { DeleteSegmentDialog } from "@/components/community-manager/delete-segment-dialog";
 import { ShareModal } from "@/components/community-manager/share-modal";
 import { QuickSharePopover } from "@/components/community-manager/quick-share-popover";
+import { ErrorState } from "@/components/shared";
 import type { Segment } from "@/types";
 
 export default function CommunityManagerPage() {
