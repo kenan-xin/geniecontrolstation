@@ -21,7 +21,7 @@ This phase bootstraps the `genie-dashboard/` Next.js 15 project inside the curre
   - Install dev dependencies: `npm install -D drizzle-kit @types/node`
   - Verify `npm run dev` starts successfully (check for no errors, then stop the dev server)
 
-- [ ] Initialize shadcn/ui and add essential components:
+- [x] Initialize shadcn/ui and add essential components:
   - `cd /home/kenan/work/geniecontrolstation/genie-dashboard`
   - Run `npx shadcn@latest init` — accept defaults (New York style, Zinc base color, CSS variables enabled)
   - Add components in batches:
