@@ -72,6 +72,7 @@ export default function HomePage() {
           <CardContent className="relative pt-2">
             <Button
               render={<Link href="/news-verification" />}
+              nativeButton={false}
               className="gap-2"
             >
               Open News Verification
@@ -101,6 +102,7 @@ export default function HomePage() {
           <CardContent className="relative pt-2">
             <Button
               render={<Link href="/community-manager" />}
+              nativeButton={false}
               className="gap-2"
             >
               Open Community Manager

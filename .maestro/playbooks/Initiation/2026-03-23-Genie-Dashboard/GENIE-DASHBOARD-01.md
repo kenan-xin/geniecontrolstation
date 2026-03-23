@@ -125,7 +125,7 @@ This phase bootstraps the `genie-dashboard/` Next.js 15 project inside the curre
     - Placeholder table area: "No segments recorded yet. Start recording to capture audio segments."
   - All pages should use consistent spacing, typography, and look polished even as placeholders
 
-- [ ] Verify the complete prototype works end-to-end:
+- [x] Verify the complete prototype works end-to-end:
   - `cd /home/kenan/work/geniecontrolstation/genie-dashboard`
   - Run `npm run dev`
   - Verify:
