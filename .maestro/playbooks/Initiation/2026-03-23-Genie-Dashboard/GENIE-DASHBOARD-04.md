@@ -1,0 +1,220 @@
+# Phase 04: NewsVerification — Detail Pages & Workflow Transitions
+
+This phase builds the 4 stage-specific detail pages (Unverified, Approval, Schedule, Published) with their complete section layouts, editorial workflows, and status transitions. Each page is a rich, multi-section view for reviewing and processing news articles through the verification pipeline. Shared components reduce duplication across stages.
+
+## Context
+
+- **Project location:** `/home/kenan/work/geniecontrolstation/genie-dashboard/`
+- **Previous phases:** Phase 01-03 built the foundation, data layer, and dashboard listing page.
+- **Route structure:** `/news-verification/[status]/[id]` — e.g., `/news-verification/unverified/1`
+- **Workflow:** Unverified -> Approval -> Schedule -> Published (with Reject and Revert options at each stage)
+- **Data hooks:** `useNewsArticle(id)` for fetching, `useUpdateNewsArticle()` for mutations — both in `src/hooks/use-news-articles.ts`
+- **Design direction:** Professional, modern. Invoke the `frontend-design` skill when building UI.
+- **Key reference files** in the parent repo (read for detailed behavior but redesign with shadcn/ui):
+  - `src/pages/media/news-verification/unverified.jsx` (1670 lines)
+  - `src/pages/media/news-verification/approval.jsx`
+  - `src/pages/media/news-verification/schedule.jsx`
+  - `src/pages/media/news-verification/published.jsx`
+
+## Tasks
+
+- [ ] Create shared detail page components used across all 4 stages. Invoke the `frontend-design` skill. Build these in `src/components/news-verification/`:
+  - **`workflow-stepper.tsx`** — Horizontal 4-step progress indicator:
+    - Props: `activeStep: number` (0=Unverified, 1=Approval, 2=Schedule, 3=Published)
+    - Steps: Unverified (Newspaper icon), Approval (Gavel/ShieldCheck icon), Schedule (Clock icon), Published (Newspaper/CheckCircle icon)
+    - Visual: completed steps get green checkmark + connecting line, active step is highlighted with primary color, future steps are muted/gray
+    - Responsive: shows labels on desktop, icons only on mobile
+  - **`section-nav.tsx`** — Left sidebar navigation for detail sections:
+    - Props: `sections: Array<{ id: number; name: string; icon: LucideIcon; confirmed?: boolean }>`, `activeSection: number`, `onSelect: (id: number) => void`
+    - Each section item: icon + label, active state has accent background
+    - Confirmed sections show a small green checkmark badge (used in Schedule/Published stages)
+    - Smooth scroll or jump to section content when clicked
+  - **`detail-layout.tsx`** — Shared wrapper layout for all detail pages:
+    - Top bar: "Back to News Verification" link (ArrowLeft icon + text, navigates to `/news-verification`), article title (center/left), action buttons slot (right-aligned)
+    - Below top bar: `WorkflowStepper` component
+    - Main content: 2-column layout — `SectionNav` (1/3 width, sticky) | Content area (2/3 width, scrollable)
+    - Props: `title`, `activeStep`, `sections`, `activeSection`, `onSectionChange`, `actionButtons` (ReactNode slot), `children` (content)
+    - On mobile: section nav becomes a horizontal scrollable tab bar above the content
+  - **`personal-details-section.tsx`** — Displays submitter info in a clean grid: Full Name, IC Number, Address, Phone, Email. Each field with label + value. Uses shadcn Card wrapper.
+  - **`story-details-section.tsx`** — Displays story info: Title, Description (long text), Category badge, Urgency badge (color-coded), Estimated Impact badge. Optional edit mode toggle (for Unverified/Approval stages) that switches fields to inputs.
+    - Props: `editable?: boolean`, `onSave?: (updates) => void`
+  - **`attachments-section.tsx`** — Grid of attachment cards. Each shows: file type icon (Image/Video/File), filename, description, source badge. Placeholder image preview for image types.
+  - **`links-section.tsx`** — List of proof links. Each shows: URL (as clickable external link), description, verified/unverified badge (green check or yellow warning).
+  - **`editorial-notes-section.tsx`** — Timeline/thread view of editorial notes. Each note shows: role badge (Junior Editorial / Senior Editorial / Publisher), action taken (Submitted, Approved, Rejected, etc.), timestamp, full note content. Color-coded by role. Most recent note at top.
+  - **`channel-display-section.tsx`** — Tabbed preview of how the story appears on different platforms. Tabs: Telegram, Newspaper, Website, RSS Feed. Each tab shows a styled card mimicking the platform's format with the article's title and description.
+
+- [ ] Build the Unverified stage detail page. Invoke the `frontend-design` skill. Create `src/components/news-verification/stages/unverified-view.tsx`:
+  - Uses `DetailLayout` with `activeStep={0}`
+  - **Sections** (in SectionNav):
+    - 0: Personal Details (User icon)
+    - 1: Story Details (FileText icon) — **editable** mode enabled
+    - 2: Attachments (Paperclip icon)
+    - 3: Links & Proof (Link icon)
+    - 4: Editorial Notes (StickyNote icon)
+  - Story Details section has an "Edit" toggle button. When editing: title becomes input, description becomes textarea, category/urgency become select dropdowns. "Save" button calls `useUpdateNewsArticle()` to persist changes.
+  - **Action buttons** (rendered in the top-right slot of DetailLayout) using a split-button pattern:
+    - Primary button: **"Proceed to Approval"** — opens a dialog
+    - Dropdown menu (shadcn DropdownMenu attached to the primary button's chevron): "Request More Information", "Reject News Lead"
+  - **"Proceed to Approval" dialog** (shadcn Dialog):
+    - Title: "Add Junior Editorial Notes"
+    - Alert banner: "Notes will be pre-filled by AI analysis in Phase 5"
+    - Multiline textarea (12 rows) for editorial notes
+    - Footer: "Cancel" button, "Confirm & Proceed" button (primary)
+    - On confirm:
+      1. Create editorial note object: `{ role: 'Junior Editorial', action: 'Submitted for Approval', timestamp: current datetime formatted as 'DD/MM/YYYY HH:MM AM/PM', content: textarea value }`
+      2. Call `useUpdateNewsArticle()` with: `{ currentStatus: 'Approval', statusColor: 'warning', juniorEditorialNotes: textarea value, editorialNotes: JSON.stringify([...existing, newNote]) }`
+      3. Show success toast
+      4. Navigate to `/news-verification/approval/${id}`
+  - **"Request More Information" dialog**:
+    - Title: "Request More Information"
+    - Fields: Recipient email (pre-filled from submitter email), Subject line, Message body (textarea, 10 rows, pre-filled with template text)
+    - Footer: "Cancel", "Send Request" (shows toast "Request sent successfully" — placeholder, no actual email)
+  - **"Reject News Lead" dialog**:
+    - Title: "Reject News Lead"
+    - Warning alert: "This will mark the article as rejected."
+    - Reason textarea (required)
+    - On confirm: update status to 'Rejected', statusColor to 'default', add rejection note to editorialNotes. Navigate back to `/news-verification`.
+
+- [ ] Build the Approval stage detail page. Create `src/components/news-verification/stages/approval-view.tsx`:
+  - Uses `DetailLayout` with `activeStep={1}`
+  - **Sections**:
+    - 0: Personal Details (User icon)
+    - 1: Story Details (FileText icon) — **editable** mode enabled
+    - 2: Attachments (Paperclip icon)
+    - 3: Links & Proof (Link icon)
+    - 4: Editorial Notes (StickyNote icon) — shows Junior Editorial notes prominently at top
+    - 5: Channel Display (Monitor icon)
+  - Editorial Notes section: Junior Editorial notes displayed in a highlighted card at the top before the timeline
+  - **Action buttons** — split button with dropdown (shadcn DropdownMenu):
+    - **"Approve"** (primary) — opens Senior Editorial Notes dialog
+    - **"Reject"** — rejection dialog with reason
+    - **"Push Back"** — returns to Unverified stage with a note explaining what needs revision
+    - **"Revert to Unverified"** — full revert requiring comprehensive re-verification
+  - **Approve dialog**:
+    - Title: "Senior Editorial Notes — Approve for Scheduling"
+    - Textarea with placeholder notes (will be AI-filled in Phase 5)
+    - On confirm: update status to 'Schedule', statusColor to 'info', add Senior Editorial note with action 'Approved'. Navigate to schedule view.
+  - **Push Back dialog**:
+    - Title: "Push Back to Junior Editorial"
+    - Textarea for revision instructions
+    - On confirm: update status back to 'Unverified', statusColor to 'error', add note with action 'Pushed Back'. Navigate to `/news-verification`.
+  - **Revert dialog**:
+    - Title: "Revert to Unverified"
+    - Warning: "This requires full re-verification of the article"
+    - Textarea for revert reason
+    - On confirm: update status to 'Unverified', statusColor to 'error', add note with action 'Reverted'. Navigate to `/news-verification`.
+
+- [ ] Build the Schedule stage detail page. Create `src/components/news-verification/stages/schedule-view.tsx`:
+  - Uses `DetailLayout` with `activeStep={2}`
+  - **Sections** (note: Publishing Schedule is the FIRST/default section):
+    - 0: Publishing Schedule (CalendarClock icon) — **primary section**, not confirmed
+    - 1: Personal Details (User icon) — confirmed (read-only)
+    - 2: Story Details (FileText icon) — confirmed (read-only)
+    - 3: Attachments (Paperclip icon) — confirmed
+    - 4: Links & Proof (Link icon) — confirmed
+    - 5: Editorial Notes (ShieldCheck icon) — confirmed
+    - 6: Channel Display (Monitor icon) — confirmed
+  - Confirmed sections are read-only with checkmark in nav. Non-confirmed (Publishing Schedule) is the active editing area.
+  - **Publishing Schedule section** contains:
+    - Date/time input for scheduling publication (use a standard `<input type="datetime-local">` or a lightweight date-time picker component)
+    - **Channel selection** grid with checkboxes (2-3 columns): Website, Facebook, Twitter, Instagram, LinkedIn, YouTube, Email Newsletter, Telegram, Newspaper, RSS Feed
+    - Publisher notes textarea (4 rows)
+    - These values are stored locally in component state until "Publish" is confirmed
+  - **Action buttons**:
+    - **"Publish"** (primary) — opens confirmation dialog showing: scheduled date/time, selected channels count, publisher notes preview
+    - **"Reject"** — rejection dialog with reason
+    - **"Revert to Approval"** — returns to Approval stage for editorial re-review
+  - **Publish confirmation dialog**:
+    - Title: "Confirm Publication"
+    - Shows: scheduled date/time, list of selected channels as badges, publisher notes
+    - On confirm: update article with `{ currentStatus: 'Published', statusColor: 'success', publishedDate: scheduled datetime, publishingDetails: JSON.stringify({ publishedDateTime, selectedChannels, publisherNotes }) }`, add Publisher note with action 'Published'. Navigate to published view.
+
+- [ ] Build the Published stage detail page. Create `src/components/news-verification/stages/published-view.tsx`:
+  - Uses `DetailLayout` with `activeStep={3}`
+  - **Sections**:
+    - 0: Performance Metrics (TrendingUp icon) — **default/first section**
+    - 1: Personal Details (User icon)
+    - 2: Story Details (FileText icon)
+    - 3: Attachments (Paperclip icon)
+    - 4: Links & Proof (Link icon)
+    - 5: Editorial Trail (ShieldCheck icon)
+    - 6: Publishing Details (CalendarClock icon)
+    - 7: Channel Display (Monitor icon)
+  - **ALL sections are read-only** — no editing in Published state
+  - **Performance Metrics section** (first section, displayed by default):
+    - Row of 5 stat cards: Views (Eye icon), Likes (ThumbsUp), Shares (Share2), Comments (MessageSquare), Engagement Rate (TrendingUp)
+    - Each card shows: icon, label, value (large number), optional trend indicator
+    - Values come from article's `performanceMetrics` JSON field
+    - If no metrics exist, show placeholder values with a note "Metrics will be available once the article has been live"
+  - **Editorial Trail section**: Full chronological timeline of ALL editorial notes from every stage — displays role badge, action, timestamp, and content for each. Visually distinct from the "Editorial Notes" section in earlier stages (shows the complete history including publishing).
+  - **Publishing Details section**: Shows published date/time, selected distribution channels as colored badges, publisher notes text
+  - **No action buttons** — article is finalized
+
+- [ ] Wire up the dynamic route page to render the correct stage view. Update `src/app/(dashboard)/news-verification/[status]/[id]/page.tsx`:
+  - This is a `"use client"` component
+  - Extract `status` and `id` from URL params
+  - Fetch article using `useNewsArticle(Number(id))`
+  - Map `status` param to the correct view component:
+    - `'unverified'` -> `UnverifiedView`
+    - `'approval'` -> `ApprovalView`
+    - `'schedule'` -> `ScheduleView`
+    - `'published'` -> `PublishedView`
+    - Any other value -> show "Invalid status" error with back link
+  - Pass the article data as props to the stage view
+  - **Loading state**: Show skeleton layout (stepper skeleton + 2-column skeleton) while article is loading
+  - **Not found**: If article doesn't exist, show clean error message: "Article not found" with "Back to News Verification" link
+  - **Status mismatch handling**: If the URL status doesn't match the article's actual currentStatus, redirect to the correct URL (e.g., if URL says `/unverified/1` but article is actually in 'Approval', redirect to `/approval/1`)
+
+- [ ] Verify all detail pages and workflow transitions work correctly using browser automation. Invoke the `agent-browser` skill:
+  - Use `agent-browser` to navigate to `/news-verification` and click "View" on an Unverified article
+  - Verify Unverified detail page:
+    - All 5 sections load with data (Personal Details, Story Details, Attachments, Links & Proof, Editorial Notes)
+    - Stepper shows step 0 (Unverified) as active
+    - Section nav highlights correctly when clicking different sections
+    - Take screenshot to confirm layout
+  - Test Story Details edit mode:
+    - Click Edit toggle in Story Details section
+    - Verify fields become editable (title input, description textarea, category/urgency dropdowns)
+    - Make a change, click Save, verify changes persist (refresh and check)
+  - Test "Proceed to Approval" workflow:
+    - Click "Proceed to Approval" button
+    - Verify dialog opens with textarea for editorial notes
+    - Enter notes, click "Confirm & Proceed"
+    - Verify: article status updates to Approval, navigation goes to `/news-verification/approval/{id}`
+    - Navigate to dashboard, verify counts updated (Unverified decreased, Approval increased)
+  - Verify Approval detail page:
+    - Confirm 6 sections including Channel Display
+    - Verify Junior Editorial Notes are displayed prominently at top of Editorial Notes section
+  - Test "Approve" workflow:
+    - Click "Approve" button, verify dialog opens
+    - Enter Senior Editorial notes, confirm
+    - Verify navigation to Schedule view (`/news-verification/schedule/{id}`)
+  - Verify Schedule detail page:
+    - Confirm Publishing Schedule section is default/first
+    - Verify other sections show "confirmed" indicators (checkmarks)
+  - Test publish workflow:
+    - Set a future date/time in the datetime input
+    - Select multiple channels (Website, Facebook, Twitter)
+    - Add publisher notes
+    - Click "Publish", verify confirmation dialog shows summary
+    - Confirm publish, verify navigation to Published view
+  - Verify Published detail page:
+    - Confirm all 8 sections are present and read-only
+    - Verify Performance Metrics section displays (Views, Likes, Shares, Comments, Engagement Rate)
+    - Verify Editorial Trail shows complete history of all transitions
+    - Verify Publishing Details section shows selected channels and notes
+  - Test "Push Back" workflow:
+    - Navigate to an Approval article
+    - Click dropdown, select "Push Back"
+    - Enter revision instructions, confirm
+    - Verify article returns to Unverified with note added
+  - Test "Revert to Approval" workflow:
+    - Navigate to a Schedule article
+    - Click "Revert to Approval", confirm
+    - Verify article returns to Approval stage
+  - Test "Reject" workflow:
+    - From any stage, click "Reject" option
+    - Enter reason, confirm
+    - Verify article marked as Rejected, appears in dashboard with Rejected status
+  - Check browser console for errors
+  - Fix any issues found during verification

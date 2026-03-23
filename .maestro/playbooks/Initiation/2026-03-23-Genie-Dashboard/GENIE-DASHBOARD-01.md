@@ -125,18 +125,78 @@ This phase bootstraps the `genie-dashboard/` Next.js 15 project inside the curre
     - Placeholder table area: "No segments recorded yet. Start recording to capture audio segments."
   - All pages should use consistent spacing, typography, and look polished even as placeholders
 
-- [x] Verify the complete prototype works end-to-end:
+- [x] Verify the complete prototype works end-to-end using browser automation. Invoke the `agent-browser` skill:
   - `cd /home/kenan/work/geniecontrolstation/genie-dashboard`
-  - Run `npm run dev`
-  - Verify:
-    - Home page loads at `http://localhost:3000` with both feature cards and stat cards
-    - Clicking "Open News Verification" navigates to `/news-verification` showing status cards and empty state
-    - Clicking "Open Community Manager" navigates to `/community-manager` showing station cards and placeholder player
-    - Visiting `/news-verification/unverified/1` loads the detail placeholder with stepper
-    - Sidebar highlights the correct active link when navigating
-    - Sidebar collapses and expands with animation
-    - On mobile viewport (< 1024px), sidebar becomes an overlay/sheet
-    - No TypeScript errors in the terminal
-    - No console errors in the browser
+  - Run `npm run dev` to start the development server
+  - Use `agent-browser` to navigate to `http://localhost:3000` and verify:
+    - Home page loads with both feature cards ("News Verification" and "Community Manager") and stat cards
+    - Take a screenshot to confirm layout
+  - Click "Open News Verification" link and verify:
+    - Navigation to `/news-verification` succeeds
+    - Status cards (Unverified, Approval, Schedule, Published) are visible with zero counts
+    - Empty state message is displayed
+  - Click "Open Community Manager" from home page and verify:
+    - Navigation to `/community-manager` succeeds
+    - Station cards (Kiss 92, 98.3 FM, 91.3 FM, Money FM 89.3) are visible
+    - Placeholder media player is displayed
+  - Navigate directly to `/news-verification/unverified/1` and verify:
+    - Detail placeholder page loads with stepper showing workflow stages
+    - Breadcrumb is displayed
+  - Test sidebar navigation:
+    - Click on "News Verification" nav item, verify active state highlight
+    - Click on "Community Manager" nav item, verify active state highlight
+    - Test collapse/expand toggle button functionality
+  - Test responsive behavior:
+    - Resize viewport to mobile width (< 1024px), verify sidebar becomes overlay/sheet
+    - Click hamburger menu, verify sidebar opens as overlay
+  - Check browser console for errors (should be none except expected warnings)
   - Run `npm run build` and confirm the project builds without errors
   - Fix any issues found during verification
+
+## Verification Results (2026-03-23)
+
+All verification checks passed:
+
+### Home Page (`/`)
+- ✅ Page loads with "Genie Control Station" heading
+- ✅ Two feature cards visible (News Verification, Community Manager)
+- ✅ Stat cards visible with placeholder values
+- ✅ Screenshot saved: `.maestro/playbooks/Working/home-page.png`
+
+### News Verification Page (`/news-verification`)
+- ✅ Navigation succeeds from home page
+- ✅ Status cards visible (0 Unverified, 0 Pending Approval, 0 Scheduled, 0 Published)
+- ✅ Empty state message displayed
+- ✅ Screenshot saved: `.maestro/playbooks/Working/news-verification-page.png`
+
+### Community Manager Page (`/community-manager`)
+- ✅ Navigation succeeds from home page
+- ✅ Station cards visible (Kiss 92, 98.3 FM, 91.3 FM, Money FM 89.3)
+- ✅ Placeholder media player displayed
+- ✅ Screenshot saved: `.maestro/playbooks/Working/community-manager-page.png`
+
+### Article Detail Page (`/news-verification/unverified/1`)
+- ✅ Dynamic route loads correctly
+- ✅ Breadcrumb displayed (News Verification > Unverified > #1)
+- ✅ Workflow stepper shows 4 stages with "Unverified" highlighted
+- ✅ "Back to News Verification" link present
+- ✅ Screenshot saved: `.maestro/playbooks/Working/article-detail-page.png`
+
+### Sidebar Navigation
+- ✅ "News Verification" nav item navigates correctly, active state highlighted
+- ✅ "Community Manager" nav item navigates correctly, active state highlighted
+- ✅ Collapse/expand toggle button works
+- ✅ Screenshots saved: `.maestro/playbooks/Working/sidebar-collapsed.png`, `sidebar-expanded.png`
+
+### Responsive Behavior
+- ✅ Sidebar hidden on mobile viewport (< 1024px)
+- ✅ Hamburger menu opens sidebar as overlay
+- ✅ Screenshot saved: `.maestro/playbooks/Working/mobile-sidebar-overlay.png`
+
+### Build Verification
+- ✅ `npm run build` completes successfully
+- ✅ All routes compiled without errors
+- ✅ Static pages generated for `/`, `/community-manager`, `/news-verification`
+- ✅ Dynamic route generated for `/news-verification/[status]/[id]`
+
+**No issues found during verification.**
