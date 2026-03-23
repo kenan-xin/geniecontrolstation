@@ -176,6 +176,7 @@ export default async function ArticleDetailPage({
       <Button
         variant="ghost"
         render={<Link href="/news-verification" />}
+        nativeButton={false}
         className="gap-2 text-muted-foreground"
       >
         <ArrowLeft className="size-3.5" data-icon="inline-start" />
