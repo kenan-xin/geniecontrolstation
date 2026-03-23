@@ -5,6 +5,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { NewsArticle, Attachment } from "@/types";
 
+// Helper to safely parse JSON that may already be an object
+function safeJsonParse<T>(value: T | string | null): T | null {
+  if (!value) return null;
+  if (typeof value === "object") return value;
+  if (typeof value !== "string") return null;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return null;
+  }
+}
+
 interface AttachmentsSectionProps {
   article: NewsArticle;
 }
@@ -17,9 +29,7 @@ function getAttachmentIcon(type: string) {
 }
 
 export function AttachmentsSection({ article }: AttachmentsSectionProps) {
-  const attachments: Attachment[] = article.attachments
-    ? JSON.parse(article.attachments)
-    : [];
+  const attachments: Attachment[] = safeJsonParse<Attachment[]>(article.attachments) || [];
 
   if (attachments.length === 0) {
     return (

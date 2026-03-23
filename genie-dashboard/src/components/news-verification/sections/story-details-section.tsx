@@ -165,7 +165,7 @@ export function StoryDetailsSection({
                 <Select
                   value={formData.storyCategory}
                   onValueChange={(value) =>
-                    setFormData((prev) => ({ ...prev, storyCategory: value }))
+                    setFormData((prev) => ({ ...prev, storyCategory: value ?? "" }))
                   }
                   disabled={isSaving}
                 >
@@ -189,7 +189,7 @@ export function StoryDetailsSection({
                 <Select
                   value={formData.storyUrgency}
                   onValueChange={(value) =>
-                    setFormData((prev) => ({ ...prev, storyUrgency: value }))
+                    setFormData((prev) => ({ ...prev, storyUrgency: value ?? "" }))
                   }
                   disabled={isSaving}
                 >
@@ -215,7 +215,7 @@ export function StoryDetailsSection({
                   onValueChange={(value) =>
                     setFormData((prev) => ({
                       ...prev,
-                      storyEstimatedImpact: value,
+                      storyEstimatedImpact: value ?? "",
                     }))
                   }
                   disabled={isSaving}

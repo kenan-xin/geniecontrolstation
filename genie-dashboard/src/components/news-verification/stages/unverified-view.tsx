@@ -34,6 +34,18 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useUpdateNewsArticle } from "@/hooks/use-news-articles";
 import type { NewsArticle, NewNewsArticle, EditorialNote } from "@/types";
+
+// Helper to safely parse JSON that may already be an object
+function safeJsonParse<T>(value: T | string | null): T | null {
+  if (!value) return null;
+  if (typeof value === "object") return value;
+  if (typeof value !== "string") return null;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return null;
+  }
+}
 import {
   User,
   FileText,
@@ -88,9 +100,7 @@ export function UnverifiedView({ article }: UnverifiedViewProps) {
       return;
     }
 
-    const existingNotes: EditorialNote[] = article.editorialNotes
-      ? JSON.parse(article.editorialNotes)
-      : [];
+    const existingNotes: EditorialNote[] = safeJsonParse<EditorialNote[]>(article.editorialNotes) || [];
 
     const newNote: EditorialNote = {
       role: "Junior Editorial",
@@ -134,9 +144,7 @@ export function UnverifiedView({ article }: UnverifiedViewProps) {
       return;
     }
 
-    const existingNotes: EditorialNote[] = article.editorialNotes
-      ? JSON.parse(article.editorialNotes)
-      : [];
+    const existingNotes: EditorialNote[] = safeJsonParse<EditorialNote[]>(article.editorialNotes) || [];
 
     const newNote: EditorialNote = {
       role: "Junior Editorial",
@@ -192,10 +200,10 @@ export function UnverifiedView({ article }: UnverifiedViewProps) {
         <ChevronDown className="size-4" />
       </Button>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon" className="shrink-0">
-            <ChevronDown className="size-4" />
-          </Button>
+        <DropdownMenuTrigger
+          render={<Button variant="outline" size="icon" className="shrink-0" />}
+        >
+          <ChevronDown className="size-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem onClick={() => setRequestInfoDialogOpen(true)}>

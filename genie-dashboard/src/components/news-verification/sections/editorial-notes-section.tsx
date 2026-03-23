@@ -5,6 +5,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { NewsArticle, EditorialNote } from "@/types";
 
+// Helper to safely parse JSON that may already be an object
+function safeJsonParse<T>(value: T | string | null): T | null {
+  if (!value) return null;
+  if (typeof value === "object") return value;
+  if (typeof value !== "string") return null;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return null;
+  }
+}
+
 const roleColors: Record<string, string> = {
   "Junior Editorial": "bg-blue-500/10 text-blue-600 border-blue-200 dark:border-blue-800",
   "Senior Editorial": "bg-purple-500/10 text-purple-600 border-purple-200 dark:border-purple-800",
@@ -30,9 +42,7 @@ export function EditorialNotesSection({
   article,
   highlightedNote,
 }: EditorialNotesSectionProps) {
-  const notes: EditorialNote[] = article.editorialNotes
-    ? JSON.parse(article.editorialNotes)
-    : [];
+  const notes: EditorialNote[] = safeJsonParse<EditorialNote[]>(article.editorialNotes) || [];
 
   return (
     <Card>

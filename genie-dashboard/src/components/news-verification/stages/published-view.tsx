@@ -32,14 +32,18 @@ interface PublishedViewProps {
 export function PublishedView({ article }: PublishedViewProps) {
   const [activeSection, setActiveSection] = useState(0);
 
-  // Parse performance metrics
+  // Parse performance metrics (API may return already-parsed object or string)
   const metrics: PerformanceMetrics | null = article.performanceMetrics
-    ? JSON.parse(article.performanceMetrics)
+    ? typeof article.performanceMetrics === "string"
+      ? JSON.parse(article.performanceMetrics)
+      : article.performanceMetrics
     : null;
 
   // Parse publishing details
   const publishingDetails: PublishingDetails | null = article.publishingDetails
-    ? JSON.parse(article.publishingDetails)
+    ? typeof article.publishingDetails === "string"
+      ? JSON.parse(article.publishingDetails)
+      : article.publishingDetails
     : null;
 
   // All sections are read-only in Published state

@@ -5,12 +5,24 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { NewsArticle, Link as LinkType } from "@/types";
 
+// Helper to safely parse JSON that may already be an object
+function safeJsonParse<T>(value: T | string | null): T | null {
+  if (!value) return null;
+  if (typeof value === "object") return value;
+  if (typeof value !== "string") return null;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return null;
+  }
+}
+
 interface LinksSectionProps {
   article: NewsArticle;
 }
 
 export function LinksSection({ article }: LinksSectionProps) {
-  const links: LinkType[] = article.links ? JSON.parse(article.links) : [];
+  const links: LinkType[] = safeJsonParse<LinkType[]>(article.links) || [];
 
   if (links.length === 0) {
     return (

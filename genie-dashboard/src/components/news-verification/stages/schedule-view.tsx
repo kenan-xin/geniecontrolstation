@@ -41,6 +41,18 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { useUpdateNewsArticle } from "@/hooks/use-news-articles";
 import type { NewsArticle, NewNewsArticle, EditorialNote, PublishingDetails } from "@/types";
+
+// Helper to safely parse JSON that may already be an object
+function safeJsonParse<T>(value: T | string | null): T | null {
+  if (!value) return null;
+  if (typeof value === "object") return value;
+  if (typeof value !== "string") return null;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return null;
+  }
+}
 import {
   User,
   FileText,
@@ -79,9 +91,11 @@ export function ScheduleView({ article }: ScheduleViewProps) {
   const [rejectReason, setRejectReason] = useState("");
   const [revertReason, setRevertReason] = useState("");
 
-  // Parse existing publishing details or use defaults
+  // Parse existing publishing details or use defaults (API may return already-parsed object or string)
   const existingDetails: PublishingDetails | null = article.publishingDetails
-    ? JSON.parse(article.publishingDetails)
+    ? typeof article.publishingDetails === "string"
+      ? JSON.parse(article.publishingDetails)
+      : article.publishingDetails
     : null;
 
   const [scheduleData, setScheduleData] = useState({
@@ -111,9 +125,7 @@ export function ScheduleView({ article }: ScheduleViewProps) {
       return;
     }
 
-    const existingNotes: EditorialNote[] = article.editorialNotes
-      ? JSON.parse(article.editorialNotes)
-      : [];
+    const existingNotes: EditorialNote[] = safeJsonParse<EditorialNote[]>(article.editorialNotes) || [];
 
     const newNote: EditorialNote = {
       role: "Publisher",
@@ -158,9 +170,7 @@ export function ScheduleView({ article }: ScheduleViewProps) {
       return;
     }
 
-    const existingNotes: EditorialNote[] = article.editorialNotes
-      ? JSON.parse(article.editorialNotes)
-      : [];
+    const existingNotes: EditorialNote[] = safeJsonParse<EditorialNote[]>(article.editorialNotes) || [];
 
     const newNote: EditorialNote = {
       role: "Publisher",
@@ -197,9 +207,7 @@ export function ScheduleView({ article }: ScheduleViewProps) {
       return;
     }
 
-    const existingNotes: EditorialNote[] = article.editorialNotes
-      ? JSON.parse(article.editorialNotes)
-      : [];
+    const existingNotes: EditorialNote[] = safeJsonParse<EditorialNote[]>(article.editorialNotes) || [];
 
     const newNote: EditorialNote = {
       role: "Publisher",
@@ -241,10 +249,10 @@ export function ScheduleView({ article }: ScheduleViewProps) {
         Publish
       </Button>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon" className="shrink-0">
-            <ChevronDown className="size-4" />
-          </Button>
+        <DropdownMenuTrigger
+          render={<Button variant="outline" size="icon" className="shrink-0" />}
+        >
+          <ChevronDown className="size-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem
