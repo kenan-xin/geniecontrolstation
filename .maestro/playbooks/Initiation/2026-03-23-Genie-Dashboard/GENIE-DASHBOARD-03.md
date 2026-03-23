@@ -32,7 +32,7 @@ This phase builds the News Verification main dashboard page with live data from 
 
   **Completed (2026-03-23):** Created store at `src/store/news-verification-store.ts` following the existing `sidebar-store.ts` pattern. Includes all required state fields (selectedIds, searchQuery, statusFilter, page, rowsPerPage) and actions with proper page reset behavior for search/filter changes.
 
-- [ ] Build the full News Verification dashboard page. Invoke the `frontend-design` skill for high-quality design. Replace the placeholder in `src/app/(dashboard)/news-verification/page.tsx` with a `"use client"` component containing:
+- [x] Build the full News Verification dashboard page. Invoke the `frontend-design` skill for high-quality design. Replace the placeholder in `src/app/(dashboard)/news-verification/page.tsx` with a `"use client"` component containing:
   - **Status summary cards** — 4 cards in a responsive grid row (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`):
     - **Unverified** (Newspaper icon, red/destructive accent) — count of articles with status 'Unverified'
     - **Approval** (ShieldCheck icon, amber/warning accent) — count of 'Approval' articles
@@ -62,7 +62,7 @@ This phase builds the News Verification main dashboard page with live data from 
     - Page navigation (previous/next buttons)
     - Rows per page selector (5, 10, 25)
 
-- [ ] Implement the Add News Lead dialog and CSV export:
+- [x] Implement the Add News Lead dialog and CSV export:
   - **Add News Lead dialog** (using shadcn Dialog):
     - Trigger: the "Add News Lead" button in the toolbar
     - Form fields:
@@ -86,7 +86,28 @@ This phase builds the News Verification main dashboard page with live data from 
     - On confirm: call `useUpdateNewsArticle()` with `{ currentStatus: 'Rejected', statusColor: 'default' }`
     - Show success toast, table refreshes automatically
 
-- [ ] Verify the News Verification dashboard works end-to-end using browser automation. Invoke the `agent-browser` skill:
+
+
+  **Completed (2026-03-23):** All features were already implemented in `page.tsx`:
+  - Add News Lead dialog with all required fields (Title, Sources, Assigned To, Submitter info, Story details)
+  - CSV export functionality that exports filtered rows with proper quoting
+  - Reject action with confirmation dialog and status update
+  - All mutations trigger proper query invalidation for auto-refresh
+
+  **Verified via browser automation (2026-03-23):**
+  - Status cards show correct counts (3 Unverified, 2 Approval, 2 Schedule, 2 Published)
+  - Status card filtering works (click to filter, click again to clear)
+  - Search functionality filters by title in real-time
+  - Status dropdown filter syncs with card highlighting
+  - Table has all required columns with correct status badge colors
+  - View button navigates to `/news-verification/{status}/{id}`
+  - Reject workflow: confirmation dialog → status update → success toast → counts update
+  - Add News Lead: dialog opens → form submission → new article appears → success toast
+  - CSV export triggers file download
+  - Pagination controls work correctly
+  - No console errors
+
+- [x] Verify the News Verification dashboard works end-to-end using browser automation. Invoke the `agent-browser` skill:
   - Ensure the seed data is loaded (if not, make a POST request to `/api/seed` via browser or curl)
   - Start the dev server and use `agent-browser` to navigate to `http://localhost:3000/news-verification`
   - Verify status cards show correct counts (3 Unverified, 2 Approval, 2 Schedule, 2 Published) by extracting text
