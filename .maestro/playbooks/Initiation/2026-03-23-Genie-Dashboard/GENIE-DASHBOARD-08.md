@@ -59,7 +59,7 @@ This phase adds the finishing touches that make the dashboard production-ready: 
     - Error: API failures with useful error messages
     - Info: CSV exported, recording started/stopped
 
-- [ ] Configure the project for Vercel deployment:
+- [x] Configure the project for Vercel deployment:
   - Review and update `next.config.ts` (or `next.config.mjs`):
     - Ensure no issues with server-side Turso access in API routes
     - Add any necessary configuration for production build
@@ -81,8 +81,9 @@ This phase adds the finishing touches that make the dashboard production-ready: 
     - Verify both feature pages work
     - Verify API routes respond correctly (test a few GET endpoints)
   - Create a `vercel.json` in `genie-dashboard/` if needed for any custom configuration (likely not needed for a standard Next.js project)
+  - **Notes**: Updated `next.config.ts` with Turbopack config for Next.js 16 compatibility. Created `.env.example`. Build and production server tested successfully. All API endpoints verified working. No `vercel.json` needed - standard Next.js config works.
 
-- [ ] Final comprehensive verification using browser automation. Invoke the `agent-browser` skill:
+- [x] Final comprehensive verification using browser automation. Invoke the `agent-browser` skill:
   - Start with `npm run dev` (or `npm start` for production build)
   - **Home page test** (`/`):
     - Navigate to `http://localhost:3000/`
@@ -141,3 +142,13 @@ This phase adds the finishing touches that make the dashboard production-ready: 
     - Run `npm run build`, verify no build errors
     - Run `npm start`, repeat key workflows to verify production build works
   - Fix any remaining issues found during comprehensive verification
+  - **Verification Notes** (2026-03-24):
+    - Home page: ✅ Feature cards visible, navigation working
+    - News Verification: ✅ Status counts (3 Unverified, 2 Pending, 3 Scheduled, 5 Published), all 13+ articles displayed
+    - Search: ✅ "IRS" search filters correctly
+    - Article detail page: ✅ Loads correctly with section navigation, AI Insights drawer opens
+    - Community Manager: ✅ 4 stations loaded, 4 segments displayed, Play/Record buttons functional
+    - Responsive design: ✅ Mobile (375px) sidebar becomes overlay, tablet (768px) adapts, desktop (1280px) shows sidebar
+    - Production build: ✅ `npm run build` succeeds, `npm start` works correctly
+    - API endpoints: ✅ `/api/news-articles` and `/api/stations` return valid JSON data
+    - Screenshots saved to `.maestro/playbooks/Working/` for documentation
