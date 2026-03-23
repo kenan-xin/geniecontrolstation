@@ -15,7 +15,7 @@ This phase completes the CommunityManager feature with the segments data table, 
 
 ## Tasks
 
-- [ ] Build the segments data table component. Invoke the `frontend-design` skill. Create `src/components/community-manager/segments-table.tsx`:
+- [x] Build the segments data table component. Invoke the `frontend-design` skill. Create `src/components/community-manager/segments-table.tsx`:
   - Props: `stationId: number` (active station), `segments: Segment[]` (from useSegments hook)
   - Uses shadcn Table with the following columns:
     - **Checkbox** — header checkbox for select-all (current page), row checkboxes for individual selection. Selection state from Zustand store (`selectedSegmentIds`).
@@ -39,7 +39,7 @@ This phase completes the CommunityManager feature with the segments data table, 
   - **Pagination** below table: "Showing X-Y of Z segments", Previous/Next buttons, rows per page selector (5, 10, 25, 50)
   - **Clip audio playback**: Use a single shared `<audio>` element. Clicking play on a clip sets its URL as the source and plays. If another clip is already playing, stop it first. Show a small playing indicator on the active clip row.
 
-- [ ] Build the Edit and Regenerate modals:
+- [x] Build the Edit and Regenerate modals:
   - **Edit Segment Modal** (`src/components/community-manager/edit-segment-modal.tsx`):
     - Props: `segment: Segment | null`, `open: boolean`, `onOpenChange`, `stationId: number`
     - shadcn Dialog with title "Edit Segment"
@@ -66,7 +66,7 @@ This phase completes the CommunityManager feature with the segments data table, 
     - "Delete this segment? This action cannot be undone."
     - On confirm: call `useDeleteSegment()`, show toast, clear selection if deleted segment was selected
 
-- [ ] Build the social sharing system:
+- [x] Build the social sharing system:
   - **Quick Share Popover** (`src/components/community-manager/quick-share-popover.tsx`):
     - Trigger: "Share Selected" button in the toolbar above the table. Button is disabled when no segments are selected. Shows count: "Share (3)".
     - shadcn Popover containing:
@@ -93,7 +93,7 @@ This phase completes the CommunityManager feature with the segments data table, 
     - "Share" button marks that single segment as shared
   - **Shared indicators in table**: Already defined in segments-table.tsx — small colored circles/icons for each platform
 
-- [ ] Wire the complete CommunityManager page together. Update `src/app/(dashboard)/community-manager/page.tsx` to compose all components:
+- [x] Wire the complete CommunityManager page together. Update `src/app/(dashboard)/community-manager/page.tsx` to compose all components:
   - **Page layout** (top to bottom):
     1. Page header: "Community Manager" title + description
     2. Station selector cards row (from Phase 06)

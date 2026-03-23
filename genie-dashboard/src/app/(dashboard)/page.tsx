@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   Newspaper,
@@ -17,8 +19,18 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useNewsArticles } from "@/hooks/use-news-articles";
 
 export default function HomePage() {
+  // Fetch news articles by status
+  const { data: unverifiedArticles = [], isLoading: loadingUnverified } = useNewsArticles("unverified");
+  const { data: pendingArticles = [], isLoading: loadingPending } = useNewsArticles("pending_approval");
+  const { data: scheduledArticles = [], isLoading: loadingScheduled } = useNewsArticles("scheduled");
+  const { data: publishedArticles = [], isLoading: loadingPublished } = useNewsArticles("published");
+
+  const isLoading = loadingUnverified || loadingPending || loadingScheduled || loadingPublished;
+
   return (
     <div className="space-y-8">
       {/* Welcome Hero */}
@@ -115,70 +127,90 @@ export default function HomePage() {
         </Card>
       </section>
 
-      {/* Quick Stats */}
-      <section className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-        {(
-          [
-            {
-              label: "Unverified",
-              count: 12,
-              icon: AlertTriangle,
-              color: "text-red-500",
-              bg: "bg-red-500/10",
-              border: "border-l-red-500",
-            },
-            {
-              label: "Pending Approval",
-              count: 5,
-              icon: Clock,
-              color: "text-amber-500",
-              bg: "bg-amber-500/10",
-              border: "border-l-amber-500",
-            },
-            {
-              label: "Scheduled",
-              count: 3,
-              icon: CalendarCheck,
-              color: "text-blue-500",
-              bg: "bg-blue-500/10",
-              border: "border-l-blue-500",
-            },
-            {
-              label: "Published",
-              count: 8,
-              icon: CheckCircle2,
-              color: "text-emerald-500",
-              bg: "bg-emerald-500/10",
-              border: "border-l-emerald-500",
-            },
-          ] as const
-        ).map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <Card
-              key={stat.label}
-              size="sm"
-              className={`border-l-[3px] ${stat.border}`}
-            >
-              <CardContent className="flex items-center gap-3">
-                <div className={`shrink-0 rounded-lg p-2 ${stat.bg}`}>
-                  <Icon className={`size-4 ${stat.color}`} />
-                </div>
-                <div className="min-w-0">
-                  <p
-                    className={`text-2xl font-bold tracking-tight leading-none ${stat.color}`}
-                  >
-                    {stat.count}
-                  </p>
-                  <p className="mt-1 text-[11px] text-muted-foreground truncate">
-                    {stat.label}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
+      {/* Quick Stats - News Verification */}
+      <section>
+        <h2 className="text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground/60 mb-3">
+          News Verification Stats
+        </h2>
+        <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+          {isLoading ? (
+            Array.from({ length: 4 }).map((_, i) => (
+              <Card key={i} size="sm" className="border-l-[3px] border-l-muted">
+                <CardContent className="flex items-center gap-3">
+                  <Skeleton className="size-8 rounded-lg" />
+                  <div className="space-y-1">
+                    <Skeleton className="h-6 w-8" />
+                    <Skeleton className="h-3 w-20" />
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+            (
+              [
+                {
+                  label: "Unverified",
+                  count: unverifiedArticles.length,
+                  icon: AlertTriangle,
+                  color: "text-red-500",
+                  bg: "bg-red-500/10",
+                  border: "border-l-red-500",
+                },
+                {
+                  label: "Pending Approval",
+                  count: pendingArticles.length,
+                  icon: Clock,
+                  color: "text-amber-500",
+                  bg: "bg-amber-500/10",
+                  border: "border-l-amber-500",
+                },
+                {
+                  label: "Scheduled",
+                  count: scheduledArticles.length,
+                  icon: CalendarCheck,
+                  color: "text-blue-500",
+                  bg: "bg-blue-500/10",
+                  border: "border-l-blue-500",
+                },
+                {
+                  label: "Published",
+                  count: publishedArticles.length,
+                  icon: CheckCircle2,
+                  color: "text-emerald-500",
+                  bg: "bg-emerald-500/10",
+                  border: "border-l-emerald-500",
+                },
+              ] as const
+            ).map((stat) => {
+              const Icon = stat.icon;
+              return (
+                <Card
+                  key={stat.label}
+                  size="sm"
+                  className={`border-l-[3px] ${stat.border}`}
+                >
+                  <CardContent className="flex items-center gap-3">
+                    <div className={`shrink-0 rounded-lg p-2 ${stat.bg}`}>
+                      <Icon className={`size-4 ${stat.color}`} />
+                    </div>
+                    <div className="min-w-0">
+                      <p
+                        className={`text-2xl font-bold tracking-tight leading-none ${stat.color}`}
+                      >
+                        {stat.count}
+                      </p>
+                      <p className="mt-1 text-[11px] text-muted-foreground truncate">
+                        {stat.label}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })
+          )}
+        </div>
       </section>
+
     </div>
   );
 }
