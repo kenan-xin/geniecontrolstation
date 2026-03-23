@@ -8,19 +8,16 @@ import {
   CalendarCheck,
   CheckCircle2,
   Newspaper,
-  FileSearch,
   Eye,
-  ExternalLink,
 } from "lucide-react";
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNewsArticles } from "@/hooks/use-news-articles";
+import { CardGridSkeleton, ErrorState, EmptyState } from "@/components/shared";
 import type { NewsArticle } from "@/types";
 
 const statusConfig = {
@@ -74,7 +71,7 @@ function getStatusPath(status: string): string {
 }
 
 export default function NewsVerificationPage() {
-  const { data: articles, isLoading, error } = useNewsArticles();
+  const { data: articles, isLoading, isError, error, refetch } = useNewsArticles();
 
   const statusCounts = useMemo(() => {
     const counts: Record<string, number> = {
@@ -98,62 +95,6 @@ export default function NewsVerificationPage() {
     return articles.filter((a) => a.currentStatus !== "Rejected");
   }, [articles]);
 
-  if (isLoading) {
-    return (
-      <div className="space-y-8">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 shadow-md shadow-amber-500/20">
-            <Newspaper className="size-5 text-white" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight text-foreground">
-              News Verification
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              AI-powered editorial workflow for verifying and publishing news
-              stories
-            </p>
-          </div>
-        </div>
-        <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-          {[1, 2, 3, 4].map((i) => (
-            <Card key={i} className="animate-pulse">
-              <CardContent className="p-4">
-                <div className="h-12 bg-muted rounded" />
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="space-y-8">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 shadow-md shadow-amber-500/20">
-            <Newspaper className="size-5 text-white" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight text-foreground">
-              News Verification
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              AI-powered editorial workflow for verifying and publishing news
-              stories
-            </p>
-          </div>
-        </div>
-        <Card className="border-destructive">
-          <CardContent className="p-4 text-destructive">
-            Error loading articles. Please try again.
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-8">
       {/* Page Header */}
@@ -174,66 +115,71 @@ export default function NewsVerificationPage() {
         </div>
       </div>
 
-      {/* Status Summary Cards */}
-      <section className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-        {statusOrder.map((status) => {
-          const config = statusConfig[status];
-          const Icon = config.icon;
-          return (
-            <Card
-              key={status}
-              className={`relative overflow-hidden border-l-[3px] ${config.border} transition-shadow duration-200 hover:shadow-md`}
-            >
-              <div
-                className={`absolute inset-0 bg-gradient-to-br ${config.gradient} pointer-events-none`}
-              />
-              <CardContent className="relative flex items-center gap-3">
-                <div className={`shrink-0 rounded-lg p-2.5 ${config.bg}`}>
-                  <Icon className={`size-4.5 ${config.color}`} />
-                </div>
-                <div className="min-w-0">
-                  <p
-                    className={`text-3xl font-bold tracking-tight leading-none ${config.color}`}
-                  >
-                    {statusCounts[status]}
-                  </p>
-                  <p className="mt-1 text-xs text-muted-foreground truncate">
-                    {config.label}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </section>
+      {/* Loading State */}
+      {isLoading && <CardGridSkeleton count={4} columns={4} />}
 
-      {/* Articles List */}
-      {visibleArticles.length === 0 ? (
-        <Card className="border-dashed">
-          <CardHeader className="items-center text-center pb-2">
-            <div className="mb-3 flex size-16 items-center justify-center rounded-2xl bg-muted">
-              <FileSearch className="size-8 text-muted-foreground/60" />
+      {/* Error State */}
+      {isError && (
+        <ErrorState
+          title="Failed to load articles"
+          message={error?.message ?? "An error occurred while loading articles. Please try again."}
+          onRetry={() => refetch()}
+        />
+      )}
+
+      {/* Content - only show when not loading and no error */}
+      {!isLoading && !isError && (
+        <>
+          {/* Status Summary Cards */}
+          <section className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+            {statusOrder.map((status) => {
+              const config = statusConfig[status];
+              const Icon = config.icon;
+              return (
+                <Card
+                  key={status}
+                  className={`relative overflow-hidden border-l-[3px] ${config.border} transition-shadow duration-200 hover:shadow-md`}
+                >
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${config.gradient} pointer-events-none`}
+                  />
+                  <CardContent className="relative flex items-center gap-3">
+                    <div className={`shrink-0 rounded-lg p-2.5 ${config.bg}`}>
+                      <Icon className={`size-4.5 ${config.color}`} />
+                    </div>
+                    <div className="min-w-0">
+                      <p
+                        className={`text-3xl font-bold tracking-tight leading-none ${config.color}`}
+                      >
+                        {statusCounts[status]}
+                      </p>
+                      <p className="mt-1 text-xs text-muted-foreground truncate">
+                        {config.label}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </section>
+
+          {/* Articles List */}
+          {visibleArticles.length === 0 ? (
+            <EmptyState
+              title="No news articles yet"
+              description="Data will appear once the database is connected. Articles will flow through the 4-stage verification pipeline automatically."
+            />
+          ) : (
+            <div className="space-y-4">
+              <h2 className="text-lg font-semibold">All Articles</h2>
+              <div className="grid gap-4">
+                {visibleArticles.map((article) => (
+                  <ArticleCard key={article.id} article={article} />
+                ))}
+              </div>
             </div>
-            <CardTitle className="text-lg font-semibold text-muted-foreground">
-              No news articles yet
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-center">
-            <p className="text-sm text-muted-foreground/80 max-w-sm mx-auto">
-              Data will appear once the database is connected. Articles will
-              flow through the 4-stage verification pipeline automatically.
-            </p>
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold">All Articles</h2>
-          <div className="grid gap-4">
-            {visibleArticles.map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))}
-          </div>
-        </div>
+          )}
+        </>
       )}
     </div>
   );
