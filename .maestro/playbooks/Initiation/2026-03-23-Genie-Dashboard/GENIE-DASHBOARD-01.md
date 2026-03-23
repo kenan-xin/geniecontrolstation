@@ -56,7 +56,7 @@ This phase bootstraps the `genie-dashboard/` Next.js 15 project inside the curre
     - `retry: 1`
     - `refetchOnWindowFocus: false`
 
-- [ ] Build the main dashboard layout with sidebar and header. Invoke the `frontend-design` skill before implementing to ensure high design quality. Create a professional, modern corporate dashboard layout that is visually engaging (not boring). Build these components:
+- [x] Build the main dashboard layout with sidebar and header. Invoke the `frontend-design` skill before implementing to ensure high design quality. Create a professional, modern corporate dashboard layout that is visually engaging (not boring). Build these components:
   - `src/components/layout/sidebar.tsx` — Collapsible sidebar (`"use client"` component):
     - App logo/name "Genie Control" at top — use a clean wordmark with a subtle accent color or gradient icon
     - Navigation section titled "Media" with two nav items:
