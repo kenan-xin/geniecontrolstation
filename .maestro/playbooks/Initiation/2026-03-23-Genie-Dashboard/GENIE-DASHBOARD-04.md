@@ -18,7 +18,7 @@ This phase builds the 4 stage-specific detail pages (Unverified, Approval, Sched
 
 ## Tasks
 
-- [ ] Create shared detail page components used across all 4 stages. Invoke the `frontend-design` skill. Build these in `src/components/news-verification/`:
+- [x] Create shared detail page components used across all 4 stages. Invoke the `frontend-design` skill. Build these in `src/components/news-verification/`:
   - **`workflow-stepper.tsx`** — Horizontal 4-step progress indicator:
     - Props: `activeStep: number` (0=Unverified, 1=Approval, 2=Schedule, 3=Published)
     - Steps: Unverified (Newspaper icon), Approval (Gavel/ShieldCheck icon), Schedule (Clock icon), Published (Newspaper/CheckCircle icon)
@@ -43,7 +43,7 @@ This phase builds the 4 stage-specific detail pages (Unverified, Approval, Sched
   - **`editorial-notes-section.tsx`** — Timeline/thread view of editorial notes. Each note shows: role badge (Junior Editorial / Senior Editorial / Publisher), action taken (Submitted, Approved, Rejected, etc.), timestamp, full note content. Color-coded by role. Most recent note at top.
   - **`channel-display-section.tsx`** — Tabbed preview of how the story appears on different platforms. Tabs: Telegram, Newspaper, Website, RSS Feed. Each tab shows a styled card mimicking the platform's format with the article's title and description.
 
-- [ ] Build the Unverified stage detail page. Invoke the `frontend-design` skill. Create `src/components/news-verification/stages/unverified-view.tsx`:
+- [x] Build the Unverified stage detail page. Invoke the `frontend-design` skill. Create `src/components/news-verification/stages/unverified-view.tsx`:
   - Uses `DetailLayout` with `activeStep={0}`
   - **Sections** (in SectionNav):
     - 0: Personal Details (User icon)
@@ -75,7 +75,7 @@ This phase builds the 4 stage-specific detail pages (Unverified, Approval, Sched
     - Reason textarea (required)
     - On confirm: update status to 'Rejected', statusColor to 'default', add rejection note to editorialNotes. Navigate back to `/news-verification`.
 
-- [ ] Build the Approval stage detail page. Create `src/components/news-verification/stages/approval-view.tsx`:
+- [x] Build the Approval stage detail page. Create `src/components/news-verification/stages/approval-view.tsx`:
   - Uses `DetailLayout` with `activeStep={1}`
   - **Sections**:
     - 0: Personal Details (User icon)
@@ -104,7 +104,7 @@ This phase builds the 4 stage-specific detail pages (Unverified, Approval, Sched
     - Textarea for revert reason
     - On confirm: update status to 'Unverified', statusColor to 'error', add note with action 'Reverted'. Navigate to `/news-verification`.
 
-- [ ] Build the Schedule stage detail page. Create `src/components/news-verification/stages/schedule-view.tsx`:
+- [x] Build the Schedule stage detail page. Create `src/components/news-verification/stages/schedule-view.tsx`:
   - Uses `DetailLayout` with `activeStep={2}`
   - **Sections** (note: Publishing Schedule is the FIRST/default section):
     - 0: Publishing Schedule (CalendarClock icon) — **primary section**, not confirmed
@@ -129,7 +129,7 @@ This phase builds the 4 stage-specific detail pages (Unverified, Approval, Sched
     - Shows: scheduled date/time, list of selected channels as badges, publisher notes
     - On confirm: update article with `{ currentStatus: 'Published', statusColor: 'success', publishedDate: scheduled datetime, publishingDetails: JSON.stringify({ publishedDateTime, selectedChannels, publisherNotes }) }`, add Publisher note with action 'Published'. Navigate to published view.
 
-- [ ] Build the Published stage detail page. Create `src/components/news-verification/stages/published-view.tsx`:
+- [x] Build the Published stage detail page. Create `src/components/news-verification/stages/published-view.tsx`:
   - Uses `DetailLayout` with `activeStep={3}`
   - **Sections**:
     - 0: Performance Metrics (TrendingUp icon) — **default/first section**
@@ -150,7 +150,7 @@ This phase builds the 4 stage-specific detail pages (Unverified, Approval, Sched
   - **Publishing Details section**: Shows published date/time, selected distribution channels as colored badges, publisher notes text
   - **No action buttons** — article is finalized
 
-- [ ] Wire up the dynamic route page to render the correct stage view. Update `src/app/(dashboard)/news-verification/[status]/[id]/page.tsx`:
+- [x] Wire up the dynamic route page to render the correct stage view. Update `src/app/(dashboard)/news-verification/[status]/[id]/page.tsx`:
   - This is a `"use client"` component
   - Extract `status` and `id` from URL params
   - Fetch article using `useNewsArticle(Number(id))`
