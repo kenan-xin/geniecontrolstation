@@ -83,7 +83,7 @@ This phase bootstraps the `genie-dashboard/` Next.js 15 project inside the curre
   - Create a `src/app/(dashboard)/layout.tsx` route group layout that wraps child pages in `DashboardLayout`
   - Move all page routes under `(dashboard)/` route group so they share the layout
 
-- [ ] Create the home/landing page visible at the base URL (`/`). Invoke the `frontend-design` skill. Build `src/app/(dashboard)/page.tsx`:
+- [x] Create the home/landing page visible at the base URL (`/`). Invoke the `frontend-design` skill. Build `src/app/(dashboard)/page.tsx`:
   - Welcome section: "Genie Control Station" as the main heading, with a subtitle like "AI-Powered Media Management Platform"
   - Two prominent feature cards in a responsive 2-column grid (stack on mobile):
     1. **News Verification** card:
