@@ -12,7 +12,7 @@ This phase builds the News Verification main dashboard page with live data from 
 
 ## Tasks
 
-- [ ] Create the News Verification Zustand store for UI-only state at `src/store/news-verification-store.ts`:
+- [x] Create the News Verification Zustand store for UI-only state at `src/store/news-verification-store.ts`:
   - State fields:
     - `selectedIds: number[]` — IDs of selected table rows
     - `searchQuery: string` — current search text
@@ -29,6 +29,8 @@ This phase builds the News Verification main dashboard page with live data from 
     - `setPage(page: number)` — set current page
     - `setRowsPerPage(rows: number)` — update rows per page, reset page to 0
   - Keep this store focused on UI state only — article data comes from TanStack Query hooks
+
+  **Completed (2026-03-23):** Created store at `src/store/news-verification-store.ts` following the existing `sidebar-store.ts` pattern. Includes all required state fields (selectedIds, searchQuery, statusFilter, page, rowsPerPage) and actions with proper page reset behavior for search/filter changes.
 
 - [ ] Build the full News Verification dashboard page. Invoke the `frontend-design` skill for high-quality design. Replace the placeholder in `src/app/(dashboard)/news-verification/page.tsx` with a `"use client"` component containing:
   - **Status summary cards** — 4 cards in a responsive grid row (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`):
