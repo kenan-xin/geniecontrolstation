@@ -28,7 +28,7 @@ This phase bootstraps the `genie-dashboard/` Next.js 15 project inside the curre
     - `npx shadcn@latest add button card input table dialog dropdown-menu badge tabs sheet separator tooltip avatar scroll-area select checkbox label textarea popover accordion alert skeleton sonner breadcrumb progress`
   - Verify components exist in `src/components/ui/` directory
 
-- [ ] Set up the project folder structure and configuration files:
+- [x] Set up the project folder structure and configuration files:
   - Create directories inside `src/`:
     - `lib/` (DB connection, utilities, constants)
     - `store/` (Zustand stores)
