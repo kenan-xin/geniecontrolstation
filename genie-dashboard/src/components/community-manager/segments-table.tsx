@@ -259,7 +259,8 @@ export function SegmentsTable({
         </CardTitle>
       </CardHeader>
       <CardContent className="px-0">
-        <Table>
+        <div className="overflow-x-auto">
+          <Table>
           <TableHeader>
             <TableRow className="bg-muted/50 hover:bg-muted/50">
               <TableHead className="w-10 px-3">
@@ -547,6 +548,7 @@ export function SegmentsTable({
             })}
           </TableBody>
         </Table>
+        </div>
 
         {/* Pagination */}
         <div className="flex items-center justify-between px-4 pt-4">
