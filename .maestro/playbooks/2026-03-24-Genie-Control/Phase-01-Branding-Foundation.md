@@ -59,7 +59,7 @@ This phase establishes the "Genie Ops" brand identity and creates the data found
     - 2 in "Approved" status
   - Use realistic candidate names, training providers, and dates
 
-- [ ] Create application status configuration:
+- [x] Create application status configuration:
   - Create `/genie-dashboard/src/components/shared/application-status-config.ts`
   - Follow the pattern from `news-status-config.ts`
   - Define statuses: Document Assessment, Candidate Screening, Pending Approval, Approved
