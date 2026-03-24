@@ -2,21 +2,30 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import type { StatusConfig } from "./news-status-config";
 
-interface StatusStatCardProps {
-  config: StatusConfig;
+// Generic status config interface - works with both news and application configs
+interface StatusConfigBase {
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  color: string;
+  bg: string;
+  border: string;
+  gradient?: string;
+}
+
+interface StatusStatCardProps<T extends StatusConfigBase> {
+  config: T;
   count: number;
   size?: "sm" | "default";
   showGradient?: boolean;
 }
 
-export function StatusStatCard({
+export function StatusStatCard<T extends StatusConfigBase>({
   config,
   count,
   size = "default",
   showGradient = false,
-}: StatusStatCardProps) {
+}: StatusStatCardProps<T>) {
   const Icon = config.icon;
   const isSm = size === "sm";
 

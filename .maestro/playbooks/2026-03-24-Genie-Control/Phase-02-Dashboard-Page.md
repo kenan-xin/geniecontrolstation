@@ -9,13 +9,18 @@ This phase transforms the current landing page into a proper dashboard with real
   - Create TypeScript declaration file if needed at `/genie-dashboard/src/types/apexcharts.d.ts`
   - Note: TypeScript definitions are included with both packages, no custom declaration needed
 
-- [ ] Create dashboard status cards component:
+- [x] Create dashboard status cards component:
   - Create `/genie-dashboard/src/components/dashboard/status-cards.tsx`
   - Use the existing `StatusStatCard` component from shared components
   - Display 4 cards: Total Applications, Document Assessment, Candidate Screening, Pending Approval
   - Use the `applicationStatusConfig` from Phase 01
   - Fetch data using `useApplications` hook
   - Show loading skeleton while fetching
+  - **Completion Notes:**
+    - Updated `StatusStatCard` to accept generic config type (works with both news and application configs)
+    - Exported `applicationStatusConfig` from shared/index.ts
+    - Created status-cards.tsx with 4 cards: Total (Layers icon), Document Assessment, Candidate Screening, Pending Approval
+    - Uses `CardGridSkeleton` for loading state
 
 - [ ] Create application trends chart (area chart):
   - Create `/genie-dashboard/src/components/dashboard/application-trends-chart.tsx`
