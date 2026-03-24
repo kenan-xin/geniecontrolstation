@@ -85,7 +85,7 @@ This phase integrates the AI-powered features that make the verification workflo
         - Each reference as a Card: title as external link (opens in new tab), confidence badge (green for High, amber for Medium, red for Low), reason text, snippet in italic/muted
   - Props: `factCheckData: FactCheckResponse | null`, `isLoading: boolean`, `isFetching: boolean`, `isError: boolean`, `error: Error | null`, `onRegenerate: () => void`, `open: boolean`, `onOpenChange: (open: boolean) => void`
 
-- [ ] Implement AI-generated editorial notes for each workflow stage. Create `src/lib/editorial-notes.ts`:
+- [x] Implement AI-generated editorial notes for each workflow stage. Create `src/lib/editorial-notes.ts`:
   - **`generateJuniorEditorialNotes(factCheckData: FactCheckResponse, article: NewsArticle): string`**
     - Generates formatted notes for the Unverified -> Approval transition
     - Template structure (use plain text with section separators):
