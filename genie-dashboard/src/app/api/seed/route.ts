@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { newsArticles, stations, segments, stationSchedules } from "@/lib/schema";
+import { newsArticles, stations, segments, stationSchedules, applications } from "@/lib/schema";
 import { sql } from "drizzle-orm";
 
 // POST /api/seed - Seed the database with sample data
@@ -10,6 +10,7 @@ export async function POST() {
     await db.delete(stationSchedules);
     await db.delete(segments);
     await db.delete(newsArticles);
+    await db.delete(applications);
     await db.delete(stations);
 
     const today = new Date().toISOString().split("T")[0];
@@ -377,6 +378,120 @@ export async function POST() {
 
     await db.insert(newsArticles).values(articlesData);
 
+    // Insert applications
+    const applicationsData = [
+      // Document Assessment (2)
+      {
+        applicationId: "APP-2026-001",
+        candidateName: "Tan Wei Ming",
+        submissionDate: "2026-03-20",
+        overallProgress: 15,
+        currentStatus: "Document Assessment",
+        statusColor: "warning",
+        assignedTo: "Sarah Chen",
+        trainingProvider: "Singapore Polytechnic",
+        email: "tanweiming@email.com",
+        phone: "+65 9123 4567",
+        notes: "Initial document review pending. Awaiting transcript verification.",
+      },
+      {
+        applicationId: "APP-2026-002",
+        candidateName: "Lim Siew Hoon",
+        submissionDate: "2026-03-21",
+        overallProgress: 10,
+        currentStatus: "Document Assessment",
+        statusColor: "warning",
+        assignedTo: "Sarah Chen",
+        trainingProvider: "Temasek Polytechnic",
+        email: "limsiewhoon@email.com",
+        phone: "+65 9234 5678",
+        notes: "Missing employment history documents. Follow-up sent.",
+      },
+      // Candidate Screening (2)
+      {
+        applicationId: "APP-2026-003",
+        candidateName: "Muhammad Rafi bin Ahmad",
+        submissionDate: "2026-03-15",
+        overallProgress: 40,
+        currentStatus: "Candidate Screening",
+        statusColor: "info",
+        assignedTo: "David Wong",
+        trainingProvider: "ITE College Central",
+        email: "rafi.ahmad@email.com",
+        phone: "+65 9345 6789",
+        notes: "Phone screening completed. In-person interview scheduled for 2026-03-28.",
+      },
+      {
+        applicationId: "APP-2026-004",
+        candidateName: "Ng Hui Ling",
+        submissionDate: "2026-03-16",
+        overallProgress: 35,
+        currentStatus: "Candidate Screening",
+        statusColor: "info",
+        assignedTo: "David Wong",
+        trainingProvider: "Nanyang Polytechnic",
+        email: "nghuiling@email.com",
+        phone: "+65 9456 7890",
+        notes: "Background check in progress. Expected completion by 2026-03-30.",
+      },
+      // Pending Approval (2)
+      {
+        applicationId: "APP-2026-005",
+        candidateName: "Kumar Rajesh",
+        submissionDate: "2026-03-10",
+        overallProgress: 70,
+        currentStatus: "Pending Approval",
+        statusColor: "primary",
+        assignedTo: "Michelle Tan",
+        trainingProvider: "Singapore Institute of Technology",
+        email: "kumar.rajesh@email.com",
+        phone: "+65 9567 8901",
+        notes: "All documents verified. Awaiting final approval from committee.",
+      },
+      {
+        applicationId: "APP-2026-006",
+        candidateName: "Ong Mei Ling",
+        submissionDate: "2026-03-12",
+        overallProgress: 65,
+        currentStatus: "Pending Approval",
+        statusColor: "primary",
+        assignedTo: "Michelle Tan",
+        trainingProvider: "Republic Polytechnic",
+        email: "ongmeiling@email.com",
+        phone: "+65 9678 9012",
+        notes: "Committee review scheduled for 2026-03-26.",
+      },
+      // Approved (2)
+      {
+        applicationId: "APP-2026-007",
+        candidateName: "Chen Jia Wei",
+        submissionDate: "2026-03-05",
+        overallProgress: 100,
+        currentStatus: "Approved",
+        statusColor: "success",
+        assignedTo: "Lee Hock Seng",
+        trainingProvider: "LASALLE College of the Arts",
+        email: "chenjiawei@email.com",
+        phone: "+65 9789 0123",
+        notes: "Application approved. Enrollment confirmed for April 2026 intake.",
+      },
+      {
+        applicationId: "APP-2026-008",
+        candidateName: "Sarah Binte Abdullah",
+        submissionDate: "2026-03-06",
+        overallProgress: 95,
+        currentStatus: "Approved",
+        statusColor: "success",
+        assignedTo: "Lee Hock Seng",
+        trainingProvider: "Ngee Ann Polytechnic",
+        email: "sarah.abdullah@email.com",
+        phone: "+65 9890 1234",
+        notes: "Approved. Pending final enrollment confirmation.",
+      },
+    ];
+
+    await db.insert(applications).values(applicationsData);
+
     // Insert stations
     const stationsData = [
       {
@@ -444,6 +559,7 @@ export async function POST() {
       message: "Database seeded successfully",
       counts: {
         articles: 11,
+        applications: 8,
         stations: 4,
         segments: 2,
       },

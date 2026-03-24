@@ -50,7 +50,7 @@ This phase establishes the "Genie Ops" brand identity and creates the data found
   - Export `useApplication(id)` for fetching a single application
   - Include status filtering capability
 
-- [ ] Add seed data for applications:
+- [x] Add seed data for applications:
   - Update `/genie-dashboard/src/app/api/seed/route.ts` to include sample applications data
   - Add 8-10 sample applications with varied statuses:
     - 2 in "Document Assessment" status
