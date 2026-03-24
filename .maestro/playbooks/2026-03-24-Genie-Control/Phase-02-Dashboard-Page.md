@@ -51,7 +51,7 @@ This phase transforms the current landing page into a proper dashboard with real
     - Includes loading skeleton state
     - Groups applications by submission date month for current year
 
-- [ ] Create recent applications table component:
+- [x] Create recent applications table component:
   - Create `/genie-dashboard/src/components/dashboard/recent-applications-table.tsx`
   - Use the existing Table components from `/genie-dashboard/src/components/ui/table.tsx`
   - Columns: Application ID, Candidate Name, Progress (with progress bar), Status, Action
@@ -60,6 +60,13 @@ This phase transforms the current landing page into a proper dashboard with real
   - Show only the 5 most recent applications
   - "View" button navigates to the appropriate detail page based on status
   - Include an overflow menu (three dots) with "Export as CSV" option
+  - **Completion Notes:**
+    - Created StatusBadge component in `/genie-dashboard/src/components/shared/status-badge.tsx`
+    - Uses colored dot indicator matching status config colors
+    - Exported StatusBadge from shared/index.ts
+    - Table shows App ID, Candidate Name, Progress bar, Status badge, and Action buttons
+    - View button navigates to `/applications/{status-path}/{id}`
+    - Overflow menu exports current table data as CSV
 
 - [ ] Create process metrics panel:
   - Create `/genie-dashboard/src/components/dashboard/process-metrics.tsx`
