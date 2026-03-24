@@ -43,7 +43,7 @@ This phase establishes the "Genie Ops" brand identity and creates the data found
   - Use the db instance from `/genie-dashboard/src/lib/db.ts`
   - Added Application types to `/genie-dashboard/src/types/index.ts`
 
-- [ ] Create useApplications hook:
+- [x] Create useApplications hook:
   - Create `/genie-dashboard/src/hooks/use-applications.ts`
   - Follow the pattern from `/genie-dashboard/src/hooks/use-news-articles.ts`
   - Export `useApplications()` for fetching all applications
