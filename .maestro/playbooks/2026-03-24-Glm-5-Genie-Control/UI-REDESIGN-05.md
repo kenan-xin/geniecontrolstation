@@ -139,6 +139,7 @@ Give each page something unique.
   - Recent actions timeline
   - Or: "Last updated: X minutes ago" indicator
   - **Implemented:** "Last updated: X ago" indicator with Clock icon in Quick Actions bar (lines 188-210, 249-254)
+  - Optimized: Refactored timestamp calculation to avoid redundant Date.now() calls (commit 4a47ff7)
 
 - [x] Community Manager Page: Add engagement preview
   - Mini sparklines for segment performance
