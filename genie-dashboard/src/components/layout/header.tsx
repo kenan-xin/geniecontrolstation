@@ -110,7 +110,7 @@ export function Header() {
 
         <Avatar size="sm">
           <AvatarFallback className="bg-brand/15 text-brand text-[10px] font-semibold">
-            GC
+            GO
           </AvatarFallback>
         </Avatar>
       </div>

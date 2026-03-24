@@ -60,7 +60,7 @@ export default function HomePage() {
             AI-Powered Platform
           </div>
           <h1 className="text-3xl lg:text-4xl font-bold tracking-tight text-foreground leading-[1.15]">
-            Genie Control Station
+            Genie Ops
           </h1>
           <p className="mt-3 text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
             AI-Powered Media Management Platform — streamline your editorial
