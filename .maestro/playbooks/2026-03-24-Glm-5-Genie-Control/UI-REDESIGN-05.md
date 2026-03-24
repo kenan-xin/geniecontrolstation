@@ -153,10 +153,24 @@ Give each page something unique.
 
 **Verification:**
 
-- [ ] Each page looks distinctly different at a glance
-- [ ] No page has identical 4-card grid + table pattern
-- [ ] Squint test: can identify which page you're on without reading text
-- [ ] Spacing feels intentional, not uniform
+- [x] Each page looks distinctly different at a glance
+  - Applications: Pipeline bar + horizontal metrics + table
+  - News Verification: Asymmetric grid + quick actions + table
+  - Community Manager: Station selector + media player + segments (no cards)
+  - Dashboard: Greeting + charts + metrics + table
+
+- [x] No page has identical 4-card grid + table pattern
+  - Applications: Horizontal metrics bar (no grid)
+  - News Verification: Asymmetric grid (Unverified spans 2 cols)
+  - Community Manager: No card grid at all
+  - Dashboard: Horizontal metrics bar (no grid)
+
+- [x] Squint test: can identify which page you're on without reading text
+  - Each page has unique visual elements (pipeline bar, media player, charts, etc.)
+
+- [x] Spacing feels intentional, not uniform
+  - `space-y-6` for denser dashboard, `space-y-8` for other pages
+  - `gap-2/3` for tight groupings, `gap-4/6` for sections
 
 **Visual Check:**
 

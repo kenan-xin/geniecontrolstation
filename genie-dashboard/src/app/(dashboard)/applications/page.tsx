@@ -194,10 +194,10 @@ export default function ApplicationsPage() {
   // Get status path for navigation
   const getApplicationPath = (app: Application) => getApplicationRoute(app.currentStatus, app.id);
 
-  const totalApplications = applications.length;
+  const totalApplications = applications?.length ?? 0;
 
   const pipelineDistribution = useMemo(() => {
-    if (!applications.length) return [];
+    if (!applications?.length) return [];
     const stages = ['Document Assessment', 'Candidate Screening', 'Pending Approval', 'Approved'];
     return stages.map((stage) => {
       const count = applications.filter((a) => a.currentStatus === stage).length;
