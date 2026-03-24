@@ -87,7 +87,7 @@ export function Sidebar() {
       >
         {/* Logo */}
         <div className={cn('flex items-center h-16 shrink-0 px-4', expanded ? 'gap-3' : 'justify-center')}>
-          <div className="relative flex size-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-sidebar-primary to-sidebar-primary/70 shadow-md shadow-sidebar-primary/20">
+          <div className="relative flex size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary">
             <span className="text-sm font-bold text-sidebar-primary-foreground tracking-tight">G</span>
           </div>
           {expanded && (
@@ -135,7 +135,7 @@ export function MobileSidebarContent() {
     <div className="flex flex-col h-full bg-sidebar">
       {/* Logo */}
       <div className="flex items-center gap-3 h-16 shrink-0 px-4">
-        <div className="relative flex size-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-sidebar-primary to-sidebar-primary/70 shadow-md shadow-sidebar-primary/20">
+        <div className="relative flex size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary">
           <span className="text-sm font-bold text-sidebar-primary-foreground tracking-tight">G</span>
         </div>
         <div className="flex flex-col">

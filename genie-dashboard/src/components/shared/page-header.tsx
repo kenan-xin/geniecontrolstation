@@ -17,7 +17,7 @@ export function PageHeader({ icon: Icon, title, description, actions, className 
     <div className={cn('pb-4 sm:pb-6', className)}>
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-xl bg-brand/10 text-brand">
+          <div className="flex size-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
             <Icon className="size-5" />
           </div>
           <div>
