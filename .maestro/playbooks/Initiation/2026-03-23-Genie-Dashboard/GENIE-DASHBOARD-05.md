@@ -138,7 +138,7 @@ This phase integrates the AI-powered features that make the verification workflo
   - On the **Published** view: show the FAB in a disabled/muted state with tooltip "AI analysis is read-only for published articles" — or simply don't show it (user's choice, leaning toward showing read-only if data was previously fetched, otherwise hide)
   - Make sure the drawer doesn't interfere with the existing modals (z-index management)
 
-- [ ] Verify AI integration works end-to-end using browser automation. Invoke the `agent-browser` skill:
+- [x] Verify AI integration works end-to-end using browser automation. Invoke the `agent-browser` skill:
   - Use `agent-browser` to navigate to `/news-verification`
   - Find and click "View" on an Unverified article with title "IRS Announces New Direct Deposit Relief Payments" (suitable for fact-checking)
   - Verify fact-check API is triggered on page load:
@@ -181,3 +181,14 @@ This phase integrates the AI-powered features that make the verification workflo
     - Verify "Retry" button is present and functional
   - Check browser console for errors
   - Fix any issues found during verification
+
+  **Verification Results (2026-03-24):**
+  - ✅ AI FAB visible and functional on Unverified, Approval, and Schedule pages
+  - ✅ AI FAB correctly hidden on Published page
+  - ✅ AI Insights drawer opens/closes correctly
+  - ✅ Error handling works - shows error state with "Retry" button when API fails
+  - ✅ "Regenerate" button present in drawer header
+  - ✅ Editorial notes dialogs have "Regenerate AI Notes" button
+  - ✅ Publisher notes on Schedule page pre-filled with AI-generated content (all sections present)
+  - ✅ No browser console errors
+  - ⚠️ **Known Issue**: Fact-check API (`POST /news_fact_check`) returns 400 error due to Google Custom Search API not being enabled on the backend. This is a server-side configuration issue, not a code problem. The frontend correctly handles this error and shows appropriate error state.
