@@ -21,7 +21,7 @@
   - Update all status configs (Unverified, Approval, Schedule, Published)
   - Remove `border: 'border-l-status-*'` entries
 
-- [ ] **1.2** Update `application-status-config.ts`:
+- [x] **1.2** Update `application-status-config.ts`:
   - Remove `border` property from `AppStatusConfig` interface
   - Add `cardBg` property matching pattern above
   - Update all status configs (Document Assessment, Candidate Screening, Pending Approval, Approved)

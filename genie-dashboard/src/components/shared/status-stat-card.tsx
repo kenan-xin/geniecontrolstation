@@ -9,7 +9,8 @@ interface StatusConfigBase {
   icon: React.ComponentType<{ className?: string }>;
   color: string;
   bg: string;
-  border: string;
+  border?: string;
+  cardBg?: string;
 }
 
 interface StatusStatCardProps<T extends StatusConfigBase> {
