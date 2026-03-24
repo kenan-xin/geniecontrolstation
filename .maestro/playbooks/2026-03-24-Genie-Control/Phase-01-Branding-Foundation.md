@@ -19,7 +19,7 @@ This phase establishes the "Genie Ops" brand identity and creates the data found
     - Published: `text-emerald-500` → `text-emerald-600`, reduce gradient opacity
   - Review the home page hero section in `/genie-dashboard/src/app/(dashboard)/page.tsx` and reduce gradient orb opacity for subtler effect
 
-- [ ] Create applications database schema:
+- [x] Create applications database schema:
   - Add `applications` table to `/genie-dashboard/src/lib/schema.ts` with fields:
     - id (integer, primary key, auto-increment)
     - applicationId (text, e.g., "APP-2024-001")

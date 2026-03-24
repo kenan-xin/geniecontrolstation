@@ -73,6 +73,24 @@ export const stationSchedules = sqliteTable("station_schedules", {
   programName: text("program_name").notNull(),
 });
 
+// Applications table
+export const applications = sqliteTable("applications", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  applicationId: text("application_id"),
+  candidateName: text("candidate_name").notNull(),
+  submissionDate: text("submission_date").notNull(),
+  overallProgress: integer("overall_progress").notNull().default(0),
+  currentStatus: text("current_status").notNull().default("Document Assessment"),
+  statusColor: text("status_color").default("warning"),
+  assignedTo: text("assigned_to"),
+  trainingProvider: text("training_provider"),
+  email: text("email"),
+  phone: text("phone"),
+  notes: text("notes"),
+  createdAt: text("created_at").notNull().default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: text("updated_at").notNull().default(sql`(CURRENT_TIMESTAMP)`),
+});
+
 // Type exports using InferSelectModel and InferInsertModel
 export type NewsArticleSelect = typeof newsArticles.$inferSelect;
 export type NewsArticleInsert = typeof newsArticles.$inferInsert;
@@ -85,3 +103,6 @@ export type SegmentInsert = typeof segments.$inferInsert;
 
 export type StationScheduleSelect = typeof stationSchedules.$inferSelect;
 export type StationScheduleInsert = typeof stationSchedules.$inferInsert;
+
+export type ApplicationSelect = typeof applications.$inferSelect;
+export type ApplicationInsert = typeof applications.$inferInsert;
