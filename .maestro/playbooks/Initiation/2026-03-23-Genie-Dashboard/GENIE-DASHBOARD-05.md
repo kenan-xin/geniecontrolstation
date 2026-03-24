@@ -60,7 +60,7 @@ This phase integrates the AI-powered features that make the verification workflo
     - Use `useRef` for AbortController, retry timeouts, and tracking successful fetches
     - `isLoading` is true on first fetch, `isFetching` is true on refetch after initial success
 
-- [ ] Build the AI Insights drawer component. Invoke the `frontend-design` skill. Create `src/components/news-verification/ai-insights-drawer.tsx`:
+- [x] Build the AI Insights drawer component. Invoke the `frontend-design` skill. Create `src/components/news-verification/ai-insights-drawer.tsx`:
   - **Floating Action Button (FAB)** positioned in the bottom-right corner of the detail page:
     - Circular button with Sparkles icon (from lucide-react)
     - Visually distinctive: gradient background or accent color that stands out
