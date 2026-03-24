@@ -18,7 +18,7 @@ const pendingApprovalConfig = {
   icon: AlertCircle,
   color: 'text-amber-600 dark:text-amber-500',
   bg: 'bg-amber-50 dark:bg-amber-950',
-  cardBg: 'bg-amber-500/10 dark:bg-amber-500/5'
+  cardBg: 'bg-status-warning-muted/50 dark:bg-status-warning-muted/30'
 };
 
 export function StatusCards() {

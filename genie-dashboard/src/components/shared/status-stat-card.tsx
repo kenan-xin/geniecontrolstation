@@ -16,6 +16,7 @@ interface StatusConfigBase {
   color: string;
   bg?: string;
   cardBg: string;
+  border?: string;
 }
 
 interface StatusStatCardProps<T extends StatusConfigBase> {
