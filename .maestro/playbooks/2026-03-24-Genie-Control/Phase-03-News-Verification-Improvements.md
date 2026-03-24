@@ -118,11 +118,14 @@ This phase transforms the News Verification page from a card-based list to a pro
   - Shows "No results found" empty state when search has no matches
   - **Completed:** Search filters by title, sources, and assignedTo fields
 
-- [ ] Implement sort functionality:
-  - Add sort state (column, direction) to the news verification page
-  - Sort by: ID, Title, Submission Date, Status
-  - Toggle direction on column header click
-  - Show sort indicator (arrow) in column header
+- [x] Implement sort functionality:
+  - Added `SortState` type and sorting props to `PaginatedTable` component
+  - Added `getSortValue` function to Column interface for custom sort values
+  - Sort by: ID, Title, Submission Date, Status (all sortable columns)
+  - Toggle direction on column header click (asc/desc)
+  - Show sort indicator (arrow) in column header using ArrowUp/ArrowDown/ArrowUpDown icons
+  - Replaced card-based article list with `PaginatedTable` in news verification page
+  - Default sort: Submission Date descending
 
 - [ ] Add export functionality to News Verification:
   - Add Export button to the page header
