@@ -85,7 +85,7 @@ This phase transforms the current landing page into a proper dashboard with real
     - Includes loading skeleton state matching other dashboard components
     - Colors: slate-500 (processing), emerald-500 (approval), blue-500 (AI)
 
-- [ ] Create quick actions panel:
+- [x] Create quick actions panel:
   - Create `/genie-dashboard/src/components/dashboard/quick-actions.tsx`
   - Include buttons:
     - "View All Applications" → links to `/applications`
@@ -93,6 +93,12 @@ This phase transforms the current landing page into a proper dashboard with real
     - "Candidate Screening" → links to `/applications/candidate-screening`
   - Use outlined Button variant with icons
   - Stack buttons vertically with consistent spacing
+  - **Completion Notes:**
+    - Created quick-actions.tsx with 3 action buttons using outline variant
+    - Used Link component for Next.js navigation
+    - Icons: Layers (All), FileSearch (Document), Users (Screening)
+    - Card wrapper matches other dashboard components styling
+    - Vertically stacked with gap-2 spacing
 
 - [ ] Create a StatusBadge component with dot indicator:
   - Create `/genie-dashboard/src/components/shared/status-badge.tsx`
