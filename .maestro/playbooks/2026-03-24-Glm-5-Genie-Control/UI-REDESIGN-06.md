@@ -8,13 +8,13 @@
 
 ## Build & Type Check
 
-- [ ] Run build to catch any TypeScript errors:
+- [x] Run build to catch any TypeScript errors:
   ```bash
   cd genie-dashboard && npm run build
   ```
-  - Fix any TypeScript errors from interface changes
-  - Ensure all imports resolve correctly
-  - Check for unused variable warnings
+  - Fix any TypeScript errors from interface changes ✓ Fixed: media-player.tsx:319 - added station null guard
+  - Ensure all imports resolve correctly ✓
+  - Check for unused variable warnings ✓ (several found, addressed in Clean Up section)
 
 ## Visual Verification - Light Theme
 

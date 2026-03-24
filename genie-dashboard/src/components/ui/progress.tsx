@@ -9,9 +9,11 @@ function Progress({ className, children, value, label, ...props }: ProgressPrimi
     <ProgressPrimitive.Root value={value} data-slot="progress" className={cn('flex flex-wrap gap-3', className)} {...props}>
       {label && <ProgressLabel>{label}</ProgressLabel>}
       {children}
-      <ProgressTrack>
-        <ProgressIndicator />
-      </ProgressTrack>
+      {!children && (
+        <ProgressTrack>
+          <ProgressIndicator />
+        </ProgressTrack>
+      )}
     </ProgressPrimitive.Root>
   );
 }
