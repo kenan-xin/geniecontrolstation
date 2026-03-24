@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Newspaper, Radio, PanelLeftClose, PanelLeft, LayoutDashboard } from 'lucide-react';
+import { Newspaper, Radio, PanelLeftClose, PanelLeft, LayoutDashboard, FileStack } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { APP_NAME } from '@/lib/constants';
 import { useSidebarStore } from '@/store/sidebar-store';
@@ -25,6 +25,11 @@ const navItems = [
     label: 'Community Manager',
     href: '/community-manager',
     icon: Radio
+  },
+  {
+    label: 'Applications',
+    href: '/applications',
+    icon: FileStack
   }
 ];
 
