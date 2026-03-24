@@ -37,12 +37,19 @@ This phase transforms the current landing page into a proper dashboard with real
     - Includes loading skeleton state
     - Grouped applications by submission date
 
-- [ ] Create monthly statistics chart (bar chart):
+- [x] Create monthly statistics chart (bar chart):
   - Create `/genie-dashboard/src/components/dashboard/monthly-statistics-chart.tsx`
   - Use ApexCharts with a bar chart design
   - Show monthly application counts for the current year
   - Use a single muted color (e.g., blue-600 or brand color)
   - Include "This Month Statistics" title with total count above the chart
+  - **Completion Notes:**
+    - Used dynamic import for react-apexcharts to avoid SSR issues
+    - Blue-600 (#2563eb) color for corporate look
+    - Shows all 12 months with short month labels on x-axis
+    - Includes total count displayed above the chart
+    - Includes loading skeleton state
+    - Groups applications by submission date month for current year
 
 - [ ] Create recent applications table component:
   - Create `/genie-dashboard/src/components/dashboard/recent-applications-table.tsx`
