@@ -10,3 +10,5 @@ export * from "./status-badge";
 export * from "./data-table-toolbar";
 export * from "./table-pagination";
 export * from "./paginated-table";
+// Re-export types for convenience
+export type { Column, SortState, SortDirection } from "./paginated-table";
