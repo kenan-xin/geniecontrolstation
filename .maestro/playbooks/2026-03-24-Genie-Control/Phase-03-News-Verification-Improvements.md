@@ -127,11 +127,13 @@ This phase transforms the News Verification page from a card-based list to a pro
   - Replaced card-based article list with `PaginatedTable` in news verification page
   - Default sort: Submission Date descending
 
-- [ ] Add export functionality to News Verification:
-  - Add Export button to the page header
-  - On click, call `exportToCSV` with current articles data
-  - Filename: `news_leads_YYYY-MM-DD.csv`
-  - Include all relevant columns
+- [x] Add export functionality to News Verification:
+  - Added Export button to the page header (alongside News Lead button)
+  - On click, calls `exportToCSV` with current visible articles data
+  - Filename: `news_leads_YYYY-MM-DD.csv` (using `generateExportFilename`)
+  - Included columns: ID, Title, Description, Submission Date, Status (formatted), Source, Assigned To, Category, Urgency, Impact, Submitter Name, Email, Phone
+  - Button disabled when no articles visible
+  - Status formatted using `newsStatusConfig` for human-readable labels
 
 - [ ] Verify the News Verification page improvements:
   - Ensure the dev server is running

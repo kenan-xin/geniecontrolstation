@@ -2,10 +2,11 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Newspaper, Eye, Plus } from "lucide-react";
+import { Newspaper, Eye, Plus, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNewsArticles } from "@/hooks/use-news-articles";
+import { exportToCSV, generateExportFilename, type ExportColumn } from "@/lib/export-utils";
 import { CreateNewsLeadDialog } from "@/components/news-verification/create-news-lead-dialog";
 import {
   PageHeader,
@@ -28,6 +29,40 @@ export default function NewsVerificationPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [sort, setSort] = useState<SortState>({ column: "submissionDate", direction: "desc" });
+
+  // Export columns definition
+  const exportColumns: ExportColumn<NewsArticle>[] = useMemo(
+    () => [
+      { key: "id", header: "ID" },
+      { key: "title", header: "Title" },
+      { key: "storyDescription", header: "Description" },
+      { key: "submissionDate", header: "Submission Date" },
+      {
+        key: "currentStatus",
+        header: "Status",
+        format: (_, article) => {
+          const config = newsStatusConfig[article.currentStatus as keyof typeof newsStatusConfig];
+          return config?.label ?? article.currentStatus;
+        },
+      },
+      { key: "sources", header: "Source" },
+      { key: "assignedTo", header: "Assigned To" },
+      { key: "storyCategory", header: "Category" },
+      { key: "storyUrgency", header: "Urgency" },
+      { key: "storyEstimatedImpact", header: "Impact" },
+      { key: "submitterFullName", header: "Submitter Name" },
+      { key: "submitterEmail", header: "Submitter Email" },
+      { key: "submitterPhone", header: "Submitter Phone" },
+    ],
+    []
+  );
+
+  // Handle CSV export
+  const handleExport = () => {
+    if (!visibleArticles.length) return;
+    const filename = generateExportFilename("news_leads");
+    exportToCSV(visibleArticles, filename, exportColumns);
+  };
 
   // Define table columns
   const columns: Column<NewsArticle>[] = useMemo(
@@ -155,10 +190,20 @@ export default function NewsVerificationPage() {
         description="AI-powered editorial workflow for verifying and publishing news stories"
         gradient={{ from: "from-amber-500", to: "to-orange-500", shadow: "shadow-amber-500/20" }}
         actions={
-          <Button onClick={() => setIsCreateDialogOpen(true)}>
-            <Plus className="size-4 mr-2" />
-            News Lead
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              onClick={handleExport}
+              disabled={!visibleArticles.length}
+            >
+              <Download className="size-4 mr-2" />
+              Export
+            </Button>
+            <Button onClick={() => setIsCreateDialogOpen(true)}>
+              <Plus className="size-4 mr-2" />
+              News Lead
+            </Button>
+          </div>
         }
       />
 
