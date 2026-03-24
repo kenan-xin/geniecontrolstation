@@ -38,8 +38,8 @@ export function WorkflowStepper({ activeStep, className }: WorkflowStepperProps)
                   className={cn(
                     'relative flex items-center justify-center transition-all duration-300',
                     'size-9 rounded-full shrink-0',
-                    isCompleted && 'bg-primary text-primary-foreground shadow-md shadow-primary/30',
-                    isActive && 'bg-primary text-primary-foreground shadow-lg shadow-primary/30 ring-2 ring-primary/20 ring-offset-2',
+                    isCompleted && 'bg-primary text-primary-foreground shadow-sm',
+                    isActive && 'bg-primary text-primary-foreground shadow-md ring-2 ring-primary/20 ring-offset-2',
                     isPending && 'bg-muted text-muted-foreground border border-border'
                   )}
                 >

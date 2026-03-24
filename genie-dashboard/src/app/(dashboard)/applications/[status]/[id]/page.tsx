@@ -1,40 +1,40 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { AlertTriangle } from "lucide-react";
-import Link from "next/link";
-import { useApplication } from "@/hooks/use-applications";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
-import { DocumentAssessmentView } from "@/components/applications/stages/document-assessment-view";
-import { CandidateScreeningView } from "@/components/applications/stages/candidate-screening-view";
-import { PendingApprovalView } from "@/components/applications/stages/pending-approval-view";
-import { ApprovedView } from "@/components/applications/stages/approved-view";
-import { getApplicationStatusPath, getApplicationRoute } from "@/components/shared/application-status-config";
-import { statusToStep } from "@/components/applications/workflow-stepper";
+import { useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { AlertTriangle } from 'lucide-react';
+import Link from 'next/link';
+import { useApplication } from '@/hooks/use-applications';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
+import { DocumentAssessmentView } from '@/components/applications/stages/document-assessment-view';
+import { CandidateScreeningView } from '@/components/applications/stages/candidate-screening-view';
+import { PendingApprovalView } from '@/components/applications/stages/pending-approval-view';
+import { ApprovedView } from '@/components/applications/stages/approved-view';
+import { getApplicationStatusPath, getApplicationRoute } from '@/components/shared/application-status-config';
+import { statusToStep } from '@/components/applications/workflow-stepper';
 
 // URL to status mapping
 const urlToStatus: Record<string, string> = {
-  "document-assessment": "Document Assessment",
-  "candidate-screening": "Candidate Screening",
-  "pending-approval": "Pending Approval",
-  "approved": "Approved",
+  'document-assessment': 'Document Assessment',
+  'candidate-screening': 'Candidate Screening',
+  'pending-approval': 'Pending Approval',
+  approved: 'Approved'
 };
 
 // Status to URL mapping
 const statusToUrl: Record<string, string> = {
-  "Document Assessment": "document-assessment",
-  "Candidate Screening": "candidate-screening",
-  "Pending Approval": "pending-approval",
-  "Approved": "approved",
+  'Document Assessment': 'document-assessment',
+  'Candidate Screening': 'candidate-screening',
+  'Pending Approval': 'pending-approval',
+  Approved: 'approved'
 };
 
 function ApplicationDetailSkeleton() {
   return (
     <div className="min-h-screen bg-background">
       {/* Top bar skeleton */}
-      <header className="sticky top-0 z-30 bg-background/95 backdrop-blur-sm border-b">
+      <header className="sticky top-0 z-30 bg-background border-b">
         <div className="flex items-center justify-between gap-4 px-4 sm:px-6 py-3">
           <div className="flex items-center gap-3 min-w-0">
             <Skeleton className="h-4 w-24" />
@@ -81,23 +81,16 @@ function NotFoundState() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="text-center">
-      <div className="size-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
-        <AlertTriangle className="size-8 text-muted-foreground" />
+        <div className="size-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
+          <AlertTriangle className="size-8 text-muted-foreground" />
+        </div>
+        <h1 className="text-xl font-semibold text-foreground mb-2">Application Not Found</h1>
+        <p className="text-muted-foreground mb-6">The application you&apos;re looking for doesn&apos;t exist or has been removed.</p>
+        <Button render={<Link href="/applications" />} className="gap-2">
+          Back to Applications
+        </Button>
       </div>
-      <h1 className="text-xl font-semibold text-foreground mb-2">
-        Application Not Found
-      </h1>
-      <p className="text-muted-foreground mb-6">
-        The application you&apos;re looking for doesn&apos;t exist or has been removed.
-      </p>
-      <Button
-        render={<Link href="/applications" />}
-        className="gap-2"
-      >
-        Back to Applications
-      </Button>
     </div>
-  </div>
   );
 }
 
@@ -105,23 +98,16 @@ function InvalidStatusState() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="text-center">
-      <div className="size-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
-        <AlertTriangle className="size-8 text-muted-foreground" />
+        <div className="size-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
+          <AlertTriangle className="size-8 text-muted-foreground" />
+        </div>
+        <h1 className="text-xl font-semibold text-foreground mb-2">Invalid Status</h1>
+        <p className="text-muted-foreground mb-6">The URL contains an invalid status. Please navigate from the dashboard.</p>
+        <Button render={<Link href="/applications" />} className="gap-2">
+          Back to Applications
+        </Button>
       </div>
-      <h1 className="text-xl font-semibold text-foreground mb-2">
-        Invalid Status
-      </h1>
-      <p className="text-muted-foreground mb-6">
-        The URL contains an invalid status. Please navigate from the dashboard.
-      </p>
-      <Button
-        render={<Link href="/applications" />}
-        className="gap-2"
-      >
-        Back to Applications
-      </Button>
     </div>
-  </div>
   );
 }
 
@@ -166,13 +152,13 @@ export default function ApplicationDetailPage() {
   // Map status to view component
   const renderView = () => {
     switch (application.currentStatus) {
-      case "Document Assessment":
+      case 'Document Assessment':
         return <DocumentAssessmentView application={application} />;
-      case "Candidate Screening":
+      case 'Candidate Screening':
         return <CandidateScreeningView application={application} />;
-      case "Pending Approval":
+      case 'Pending Approval':
         return <PendingApprovalView application={application} />;
-      case "Approved":
+      case 'Approved':
         return <ApprovedView application={application} />;
       default:
         return <InvalidStatusState />;

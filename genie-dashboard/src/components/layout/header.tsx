@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import { Fragment } from "react";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
-import { Menu, Search, Bell } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Fragment } from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { Menu, Search, Bell } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { useSidebarStore } from "@/store/sidebar-store";
+  BreadcrumbSeparator
+} from '@/components/ui/breadcrumb';
+import { useSidebarStore } from '@/store/sidebar-store';
 
 function PathBreadcrumbs() {
   const pathname = usePathname();
 
-  if (pathname === "/") {
+  if (pathname === '/') {
     return (
       <Breadcrumb>
         <BreadcrumbList className="flex-nowrap">
@@ -32,34 +32,24 @@ function PathBreadcrumbs() {
     );
   }
 
-  const segments = pathname.split("/").filter(Boolean);
+  const segments = pathname.split('/').filter(Boolean);
 
   return (
     <Breadcrumb>
       <BreadcrumbList className="flex-nowrap">
         <BreadcrumbItem>
-          <BreadcrumbLink render={<Link href="/" />}>
-            Dashboard
-          </BreadcrumbLink>
+          <BreadcrumbLink render={<Link href="/" />}>Dashboard</BreadcrumbLink>
         </BreadcrumbItem>
         {segments.map((segment, index) => {
-          const href = "/" + segments.slice(0, index + 1).join("/");
+          const href = '/' + segments.slice(0, index + 1).join('/');
           const isLast = index === segments.length - 1;
-          const label = segment
-            .replace(/[-_]/g, " ")
-            .replace(/\b\w/g, (c) => c.toUpperCase());
+          const label = segment.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 
           return (
             <Fragment key={href}>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                {isLast ? (
-                  <BreadcrumbPage>{label}</BreadcrumbPage>
-                ) : (
-                  <BreadcrumbLink render={<Link href={href} />}>
-                    {label}
-                  </BreadcrumbLink>
-                )}
+                {isLast ? <BreadcrumbPage>{label}</BreadcrumbPage> : <BreadcrumbLink render={<Link href={href} />}>{label}</BreadcrumbLink>}
               </BreadcrumbItem>
             </Fragment>
           );
@@ -73,14 +63,9 @@ export function Header() {
   const { setMobileOpen } = useSidebarStore();
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 min-w-0 shrink-0 items-center gap-4 border-b border-border bg-background/80 backdrop-blur-md px-4 lg:px-6">
+    <header className="sticky top-0 z-30 flex h-14 min-w-0 shrink-0 items-center gap-4 border-b border-border bg-background px-4 lg:px-6">
       {/* Mobile menu button */}
-      <Button
-        variant="ghost"
-        size="icon-sm"
-        className="lg:hidden text-muted-foreground"
-        onClick={() => setMobileOpen(true)}
-      >
+      <Button variant="ghost" size="icon-sm" className="lg:hidden text-muted-foreground" onClick={() => setMobileOpen(true)}>
         <Menu className="size-5" />
       </Button>
 
@@ -99,19 +84,13 @@ export function Header() {
           />
         </div>
 
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          className="relative text-muted-foreground"
-        >
+        <Button variant="ghost" size="icon-sm" className="relative text-muted-foreground">
           <Bell className="size-4" />
           <span className="absolute top-1 right-1 size-1.5 rounded-full bg-brand" />
         </Button>
 
         <Avatar size="sm">
-          <AvatarFallback className="bg-brand/15 text-brand text-[10px] font-semibold">
-            GO
-          </AvatarFallback>
+          <AvatarFallback className="bg-brand/15 text-brand text-[10px] font-semibold">GO</AvatarFallback>
         </Avatar>
       </div>
     </header>

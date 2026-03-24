@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { WorkflowStepper } from "./workflow-stepper";
-import { SectionNav, type SectionItem } from "./section-nav";
+import { ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
+import { WorkflowStepper } from './workflow-stepper';
+import { SectionNav, type SectionItem } from './section-nav';
 
 interface DetailLayoutProps {
   title: string;
@@ -25,12 +25,12 @@ export function DetailLayout({
   onSectionChange,
   actionButtons,
   children,
-  className,
+  className
 }: DetailLayoutProps) {
   return (
-    <div className={cn("min-h-screen bg-background", className)}>
+    <div className={cn('min-h-screen bg-background', className)}>
       {/* Top bar */}
-      <header className="sticky top-0 z-30 bg-background/95 backdrop-blur-sm border-b">
+      <header className="sticky top-0 z-30 bg-background border-b">
         <div className="flex items-center justify-between gap-4 px-4 sm:px-6 py-3">
           <div className="flex items-center gap-3 min-w-0">
             <Link
@@ -38,15 +38,11 @@ export function DetailLayout({
               className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors shrink-0"
             >
               <ArrowLeft className="size-4" />
-              <span className="hidden sm:inline text-sm font-medium">
-                Back to News Verification
-              </span>
+              <span className="hidden sm:inline text-sm font-medium">Back to News Verification</span>
               <span className="sm:hidden text-sm font-medium">Back</span>
             </Link>
             <div className="h-5 w-px bg-border hidden sm:block" />
-            <h1 className="text-sm sm:text-base font-semibold text-foreground truncate">
-              {title}
-            </h1>
+            <h1 className="text-sm sm:text-base font-semibold text-foreground truncate">{title}</h1>
           </div>
           {actionButtons && (
             <div className="flex items-center gap-2 shrink-0 max-[400px]:w-full max-[400px]:justify-center">{actionButtons}</div>
@@ -61,12 +57,7 @@ export function DetailLayout({
 
       {/* Mobile: Horizontal tabs */}
       <div className="lg:hidden border-b px-4 py-2 bg-background sticky top-[117px] z-20">
-        <SectionNav
-          sections={sections}
-          activeSection={activeSection}
-          onSelect={onSectionChange}
-          variant="tabs"
-        />
+        <SectionNav sections={sections} activeSection={activeSection} onSelect={onSectionChange} variant="tabs" />
       </div>
 
       {/* Main content */}
@@ -74,12 +65,7 @@ export function DetailLayout({
         {/* Desktop: Sidebar nav */}
         <aside className="hidden lg:block w-72 shrink-0 border-r bg-muted/10">
           <div className="sticky top-[133px] p-4">
-            <SectionNav
-              sections={sections}
-              activeSection={activeSection}
-              onSelect={onSectionChange}
-              variant="sidebar"
-            />
+            <SectionNav sections={sections} activeSection={activeSection} onSelect={onSectionChange} variant="sidebar" />
           </div>
         </aside>
 

@@ -1,39 +1,39 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, AlertTriangle } from "lucide-react";
-import Link from "next/link";
-import { useNewsArticle } from "@/hooks/use-news-articles";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
-import { UnverifiedView } from "@/components/news-verification/stages/unverified-view";
-import { ApprovalView } from "@/components/news-verification/stages/approval-view";
-import { ScheduleView } from "@/components/news-verification/stages/schedule-view";
-import { PublishedView } from "@/components/news-verification/stages/published-view";
+import { useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { ArrowLeft, AlertTriangle } from 'lucide-react';
+import Link from 'next/link';
+import { useNewsArticle } from '@/hooks/use-news-articles';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
+import { UnverifiedView } from '@/components/news-verification/stages/unverified-view';
+import { ApprovalView } from '@/components/news-verification/stages/approval-view';
+import { ScheduleView } from '@/components/news-verification/stages/schedule-view';
+import { PublishedView } from '@/components/news-verification/stages/published-view';
 
 // Status to URL mapping
 const statusToUrl: Record<string, string> = {
-  Unverified: "unverified",
-  Approval: "approval",
-  Schedule: "schedule",
-  Published: "published",
-  Rejected: "rejected",
+  Unverified: 'unverified',
+  Approval: 'approval',
+  Schedule: 'schedule',
+  Published: 'published',
+  Rejected: 'rejected'
 };
 
 // URL to status mapping
 const urlToStatus: Record<string, string> = {
-  unverified: "Unverified",
-  approval: "Approval",
-  schedule: "Schedule",
-  published: "Published",
+  unverified: 'Unverified',
+  approval: 'Approval',
+  schedule: 'Schedule',
+  published: 'Published'
 };
 
 function ArticleDetailSkeleton() {
   return (
     <div className="min-h-screen bg-background">
       {/* Top bar skeleton */}
-      <header className="sticky top-0 z-30 bg-background/95 backdrop-blur-sm border-b">
+      <header className="sticky top-0 z-30 bg-background border-b">
         <div className="flex items-center justify-between gap-4 px-4 sm:px-6 py-3">
           <div className="flex items-center gap-3 min-w-0">
             <Skeleton className="h-4 w-24" />
@@ -83,16 +83,9 @@ function NotFoundState() {
         <div className="size-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
           <AlertTriangle className="size-8 text-muted-foreground" />
         </div>
-        <h1 className="text-xl font-semibold text-foreground mb-2">
-          Article Not Found
-        </h1>
-        <p className="text-muted-foreground mb-6">
-          The article you&apos;re looking for doesn&apos;t exist or has been removed.
-        </p>
-        <Button
-          render={<Link href="/news-verification" />}
-          className="gap-2"
-        >
+        <h1 className="text-xl font-semibold text-foreground mb-2">Article Not Found</h1>
+        <p className="text-muted-foreground mb-6">The article you&apos;re looking for doesn&apos;t exist or has been removed.</p>
+        <Button render={<Link href="/news-verification" />} className="gap-2">
           <ArrowLeft className="size-4" />
           Back to News Verification
         </Button>
@@ -108,16 +101,9 @@ function InvalidStatusState() {
         <div className="size-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
           <AlertTriangle className="size-8 text-muted-foreground" />
         </div>
-        <h1 className="text-xl font-semibold text-foreground mb-2">
-          Invalid Status
-        </h1>
-        <p className="text-muted-foreground mb-6">
-          The URL contains an invalid status. Please navigate from the dashboard.
-        </p>
-        <Button
-          render={<Link href="/news-verification" />}
-          className="gap-2"
-        >
+        <h1 className="text-xl font-semibold text-foreground mb-2">Invalid Status</h1>
+        <p className="text-muted-foreground mb-6">The URL contains an invalid status. Please navigate from the dashboard.</p>
+        <Button render={<Link href="/news-verification" />} className="gap-2">
           <ArrowLeft className="size-4" />
           Back to News Verification
         </Button>
@@ -168,15 +154,15 @@ export default function ArticleDetailPage() {
   // Map status to view component
   const renderView = () => {
     switch (article.currentStatus) {
-      case "Unverified":
+      case 'Unverified':
         return <UnverifiedView article={article} />;
-      case "Approval":
+      case 'Approval':
         return <ApprovalView article={article} />;
-      case "Schedule":
+      case 'Schedule':
         return <ScheduleView article={article} />;
-      case "Published":
+      case 'Published':
         return <PublishedView article={article} />;
-      case "Rejected":
+      case 'Rejected':
         // Rejected articles show the last known view
         // They could be in any stage before rejection
         return <UnverifiedView article={article} />;

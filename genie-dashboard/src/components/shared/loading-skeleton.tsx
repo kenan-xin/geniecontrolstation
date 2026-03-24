@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from '@/components/ui/skeleton';
+import { Card, CardContent } from '@/components/ui/card';
 
 interface CardGridSkeletonProps {
   count?: number;
@@ -9,11 +9,12 @@ interface CardGridSkeletonProps {
 }
 
 export function CardGridSkeleton({ count = 4, columns = 4 }: CardGridSkeletonProps) {
-  const gridCols = {
-    2: "grid-cols-2",
-    3: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
-    4: "grid-cols-2 lg:grid-cols-4",
-  }[columns] ?? "grid-cols-2 lg:grid-cols-4";
+  const gridCols =
+    {
+      2: 'grid-cols-2',
+      3: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+      4: 'grid-cols-2 lg:grid-cols-4'
+    }[columns] ?? 'grid-cols-2 lg:grid-cols-4';
 
   return (
     <div className={`grid gap-4 ${gridCols}`}>
@@ -64,7 +65,7 @@ export function DetailPageSkeleton() {
   return (
     <div className="min-h-screen bg-background">
       {/* Top bar skeleton */}
-      <header className="sticky top-0 z-30 bg-background/95 backdrop-blur-sm border-b">
+      <header className="sticky top-0 z-30 bg-background border-b">
         <div className="flex items-center justify-between gap-4 px-4 sm:px-6 py-3">
           <div className="flex items-center gap-3 min-w-0">
             <Skeleton className="h-4 w-24" />
