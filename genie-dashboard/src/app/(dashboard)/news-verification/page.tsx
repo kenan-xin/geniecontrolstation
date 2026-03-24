@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
-import Link from "next/link";
-import { Newspaper, Eye, Plus, Download } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { useNewsArticles } from "@/hooks/use-news-articles";
-import { exportToCSV, generateExportFilename, type ExportColumn } from "@/lib/export-utils";
-import { CreateNewsLeadDialog } from "@/components/news-verification/create-news-lead-dialog";
+import { useMemo, useState } from 'react';
+import Link from 'next/link';
+import { Newspaper, Eye, Plus, Download } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { useNewsArticles } from '@/hooks/use-news-articles';
+import { exportToCSV, generateExportFilename, type ExportColumn } from '@/lib/export-utils';
+import { CreateNewsLeadDialog } from '@/components/news-verification/create-news-lead-dialog';
 import {
   PageHeader,
   CardGridSkeleton,
@@ -20,39 +20,40 @@ import {
   DataTableToolbar,
   PaginatedTable,
   type Column,
-  type SortState,
-} from "@/components/shared";
-import type { NewsArticle } from "@/types";
+  type SortState
+} from '@/components/shared';
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
+import type { NewsArticle } from '@/types';
 
 export default function NewsVerificationPage() {
   const { data: articles, isLoading, isError, error, refetch } = useNewsArticles();
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
-  const [sort, setSort] = useState<SortState>({ column: "submissionDate", direction: "desc" });
+  const [searchValue, setSearchValue] = useState('');
+  const [sort, setSort] = useState<SortState>({ column: 'submissionDate', direction: 'desc' });
 
   // Export columns definition
   const exportColumns: ExportColumn<NewsArticle>[] = useMemo(
     () => [
-      { key: "id", header: "ID" },
-      { key: "title", header: "Title" },
-      { key: "storyDescription", header: "Description" },
-      { key: "submissionDate", header: "Submission Date" },
+      { key: 'id', header: 'ID' },
+      { key: 'title', header: 'Title' },
+      { key: 'storyDescription', header: 'Description' },
+      { key: 'submissionDate', header: 'Submission Date' },
       {
-        key: "currentStatus",
-        header: "Status",
+        key: 'currentStatus',
+        header: 'Status',
         format: (_, article) => {
           const config = newsStatusConfig[article.currentStatus as keyof typeof newsStatusConfig];
           return config?.label ?? article.currentStatus;
-        },
+        }
       },
-      { key: "sources", header: "Source" },
-      { key: "assignedTo", header: "Assigned To" },
-      { key: "storyCategory", header: "Category" },
-      { key: "storyUrgency", header: "Urgency" },
-      { key: "storyEstimatedImpact", header: "Impact" },
-      { key: "submitterFullName", header: "Submitter Name" },
-      { key: "submitterEmail", header: "Submitter Email" },
-      { key: "submitterPhone", header: "Submitter Phone" },
+      { key: 'sources', header: 'Source' },
+      { key: 'assignedTo', header: 'Assigned To' },
+      { key: 'storyCategory', header: 'Category' },
+      { key: 'storyUrgency', header: 'Urgency' },
+      { key: 'storyEstimatedImpact', header: 'Impact' },
+      { key: 'submitterFullName', header: 'Submitter Name' },
+      { key: 'submitterEmail', header: 'Submitter Email' },
+      { key: 'submitterPhone', header: 'Submitter Phone' }
     ],
     []
   );
@@ -60,7 +61,7 @@ export default function NewsVerificationPage() {
   // Handle CSV export
   const handleExport = () => {
     if (!visibleArticles.length) return;
-    const filename = generateExportFilename("news_leads");
+    const filename = generateExportFilename('news_leads');
     exportToCSV(visibleArticles, filename, exportColumns);
   };
 
@@ -68,43 +69,50 @@ export default function NewsVerificationPage() {
   const columns: Column<NewsArticle>[] = useMemo(
     () => [
       {
-        key: "id",
-        header: "ID",
-        width: "80px",
+        key: 'id',
+        header: 'ID',
+        width: '80px',
         sortable: true,
         getSortValue: (a) => a.id,
-        render: (article) => (
-          <span className="font-mono text-sm text-muted-foreground">#{article.id}</span>
-        ),
+        render: (article) => <span className="font-mono text-sm text-muted-foreground">#{article.id}</span>
       },
       {
-        key: "title",
-        header: "Title",
+        key: 'title',
+        header: 'Title',
+        width: '120px',
         sortable: true,
-        getSortValue: (a) => a.title ?? "",
+        getSortValue: (a) => a.title ?? '',
         render: (article) => (
-          <div className="min-w-0">
-            <div className="font-medium text-foreground line-clamp-1">{article.title}</div>
-            <div className="text-sm text-muted-foreground line-clamp-1">
-              {article.storyDescription}
-            </div>
-          </div>
-        ),
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <div className="min-w-0 cursor-default">
+                    <div className="font-medium text-foreground truncate">{article.title}</div>
+                    <div className="text-sm text-muted-foreground truncate">{article.storyDescription}</div>
+                  </div>
+                }
+              />
+              <TooltipContent side="top" align="start" className="max-w-md">
+                <div className="font-medium">{article.title}</div>
+                {article.storyDescription && <div className="text-muted-foreground mt-1">{article.storyDescription}</div>}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )
       },
       {
-        key: "submissionDate",
-        header: "Submitted",
-        width: "140px",
+        key: 'submissionDate',
+        header: 'Submitted',
+        width: '140px',
         sortable: true,
         getSortValue: (a) => a.submissionDate,
-        render: (article) => (
-          <span className="text-sm text-muted-foreground">{article.submissionDate}</span>
-        ),
+        render: (article) => <span className="text-sm text-muted-foreground">{article.submissionDate}</span>
       },
       {
-        key: "currentStatus",
-        header: "Status",
-        width: "120px",
+        key: 'currentStatus',
+        header: 'Status',
+        width: '120px',
         sortable: true,
         getSortValue: (a) => a.currentStatus,
         render: (article) => {
@@ -114,28 +122,24 @@ export default function NewsVerificationPage() {
               {config.label}
             </Badge>
           );
-        },
+        }
       },
       {
-        key: "sources",
-        header: "Source",
-        width: "120px",
+        key: 'sources',
+        header: 'Source',
+        width: '120px',
         sortable: true,
-        getSortValue: (a) => a.sources ?? "",
-        render: (article) => (
-          <span className="text-sm text-muted-foreground">{article.sources}</span>
-        ),
+        getSortValue: (a) => a.sources ?? '',
+        render: (article) => <span className="text-sm text-muted-foreground">{article.sources}</span>
       },
       {
-        key: "assignedTo",
-        header: "Assigned To",
-        width: "120px",
+        key: 'assignedTo',
+        header: 'Assigned To',
+        width: '120px',
         sortable: true,
-        getSortValue: (a) => a.assignedTo ?? "",
-        render: (article) => (
-          <span className="text-sm text-muted-foreground">{article.assignedTo || "—"}</span>
-        ),
-      },
+        getSortValue: (a) => a.assignedTo ?? '',
+        render: (article) => <span className="text-sm text-muted-foreground">{article.assignedTo || '—'}</span>
+      }
     ],
     []
   );
@@ -145,7 +149,7 @@ export default function NewsVerificationPage() {
       Unverified: 0,
       Approval: 0,
       Schedule: 0,
-      Published: 0,
+      Published: 0
     };
     if (articles) {
       for (const article of articles) {
@@ -159,7 +163,7 @@ export default function NewsVerificationPage() {
 
   const visibleArticles = useMemo(() => {
     if (!articles) return [];
-    let filtered = articles.filter((a) => a.currentStatus !== "Rejected");
+    let filtered = articles.filter((a) => a.currentStatus !== 'Rejected');
 
     // Apply search filter
     if (searchValue.trim()) {
@@ -188,14 +192,10 @@ export default function NewsVerificationPage() {
         icon={Newspaper}
         title="News Verification"
         description="AI-powered editorial workflow for verifying and publishing news stories"
-        gradient={{ from: "from-amber-500", to: "to-orange-500", shadow: "shadow-amber-500/20" }}
+        gradient={{ from: 'from-amber-500', to: 'to-orange-500', shadow: 'shadow-amber-500/20' }}
         actions={
           <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              onClick={handleExport}
-              disabled={!visibleArticles.length}
-            >
+            <Button variant="outline" onClick={handleExport} disabled={!visibleArticles.length}>
               <Download className="size-4 mr-2" />
               Export
             </Button>
@@ -214,7 +214,7 @@ export default function NewsVerificationPage() {
       {isError && (
         <ErrorState
           title="Failed to load articles"
-          message={error?.message ?? "An error occurred while loading articles. Please try again."}
+          message={error?.message ?? 'An error occurred while loading articles. Please try again.'}
           onRetry={() => refetch()}
         />
       )}
@@ -225,12 +225,7 @@ export default function NewsVerificationPage() {
           {/* Status Summary Cards */}
           <section className="grid gap-4 grid-cols-2 lg:grid-cols-4">
             {newsStatusOrder.map((status) => (
-              <StatusStatCard
-                key={status}
-                config={newsStatusConfig[status]}
-                count={statusCounts[status]}
-                showGradient
-              />
+              <StatusStatCard key={status} config={newsStatusConfig[status]} count={statusCounts[status]} showGradient />
             ))}
           </section>
 
@@ -251,10 +246,7 @@ export default function NewsVerificationPage() {
                 searchPlaceholder="Search by title, source, or assignee..."
               />
               {visibleArticles.length === 0 ? (
-                <EmptyState
-                  title="No results found"
-                  description={`No articles match "${searchValue}". Try a different search term.`}
-                />
+                <EmptyState title="No results found" description={`No articles match "${searchValue}". Try a different search term.`} />
               ) : (
                 <PaginatedTable
                   columns={columns}
@@ -278,10 +270,7 @@ export default function NewsVerificationPage() {
       )}
 
       {/* Create News Lead Dialog */}
-      <CreateNewsLeadDialog
-        open={isCreateDialogOpen}
-        onOpenChange={setIsCreateDialogOpen}
-      />
+      <CreateNewsLeadDialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen} />
     </div>
   );
 }

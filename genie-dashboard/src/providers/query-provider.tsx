@@ -1,8 +1,7 @@
-"use client";
+'use client';
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ThemeProvider } from "next-themes";
-import { useState } from "react";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useState } from 'react';
 
 export function QueryProvider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
@@ -13,19 +12,11 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
             staleTime: 1000 * 60 * 5,
             gcTime: 1000 * 60 * 10,
             retry: 1,
-            refetchOnWindowFocus: false,
-          },
-        },
+            refetchOnWindowFocus: false
+          }
+        }
       })
   );
 
-  return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="light"
-      disableTransitionOnChange
-    >
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </ThemeProvider>
-  );
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

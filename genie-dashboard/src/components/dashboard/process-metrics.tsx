@@ -1,14 +1,9 @@
-"use client";
+'use client';
 
-import { useMemo } from "react";
-import { Clock, CheckCircle2, Brain } from "lucide-react";
-import { useApplications } from "@/hooks/use-applications";
-import {
-  Progress,
-  ProgressTrack,
-  ProgressIndicator,
-  ProgressLabel,
-} from "@/components/ui/progress";
+import { useMemo } from 'react';
+import { Clock, CheckCircle2, Brain } from 'lucide-react';
+import { useApplications } from '@/hooks/use-applications';
+import { Progress, ProgressTrack, ProgressIndicator } from '@/components/ui/progress';
 
 interface MetricProps {
   icon: React.ElementType;
@@ -23,9 +18,8 @@ function Metric({ icon: Icon, label, value, progress, colorClass }: MetricProps)
     <div className="space-y-2">
       <div className="flex items-center gap-2">
         <Icon className="h-4 w-4 text-muted-foreground" />
-        <ProgressLabel className="text-sm">{label}</ProgressLabel>
       </div>
-      <Progress value={progress} className="flex-col items-stretch gap-1">
+      <Progress value={progress} className="flex-col items-stretch gap-1" label={label}>
         <ProgressTrack className="h-2">
           <ProgressIndicator className={colorClass} />
         </ProgressTrack>
@@ -59,9 +53,9 @@ export function ProcessMetrics() {
   const metrics = useMemo(() => {
     if (applications.length === 0) {
       return {
-        avgProcessingTime: { value: "0 days", progress: 0 },
-        approvalRate: { value: "0%", progress: 0 },
-        aiMatchAccuracy: { value: "N/A", progress: 0 },
+        avgProcessingTime: { value: '0 days', progress: 0 },
+        approvalRate: { value: '0%', progress: 0 },
+        aiMatchAccuracy: { value: 'N/A', progress: 0 }
       };
     }
 
@@ -76,7 +70,7 @@ export function ProcessMetrics() {
     const avgProcessingProgress = Math.min(100, (avgDays / 5) * 100);
 
     // Calculate approval rate
-    const approvedCount = applications.filter((app) => app.currentStatus === "Approved").length;
+    const approvedCount = applications.filter((app) => app.currentStatus === 'Approved').length;
     const approvalRate = (approvedCount / applications.length) * 100;
 
     // AI Match Accuracy - placeholder (no AI data in schema)
@@ -86,16 +80,16 @@ export function ProcessMetrics() {
     return {
       avgProcessingTime: {
         value: `${avgDays.toFixed(1)} days`,
-        progress: avgProcessingProgress,
+        progress: avgProcessingProgress
       },
       approvalRate: {
         value: `${approvalRate.toFixed(0)}%`,
-        progress: approvalRate,
+        progress: approvalRate
       },
       aiMatchAccuracy: {
         value: `${aiMatchAccuracy}%`,
-        progress: aiMatchAccuracy,
-      },
+        progress: aiMatchAccuracy
+      }
     };
   }, [applications]);
 
