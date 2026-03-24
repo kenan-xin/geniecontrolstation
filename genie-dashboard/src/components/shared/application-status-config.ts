@@ -77,3 +77,8 @@ export function getApplicationStatusPath(status: string): string {
       return "document-assessment";
   }
 }
+
+export function getApplicationRoute(status: string, id: string | number): string {
+  const statusPath = getApplicationStatusPath(status);
+  return `/applications/${statusPath}/${id}`;
+}

@@ -19,13 +19,14 @@ This phase creates the complete Applications page with status cards, data table 
   - Actions column: View button that navigates based on status
   - **Note:** The Applications main page file was corrupted with syntax errors. Completely rewrote it from scratch following the News Verification page pattern. All columns implemented with proper progress bar (color-coded by progress %), status badges with icons, and View action buttons that navigate based on status.
 
-- [ ] Create application status navigation helper:
+- [x] Create application status navigation helper:
   - Add `getApplicationRoute(status, id)` function to `/genie-dashboard/src/lib/utils.ts` or a new helper file
   - Map status to routes:
     - "Document Assessment" → `/applications/document-assessment/[id]`
     - "Candidate Screening" → `/applications/candidate-screening/[id]`
     - "Pending Approval" → `/applications/pending-approval/[id]`
     - "Approved" → `/applications/approved/[id]`
+  - **Note:** Added `getApplicationRoute(status, id)` to `application-status-config.ts` (alongside existing `getApplicationStatusPath`). Updated Applications page to use the new helper instead of inline path construction.
 
 - [ ] Create application detail page layout:
   - Create `/genie-dashboard/src/app/(dashboard)/applications/[status]/[id]/page.tsx`

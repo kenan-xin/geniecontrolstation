@@ -14,7 +14,7 @@ import {
   EmptyState,
   applicationStatusConfig,
   applicationStatusOrder,
-  getApplicationStatusPath,
+  getApplicationRoute,
   StatusStatCard,
   DataTableToolbar,
   PaginatedTable,
@@ -208,10 +208,7 @@ export default function ApplicationsPage() {
   }, [applications, searchValue]);
 
   // Get status path for navigation
-  const getApplicationPath = (app: Application) => {
-    const statusPath = getApplicationStatusPath(app.currentStatus);
-    return `/applications/${statusPath}/${app.id}`;
-  };
+  const getApplicationPath = (app: Application) => getApplicationRoute(app.currentStatus, app.id);
 
   return (
     <div className="space-y-8">
