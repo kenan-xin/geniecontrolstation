@@ -130,17 +130,20 @@ Not everything needs a Card component - use spacing and borders instead.
 
 Give each page something unique.
 
-- [ ] Applications Page: Add pipeline progress visualization
+- [x] Applications Page: Add pipeline progress visualization
   - Horizontal progress bar showing overall pipeline status
   - Or: Donut chart showing distribution
+  - **Implemented:** Horizontal stacked bar showing pipeline distribution with color-coded stages (lines 227-279 in page.tsx)
 
-- [ ] News Verification Page: Add activity indicator
+- [x] News Verification Page: Add activity indicator
   - Recent actions timeline
   - Or: "Last updated: X minutes ago" indicator
+  - **Implemented:** "Last updated: X ago" indicator with Clock icon in Quick Actions bar (lines 188-210, 249-254)
 
-- [ ] Community Manager Page: Add engagement preview
+- [x] Community Manager Page: Add engagement preview
   - Mini sparklines for segment performance
   - Or: Inline engagement stats per segment
+  - **Implemented:** Share rate progress bar and category distribution mini-bars in Segments section (lines 123-155 in page.tsx)
 
 - [x] Dashboard Home: Add personalized greeting or summary
   - "Good morning, [User]" with date

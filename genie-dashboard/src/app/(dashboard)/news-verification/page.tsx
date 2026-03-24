@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Newspaper, Eye, Plus, Download } from 'lucide-react';
+import { Newspaper, Eye, Plus, Download, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useNewsArticles } from '@/hooks/use-news-articles';
@@ -185,6 +185,30 @@ export default function NewsVerificationPage() {
     return `/news-verification/${statusPath}/${article.id}`;
   };
 
+  // Calculate last updated timestamp for activity indicator
+  const lastUpdated = useMemo(() => {
+    if (!articles || articles.length === 0) return null;
+    const mostRecent = articles.reduce(
+      (latest, article) => {
+        const articleDate = new Date(article.updatedAt || article.createdAt || 0);
+        const latestDate = latest ? new Date(latest.updatedAt || latest.createdAt || 0) : new Date(0);
+        return articleDate > latestDate ? article : latest;
+      },
+      null as NewsArticle | null
+    );
+    if (!mostRecent) return null;
+    const updatedDate = new Date(mostRecent.updatedAt || mostRecent.createdAt || Date.now());
+    const now = new Date();
+    const diffMs = now.getTime() - updatedDate.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins}m ago`;
+    const diffHours = Math.floor(diffMins / 60);
+    if (diffHours < 24) return `${diffHours}h ago`;
+    const diffDays = Math.floor(diffHours / 24);
+    return `${diffDays}d ago`;
+  }, [articles]);
+
   return (
     <div className="space-y-8">
       {/* Page Header */}
@@ -210,16 +234,24 @@ export default function NewsVerificationPage() {
       {!isLoading && !isError && (
         <>
           {/* Quick Actions Bar */}
-          <div className="flex items-center gap-3 pb-4 border-b border-border">
-            <span className="text-sm font-medium">Quick Actions:</span>
-            <Button size="sm" variant="outline" onClick={() => setIsCreateDialogOpen(true)}>
-              <Plus className="size-3.5 mr-1.5" />
-              New Lead
-            </Button>
-            <Button size="sm" variant="outline" onClick={handleExport} disabled={!visibleArticles.length}>
-              <Download className="size-3.5 mr-1.5" />
-              Export
-            </Button>
+          <div className="flex items-center justify-between gap-3 pb-4 border-b border-border">
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-medium">Quick Actions:</span>
+              <Button size="sm" variant="outline" onClick={() => setIsCreateDialogOpen(true)}>
+                <Plus className="size-3.5 mr-1.5" />
+                New Lead
+              </Button>
+              <Button size="sm" variant="outline" onClick={handleExport} disabled={!visibleArticles.length}>
+                <Download className="size-3.5 mr-1.5" />
+                Export
+              </Button>
+            </div>
+            {lastUpdated && (
+              <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                <Clock className="size-3" />
+                <span>Last updated: {lastUpdated}</span>
+              </div>
+            )}
           </div>
 
           {/* Status Summary Cards - Asymmetric Grid */}

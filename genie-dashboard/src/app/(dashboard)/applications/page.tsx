@@ -194,8 +194,23 @@ export default function ApplicationsPage() {
   // Get status path for navigation
   const getApplicationPath = (app: Application) => getApplicationRoute(app.currentStatus, app.id);
 
+  const totalApplications = applications.length;
+
+  const pipelineDistribution = useMemo(() => {
+    if (!applications.length) return [];
+    const stages = ['Document Assessment', 'Candidate Screening', 'Pending Approval', 'Approved'];
+    return stages.map((stage) => {
+      const count = applications.filter((a) => a.currentStatus === stage).length;
+      return {
+        stage,
+        count,
+        percentage: Math.round((count / totalApplications) * 100) || 0
+      };
+    });
+  }, [applications, totalApplications]);
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Page Header */}
       <PageHeader
         icon={ClipboardList}
@@ -208,6 +223,60 @@ export default function ApplicationsPage() {
           </Button>
         }
       />
+
+      {/* Pipeline Progress Visualization - Page Identity Element */}
+      {!isLoading && !isError && totalApplications > 0 && (
+        <div className="bg-muted/30 rounded-lg p-4 border border-border">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-sm font-medium">Pipeline Distribution</span>
+            <span className="text-sm text-muted-foreground">{totalApplications} total</span>
+          </div>
+          <div className="flex h-2 rounded-full overflow-hidden bg-muted gap-0.5">
+            {pipelineDistribution.map((item) => (
+              <div
+                key={item.stage}
+                className={`transition-all duration-500 ${
+                  item.stage === 'Document Assessment'
+                    ? 'bg-status-neutral'
+                    : item.stage === 'Candidate Screening'
+                      ? 'bg-status-info'
+                      : item.stage === 'Pending Approval'
+                        ? 'bg-status-warning'
+                        : 'bg-status-success'
+                }`}
+                style={{ width: `${Math.max(item.percentage, item.count > 0 ? 5 : 0)}%` }}
+                title={`${item.stage}: ${item.count} (${item.percentage}%)`}
+              />
+            ))}
+          </div>
+          <div className="flex justify-between mt-2">
+            {pipelineDistribution.map((item) => (
+              <div key={item.stage} className="flex items-center gap-1.5">
+                <div
+                  className={`size-2 rounded-full ${
+                    item.stage === 'Document Assessment'
+                      ? 'bg-status-neutral'
+                      : item.stage === 'Candidate Screening'
+                        ? 'bg-status-info'
+                        : item.stage === 'Pending Approval'
+                          ? 'bg-status-warning'
+                          : 'bg-status-success'
+                  }`}
+                />
+                <span className="text-[10px] text-muted-foreground">
+                  {item.stage === 'Document Assessment'
+                    ? 'Docs'
+                    : item.stage === 'Candidate Screening'
+                      ? 'Screen'
+                      : item.stage === 'Pending Approval'
+                        ? 'Pending'
+                        : 'Approved'}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Loading State */}
       {isLoading && <CardGridSkeleton count={4} columns={4} />}

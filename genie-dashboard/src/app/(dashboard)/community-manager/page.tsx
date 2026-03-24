@@ -119,21 +119,63 @@ export default function CommunityManagerPage() {
             </span>
           </div>
         </div>
-        {/* Inline Segment Stats */}
-        <div className="flex flex-wrap items-center gap-4 pb-4 border-b border-border mb-4">
-          <div className="flex items-center gap-2 text-sm">
-            <span className="font-medium">{segmentStats.total}</span>
-            <span className="text-muted-foreground">Total</span>
+        {/* Inline Segment Stats with Engagement Preview */}
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-border mb-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-2 text-sm">
+              <span className="font-medium">{segmentStats.total}</span>
+              <span className="text-muted-foreground">Total</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm">
+              <span className="font-medium">{segmentStats.shared}</span>
+              <span className="text-muted-foreground">Shared</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm">
+              <span className="font-medium">{segmentStats.categories}</span>
+              <span className="text-muted-foreground">Categories</span>
+            </div>
           </div>
-          <div className="flex items-center gap-2 text-sm">
-            <span className="font-medium">{segmentStats.shared}</span>
-            <span className="text-muted-foreground">Shared</span>
-          </div>
-          <div className="flex items-center gap-2 text-sm">
-            <span className="font-medium">{segmentStats.categories}</span>
-            <span className="text-muted-foreground">Categories</span>
-          </div>
+          {/* Engagement Preview - Mini Sparkline */}
+          {segmentStats.total > 0 && (
+            <div className="flex items-center gap-3 text-xs">
+              <span className="text-muted-foreground">Share rate:</span>
+              <div className="flex items-center gap-1">
+                <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-status-success rounded-full transition-all"
+                    style={{ width: `${Math.round((segmentStats.shared / segmentStats.total) * 100)}%` }}
+                  />
+                </div>
+                <span className="text-muted-foreground tabular-nums">{Math.round((segmentStats.shared / segmentStats.total) * 100)}%</span>
+              </div>
+            </div>
+          )}
         </div>
+        {/* Category Distribution Preview */}
+        {segmentStats.total > 0 && segmentStats.categories > 1 && (
+          <div className="mb-4 pb-4 border-b border-border">
+            <span className="text-xs text-muted-foreground mb-2 block">Category Distribution</span>
+            <div className="flex flex-wrap gap-2">
+              {(() => {
+                const categoryCounts: Record<string, number> = {};
+                segments.forEach((s) => {
+                  if (s.segmentCategory) {
+                    categoryCounts[s.segmentCategory] = (categoryCounts[s.segmentCategory] || 0) + 1;
+                  }
+                });
+                const maxCount = Math.max(...Object.values(categoryCounts), 1);
+                return Object.entries(categoryCounts).map(([category, count]) => (
+                  <div key={category} className="flex items-center gap-1.5">
+                    <div className="w-12 h-1.5 bg-muted rounded-full overflow-hidden">
+                      <div className="h-full bg-status-info rounded-full" style={{ width: `${Math.round((count / maxCount) * 100)}%` }} />
+                    </div>
+                    <span className="text-[10px] text-muted-foreground">{category}</span>
+                  </div>
+                ));
+              })()}
+            </div>
+          </div>
+        )}
         <SegmentsTable
           station={activeStation ?? null}
           onEditSegment={handleEditSegment}
