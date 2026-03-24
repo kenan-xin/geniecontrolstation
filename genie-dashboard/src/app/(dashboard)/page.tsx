@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   StatusCards,
@@ -11,8 +11,14 @@ import {
   ProcessMetrics,
   QuickActions
 } from '@/components/dashboard';
+import { useApplications } from '@/hooks/use-applications';
 
 export default function HomePage() {
+  const { data: applications = [] } = useApplications();
+
+  const pendingApproval = applications.filter((a) => a.currentStatus === 'Pending Approval').length;
+  const needsAttention = pendingApproval > 0;
+
   const greeting = (() => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Good morning';
@@ -30,7 +36,7 @@ export default function HomePage() {
   return (
     <div className="space-y-6">
       {/* Personalized Header with Greeting */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">{greeting}</h1>
           <p className="text-sm text-muted-foreground mt-0.5">{today}</p>
@@ -44,21 +50,43 @@ export default function HomePage() {
         </Link>
       </div>
 
-      {/* Status Cards Row */}
+      {/* Attention Summary Banner */}
+      {needsAttention && (
+        <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800">
+          <AlertTriangle className="size-5 text-amber-600 dark:text-amber-500 shrink-0" />
+          <div className="flex-1 min-w-0">
+            <span className="font-medium text-amber-900 dark:text-amber-100">
+              {pendingApproval} application{pendingApproval !== 1 ? 's' : ''} pending approval
+            </span>
+            <span className="text-amber-700 dark:text-amber-300 ml-2">Review and take action</span>
+          </div>
+          <Link href="/applications?status=Pending%20Approval">
+            <Button
+              size="sm"
+              variant="outline"
+              className="border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50"
+            >
+              Review
+            </Button>
+          </Link>
+        </div>
+      )}
+
+      {/* Horizontal Metrics Bar */}
       <StatusCards />
 
-      {/* Main Content Grid */}
+      {/* Main Content Grid - Asymmetric Layout */}
       <div className="grid gap-6 lg:grid-cols-12">
-        {/* Left Column - 8 cols */}
+        {/* Left Column - Wider for primary content */}
         <div className="lg:col-span-8 space-y-6">
           <ApplicationTrendsChart />
           <RecentApplicationsTable />
         </div>
 
-        {/* Right Column - 4 cols */}
+        {/* Right Column - Narrower for secondary info */}
         <div className="lg:col-span-4 space-y-6">
-          <MonthlyStatisticsChart />
           <ProcessMetrics />
+          <MonthlyStatisticsChart />
           <QuickActions />
         </div>
       </div>

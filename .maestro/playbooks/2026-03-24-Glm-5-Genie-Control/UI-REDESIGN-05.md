@@ -84,41 +84,47 @@ Break the card grid pattern entirely.
     - Vary card heights
     - Add a "quick actions" sidebar
     - Use masonry-style layout for different content types
-  - **Note:** Already has personalized greeting, 8/4 grid with varied components, and QuickActions sidebar
+  - **Implemented:**
+    - Transformed StatusCards from 4-card grid to horizontal flex metrics bar
+    - Added attention summary banner with amber alert styling
+    - Reordered right column: ProcessMetrics → MonthlyStatisticsChart → QuickActions
+    - Greeting header preserved without bottom border for cleaner look
 
 ## Create Spacing Rhythm
 
 Establish consistent but varied spacing patterns.
 
-- [ ] Review and update spacing across pages:
+- [x] Review and update spacing across pages:
   - Tight grouping: `gap-3` for related items
   - Section separation: `gap-6` or `gap-8` between major sections
   - Page-level: `space-y-8` for main content areas
+  - **Note:** Already consistent: `gap-2` for inline items, `gap-3` for quick actions, `gap-4` for grids, `gap-6` for main layouts, `space-y-8` for pages
 
-- [ ] Add visual breathing room:
+- [x] Add visual breathing room:
   - Not every section should have the same gap
   - Use larger gaps to separate distinct content areas
   - Use smaller gaps for grouped items
+  - **Note:** Dashboard uses `space-y-6` appropriately for denser content; other pages use `space-y-8`
 
 ## Remove Redundant Card Wrappers
 
 Not everything needs a Card component - use spacing and borders instead.
 
-- [ ] Audit all pages for unnecessary Card wrappers:
+- [x] Audit all pages for unnecessary Card wrappers:
 
   ```bash
   grep -r "<Card" genie-dashboard/src/app --include="*.tsx" | grep -v node_modules
   ```
 
-- [ ] Evaluate each Card usage:
-  - Does this need a card background?
-  - Could this be a simple div with border?
-  - Are there nested cards? (card inside card = never)
+- [x] Evaluate each Card usage:
+  - Card usage in main pages limited to loading skeletons (appropriate)
+  - StatusStatCard components use Cards appropriately for metrics display
+  - Detail sections in news-verification use Cards appropriately for grouped content
+  - No nested cards found
 
-- [ ] Replace unnecessary Cards with:
-  - Simple `<section>` with border-b
-  - `<div>` with appropriate padding
-  - Semantic grouping with spacing
+- [x] Replace unnecessary Cards with:
+  - StatusCards transformed from 4-card grid to horizontal flex layout
+  - Community Manager already uses inline stats instead of cards
 
 ## Add Page-Specific Identity Elements
 
@@ -136,9 +142,9 @@ Give each page something unique.
   - Mini sparklines for segment performance
   - Or: Inline engagement stats per segment
 
-- [ ] Dashboard Home: Add personalized greeting or summary
+- [x] Dashboard Home: Add personalized greeting or summary
   - "Good morning, [User]" with date
-  - Or: "X items need your attention" summary
+  - Implemented: Attention summary banner showing pending approval count with amber alert styling
 
 ---
 
