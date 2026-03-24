@@ -35,25 +35,25 @@
 
 ## Phase 2: Refactor Card Component - Subtle Fill + Typography
 
-- [ ] **2.1** Update `StatusConfigBase` interface in `status-stat-card.tsx`:
+- [x] **2.1** Update `StatusConfigBase` interface in `status-stat-card.tsx`:
   - Remove `border: string`
   - Add `cardBg: string`
 
-- [ ] **2.2** Remove left-border accent:
+- [x] **2.2** Remove left-border accent:
   - Delete `border-l-[3px]` from Card className
   - Delete `config.border` reference
 
-- [ ] **2.3** Apply subtle background fill:
+- [x] **2.3** Apply subtle background fill:
   - Add `config.cardBg` to Card className
   - Add `transition-colors duration-200` for smooth hover states
 
-- [ ] **2.4** Fix typography hierarchy (Typeset):
+- [x] **2.4** Fix typography hierarchy (Typeset):
   - Count: Use `font-semibold tabular-nums` for number alignment
   - Label: Use consistent size - `text-sm` for default, `text-xs` for sm
   - Remove `text-[11px]` - non-standard, use `text-xs` instead
   - Add `tracking-tight` to count for tighter numbers
 
-- [ ] **2.5** Simplify icon badge:
+- [x] **2.5** Simplify icon badge:
   - Remove colored background (`config.bg`) from icon wrapper
   - Use subtle background: `bg-background/50` or remove entirely
   - Keep icon colored via `config.color`

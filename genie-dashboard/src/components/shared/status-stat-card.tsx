@@ -8,9 +8,8 @@ interface StatusConfigBase {
   label: string;
   icon: React.ComponentType<{ className?: string }>;
   color: string;
-  bg: string;
-  border?: string;
-  cardBg?: string;
+  bg?: string;
+  cardBg: string;
 }
 
 interface StatusStatCardProps<T extends StatusConfigBase> {
@@ -26,14 +25,28 @@ export function StatusStatCard<T extends StatusConfigBase>({ config, count, size
   return (
     <Card
       size={isSm ? 'sm' : undefined}
-      className={cn('relative overflow-hidden border-l-[3px] transition-shadow duration-200 hover:shadow-md', config.border)}
+      className={cn(
+        'relative overflow-hidden transition-colors duration-200 hover:bg-accent/50',
+        config.cardBg
+      )}
     >
       <CardContent className="relative flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <p className={cn('font-semibold tracking-tight leading-none', isSm ? 'text-xl' : 'text-2xl', config.color)}>{count}</p>
-          <p className={cn('mt-1 text-muted-foreground truncate', isSm ? 'text-[11px]' : 'text-xs')}>{config.label}</p>
+          <p className={cn(
+            'font-semibold tabular-nums tracking-tight leading-none',
+            isSm ? 'text-xl' : 'text-2xl',
+            config.color
+          )}>
+            {count}
+          </p>
+          <p className={cn(
+            'mt-1 text-muted-foreground truncate',
+            isSm ? 'text-xs' : 'text-sm'
+          )}>
+            {config.label}
+          </p>
         </div>
-        <div className={cn('shrink-0 rounded-lg', isSm ? 'p-1.5' : 'p-2', config.bg)}>
+        <div className={cn('shrink-0 rounded-lg bg-background/50', isSm ? 'p-1.5' : 'p-2')}>
           <Icon className={cn(isSm ? 'size-3.5' : 'size-4', config.color)} />
         </div>
       </CardContent>
