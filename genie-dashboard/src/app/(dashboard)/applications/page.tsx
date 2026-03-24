@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useApplications } from '@/hooks/use-applications';
 import { exportToCSV, generateExportFilename, type ExportColumn } from '@/lib/export-utils';
+import { getProgressColor } from '@/lib/status-colors';
 import {
   PageHeader,
   CardGridSkeleton,
@@ -60,13 +61,6 @@ export default function ApplicationsPage() {
     if (!visibleApplications.length) return;
     const filename = generateExportFilename('applications');
     exportToCSV(visibleApplications, filename, exportColumns);
-  };
-
-  // Progress bar color helper
-  const getProgressColor = (progress: number) => {
-    if (progress >= 100) return 'bg-emerald-500';
-    if (progress >= 50) return 'bg-blue-500';
-    return 'bg-amber-500';
   };
 
   // Define table columns

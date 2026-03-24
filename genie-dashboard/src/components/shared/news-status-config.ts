@@ -14,30 +14,30 @@ export const newsStatusConfig: Record<NewsStatus, StatusConfig> = {
   Unverified: {
     label: 'Unverified',
     icon: AlertTriangle,
-    color: 'text-red-600',
-    bg: 'bg-red-500/10',
-    border: 'border-l-red-600'
+    color: 'text-status-error',
+    bg: 'bg-status-error-muted',
+    border: 'border-l-status-error'
   },
   Approval: {
     label: 'Pending Approval',
     icon: Clock,
-    color: 'text-amber-600',
-    bg: 'bg-amber-500/10',
-    border: 'border-l-amber-600'
+    color: 'text-status-warning',
+    bg: 'bg-status-warning-muted',
+    border: 'border-l-status-warning'
   },
   Schedule: {
     label: 'Scheduled',
     icon: CalendarCheck,
-    color: 'text-blue-600',
-    bg: 'bg-blue-500/10',
-    border: 'border-l-blue-600'
+    color: 'text-status-info',
+    bg: 'bg-status-info-muted',
+    border: 'border-l-status-info'
   },
   Published: {
     label: 'Published',
     icon: CheckCircle2,
-    color: 'text-emerald-600',
-    bg: 'bg-emerald-500/10',
-    border: 'border-l-emerald-600'
+    color: 'text-status-success',
+    bg: 'bg-status-success-muted',
+    border: 'border-l-status-success'
   }
 } as const;
 

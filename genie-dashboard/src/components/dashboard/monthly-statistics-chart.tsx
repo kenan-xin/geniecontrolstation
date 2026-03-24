@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import type { ApexOptions } from 'apexcharts';
 import { useApplications } from '@/hooks/use-applications';
+import { getChartColors, getChartTheme } from '@/lib/chart-theme';
 
 // Dynamic import to avoid SSR issues with ApexCharts
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
@@ -48,6 +49,9 @@ export function MonthlyStatisticsChart() {
     };
   }, [applications]);
 
+  const chartColors = getChartColors();
+  const chartTheme = getChartTheme();
+
   const options: ApexOptions = {
     chart: {
       type: 'bar',
@@ -67,7 +71,7 @@ export function MonthlyStatisticsChart() {
         columnWidth: '60%'
       }
     },
-    colors: ['var(--chart-1)'],
+    colors: [chartColors.primary],
     dataLabels: {
       enabled: false
     },
@@ -75,7 +79,7 @@ export function MonthlyStatisticsChart() {
       categories: chartData.categories,
       labels: {
         style: {
-          colors: '#64748b', // slate-500
+          colors: chartColors.muted,
           fontSize: '11px'
         }
       },
@@ -89,14 +93,14 @@ export function MonthlyStatisticsChart() {
     yaxis: {
       labels: {
         style: {
-          colors: '#64748b', // slate-500
+          colors: chartColors.muted,
           fontSize: '11px'
         },
         formatter: (val) => Math.round(val).toString()
       }
     },
     grid: {
-      borderColor: '#e2e8f0', // slate-200
+      borderColor: chartColors.border,
       strokeDashArray: 4,
       padding: {
         left: 10,
@@ -104,7 +108,7 @@ export function MonthlyStatisticsChart() {
       }
     },
     tooltip: {
-      theme: 'light',
+      theme: chartTheme,
       style: {
         fontSize: '12px'
       },

@@ -14,30 +14,30 @@ export const applicationStatusConfig: Record<ApplicationStatus, AppStatusConfig>
   'Document Assessment': {
     label: 'Document Assessment',
     icon: FileText,
-    color: 'text-slate-600',
-    bg: 'bg-slate-500/10',
-    border: 'border-l-slate-600'
+    color: 'text-status-neutral',
+    bg: 'bg-status-neutral-muted',
+    border: 'border-l-status-neutral'
   },
   'Candidate Screening': {
     label: 'Candidate Screening',
     icon: UserSearch,
-    color: 'text-blue-600',
-    bg: 'bg-blue-500/10',
-    border: 'border-l-blue-600'
+    color: 'text-status-info',
+    bg: 'bg-status-info-muted',
+    border: 'border-l-status-info'
   },
   'Pending Approval': {
     label: 'Pending Approval',
     icon: Clock,
-    color: 'text-amber-600',
-    bg: 'bg-amber-500/10',
-    border: 'border-l-amber-600'
+    color: 'text-status-warning',
+    bg: 'bg-status-warning-muted',
+    border: 'border-l-status-warning'
   },
   Approved: {
     label: 'Approved',
     icon: CheckCircle2,
-    color: 'text-emerald-600',
-    bg: 'bg-emerald-500/10',
-    border: 'border-l-emerald-600'
+    color: 'text-status-success',
+    bg: 'bg-status-success-muted',
+    border: 'border-l-status-success'
   }
 } as const;
 

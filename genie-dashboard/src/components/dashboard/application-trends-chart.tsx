@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import type { ApexOptions } from 'apexcharts';
 import { useApplications } from '@/hooks/use-applications';
+import { getChartColors, getChartTheme } from '@/lib/chart-theme';
 
 // Dynamic import to avoid SSR issues with ApexCharts
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
@@ -51,6 +52,9 @@ export function ApplicationTrendsChart() {
     };
   }, [applications]);
 
+  const chartColors = getChartColors();
+  const chartTheme = getChartTheme();
+
   const options: ApexOptions = {
     chart: {
       type: 'area',
@@ -80,7 +84,7 @@ export function ApplicationTrendsChart() {
         stops: [0, 90, 100]
       }
     },
-    colors: ['var(--chart-1)'],
+    colors: [chartColors.primary],
     dataLabels: {
       enabled: false
     },
@@ -88,7 +92,7 @@ export function ApplicationTrendsChart() {
       categories: chartData.categories,
       labels: {
         style: {
-          colors: '#64748b', // slate-500
+          colors: chartColors.muted,
           fontSize: '12px'
         }
       },
@@ -102,14 +106,14 @@ export function ApplicationTrendsChart() {
     yaxis: {
       labels: {
         style: {
-          colors: '#64748b', // slate-500
+          colors: chartColors.muted,
           fontSize: '12px'
         },
         formatter: (val) => Math.round(val).toString()
       }
     },
     grid: {
-      borderColor: '#e2e8f0', // slate-200
+      borderColor: chartColors.border,
       strokeDashArray: 4,
       padding: {
         left: 10,
@@ -117,7 +121,7 @@ export function ApplicationTrendsChart() {
       }
     },
     tooltip: {
-      theme: 'light',
+      theme: chartTheme,
       style: {
         fontSize: '12px'
       },
@@ -127,7 +131,7 @@ export function ApplicationTrendsChart() {
     },
     markers: {
       size: 4,
-      colors: ['var(--chart-1)'],
+      colors: [chartColors.primary],
       strokeColors: '#fff',
       strokeWidth: 2,
       hover: {
