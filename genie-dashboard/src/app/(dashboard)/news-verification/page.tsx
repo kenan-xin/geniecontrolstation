@@ -224,7 +224,7 @@ export default function NewsVerificationPage() {
           {/* Status Summary Cards */}
           <section className="grid gap-4 grid-cols-2 lg:grid-cols-4">
             {newsStatusOrder.map((status) => (
-              <StatusStatCard key={status} config={newsStatusConfig[status]} count={statusCounts[status]} showGradient />
+              <StatusStatCard key={status} config={newsStatusConfig[status]} count={statusCounts[status]} />
             ))}
           </section>
 

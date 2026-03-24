@@ -20,7 +20,7 @@ Replace gradient icon backgrounds with subtle, brand-aligned treatment.
 
 Remove gradient overlays and simplify the hero metric template.
 
-- [ ] Edit `genie-dashboard/src/components/shared/status-stat-card.tsx`
+- [x] Edit `genie-dashboard/src/components/shared/status-stat-card.tsx`
   - Remove `showGradient` prop and all gradient rendering logic (lines 20-21, 27-28, 38, 41-48)
   - Keep the card but remove visual noise
   - Card should use solid background only

@@ -233,7 +233,7 @@ export default function ApplicationsPage() {
           {/* Status Summary Cards */}
           <section className="grid gap-4 grid-cols-2 lg:grid-cols-4">
             {applicationStatusOrder.map((status) => (
-              <StatusStatCard key={status} config={applicationStatusConfig[status]} count={statusCounts[status]} showGradient />
+              <StatusStatCard key={status} config={applicationStatusConfig[status]} count={statusCounts[status]} />
             ))}
           </section>
 
