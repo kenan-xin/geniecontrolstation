@@ -50,7 +50,7 @@ export function StatusStatCard<T extends StatusConfigBase>({ config, count, size
         role="status"
         aria-label={ariaLabel}
         className={cn(
-          'relative overflow-hidden transition-colors duration-200 hover:bg-accent/50',
+          'relative overflow-hidden transition-colors duration-200 hover:bg-accent/30',
           config.cardBg
         )}
       >
@@ -67,7 +67,7 @@ export function StatusStatCard<T extends StatusConfigBase>({ config, count, size
               <TooltipTrigger
                 className={cn(
                   'mt-1 text-muted-foreground truncate cursor-default text-left',
-                  isSm ? 'text-xs' : 'text-sm'
+                  'text-xs'
                 )}
               >
                 {config.label}
