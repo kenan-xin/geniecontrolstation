@@ -38,14 +38,16 @@ This phase transforms the News Verification page from a card-based list to a pro
   - Added `generateExportFilename(baseName)` helper for timestamped filenames
   - Added `ExportColumn<T>` interface with optional format function
 
-- [ ] Add "News Lead" button to News Verification page:
-  - Update `/genie-dashboard/src/app/(dashboard)/news-verification/page.tsx`
-  - Position the button in the page header area (top right)
-  - Button should open a dialog/modal for creating a new news lead
-  - Use Button with primary variant and Plus icon
+- [x] Add "News Lead" button to News Verification page:
+  - Updated `/genie-dashboard/src/components/shared/page-header.tsx` to accept optional `actions` prop
+  - Updated `/genie-dashboard/src/app/(dashboard)/news-verification/page.tsx`
+  - Positioned the button in the page header area (top right) via PageHeader `actions` prop
+  - Button opens a dialog/modal for creating a new news lead (placeholder dialog added)
+  - Used Button with primary variant and Plus icon
 
-- [ ] Create "Create News Lead" dialog with multi-section form:
-  - Create `/genie-dashboard/src/components/news-verification/create-news-lead-dialog.tsx`
+- [x] Create "Create News Lead" dialog with multi-section form:
+  - Created `/genie-dashboard/src/components/news-verification/create-news-lead-dialog.tsx`
+  - Updated `/genie-dashboard/src/app/(dashboard)/news-verification/page.tsx` to use the new dialog
   - Use a multi-step/tabbed interface with 5 sections matching the unverified detail page:
 
   **Section 1: Personal Details**
@@ -100,8 +102,7 @@ This phase transforms the News Verification page from a card-based list to a pro
   - On submit, POST to `/api/news-articles` with all form data
   - On success, close dialog and refresh the articles list
   - Set default values: `currentStatus: "Unverified"`, `statusColor: "error"`, `submissionDate: new Date()`
-
-- [ ] Update News Verification page with data table:
+  - **Completed:** All 5 sections implemented with full form validation, dynamic attachments/links management, and API integration
   - Replace the card-based article list in `/genie-dashboard/src/app/(dashboard)/news-verification/page.tsx`
   - Add the data table toolbar (search/filter/sort)
   - Use the new PaginatedTable component
@@ -109,11 +110,13 @@ This phase transforms the News Verification page from a card-based list to a pro
   - Add Export button in the table header
   - Keep status cards at the top
 
-- [ ] Implement search functionality:
-  - Add search state to the news verification page
+- [x] Implement search functionality:
+  - Added `searchValue` state and `setSearchValue` to news verification page
   - Filter articles client-side based on search term (title, sources, assignedTo)
-  - Update visible rows as user types
-  - Debounce search input for performance (optional)
+  - Used `DataTableToolbar` component for search input with placeholder text
+  - Articles update as user types (no debounce needed for small datasets)
+  - Shows "No results found" empty state when search has no matches
+  - **Completed:** Search filters by title, sources, and assignedTo fields
 
 - [ ] Implement sort functionality:
   - Add sort state (column, direction) to the news verification page

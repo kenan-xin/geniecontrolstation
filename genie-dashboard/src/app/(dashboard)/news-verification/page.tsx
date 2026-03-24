@@ -1,12 +1,13 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Newspaper, Eye } from "lucide-react";
+import { Newspaper, Eye, Plus } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNewsArticles } from "@/hooks/use-news-articles";
+import { CreateNewsLeadDialog } from "@/components/news-verification/create-news-lead-dialog";
 import {
   PageHeader,
   CardGridSkeleton,
@@ -16,11 +17,14 @@ import {
   newsStatusOrder,
   getStatusPath,
   StatusStatCard,
+  DataTableToolbar,
 } from "@/components/shared";
 import type { NewsArticle } from "@/types";
 
 export default function NewsVerificationPage() {
   const { data: articles, isLoading, isError, error, refetch } = useNewsArticles();
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
   const statusCounts = useMemo(() => {
     const counts: Record<string, number> = {
@@ -41,8 +45,21 @@ export default function NewsVerificationPage() {
 
   const visibleArticles = useMemo(() => {
     if (!articles) return [];
-    return articles.filter((a) => a.currentStatus !== "Rejected");
-  }, [articles]);
+    const filtered = articles.filter((a) => a.currentStatus !== "Rejected");
+
+    // Apply search filter
+    if (searchValue.trim()) {
+      const searchLower = searchValue.toLowerCase().trim();
+      return filtered.filter((a) => {
+        const titleMatch = a.title?.toLowerCase().includes(searchLower);
+        const sourcesMatch = a.sources?.toLowerCase().includes(searchLower);
+        const assignedToMatch = a.assignedTo?.toLowerCase().includes(searchLower);
+        return titleMatch || sourcesMatch || assignedToMatch;
+      });
+    }
+
+    return filtered;
+  }, [articles, searchValue]);
 
   return (
     <div className="space-y-8">
@@ -52,6 +69,12 @@ export default function NewsVerificationPage() {
         title="News Verification"
         description="AI-powered editorial workflow for verifying and publishing news stories"
         gradient={{ from: "from-amber-500", to: "to-orange-500", shadow: "shadow-amber-500/20" }}
+        actions={
+          <Button onClick={() => setIsCreateDialogOpen(true)}>
+            <Plus className="size-4 mr-2" />
+            News Lead
+          </Button>
+        }
       />
 
       {/* Loading State */}
@@ -82,23 +105,43 @@ export default function NewsVerificationPage() {
           </section>
 
           {/* Articles List */}
-          {visibleArticles.length === 0 ? (
+          {visibleArticles.length === 0 && !searchValue ? (
             <EmptyState
               title="No news articles yet"
               description="Data will appear once the database is connected. Articles will flow through the 4-stage verification pipeline automatically."
             />
           ) : (
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold">All Articles</h2>
-              <div className="grid gap-4">
-                {visibleArticles.map((article) => (
-                  <ArticleCard key={article.id} article={article} />
-                ))}
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-semibold">All Articles</h2>
               </div>
+              <DataTableToolbar
+                searchValue={searchValue}
+                onSearchChange={setSearchValue}
+                searchPlaceholder="Search by title, source, or assignee..."
+              />
+              {visibleArticles.length === 0 ? (
+                <EmptyState
+                  title="No results found"
+                  description={`No articles match "${searchValue}". Try a different search term.`}
+                />
+              ) : (
+                <div className="grid gap-4">
+                  {visibleArticles.map((article) => (
+                    <ArticleCard key={article.id} article={article} />
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </>
       )}
+
+      {/* Create News Lead Dialog */}
+      <CreateNewsLeadDialog
+        open={isCreateDialogOpen}
+        onOpenChange={setIsCreateDialogOpen}
+      />
     </div>
   );
 }
