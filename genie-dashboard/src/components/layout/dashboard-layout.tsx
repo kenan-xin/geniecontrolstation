@@ -33,8 +33,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       {/* Main content area */}
       <div className="flex flex-1 flex-col min-w-0">
         <Header />
-        <ScrollArea className="flex-1">
-          <main className="p-4 lg:p-6">{children}</main>
+        <ScrollArea className="min-h-0 flex-1">
+          <main className="p-4 lg:p-6">
+            {children}
+          </main>
         </ScrollArea>
       </div>
     </div>

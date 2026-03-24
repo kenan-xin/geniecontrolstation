@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Menu, Search, Bell } from "lucide-react";
@@ -22,7 +23,7 @@ function PathBreadcrumbs() {
   if (pathname === "/") {
     return (
       <Breadcrumb>
-        <BreadcrumbList>
+        <BreadcrumbList className="flex-nowrap">
           <BreadcrumbItem>
             <BreadcrumbPage>Dashboard</BreadcrumbPage>
           </BreadcrumbItem>
@@ -35,7 +36,7 @@ function PathBreadcrumbs() {
 
   return (
     <Breadcrumb>
-      <BreadcrumbList>
+      <BreadcrumbList className="flex-nowrap">
         <BreadcrumbItem>
           <BreadcrumbLink render={<Link href="/" />}>
             Dashboard
@@ -49,7 +50,7 @@ function PathBreadcrumbs() {
             .replace(/\b\w/g, (c) => c.toUpperCase());
 
           return (
-            <span key={href} className="contents">
+            <Fragment key={href}>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 {isLast ? (
@@ -60,7 +61,7 @@ function PathBreadcrumbs() {
                   </BreadcrumbLink>
                 )}
               </BreadcrumbItem>
-            </span>
+            </Fragment>
           );
         })}
       </BreadcrumbList>
@@ -72,7 +73,7 @@ export function Header() {
   const { setMobileOpen } = useSidebarStore();
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b border-border bg-background/80 backdrop-blur-md px-4 lg:px-6">
+    <header className="sticky top-0 z-30 flex h-14 min-w-0 shrink-0 items-center gap-4 border-b border-border bg-background/80 backdrop-blur-md px-4 lg:px-6">
       {/* Mobile menu button */}
       <Button
         variant="ghost"
@@ -84,7 +85,7 @@ export function Header() {
       </Button>
 
       {/* Breadcrumbs */}
-      <div className="flex-1 min-w-0">
+      <div className="min-h-0 min-w-0 flex-1 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <PathBreadcrumbs />
       </div>
 
