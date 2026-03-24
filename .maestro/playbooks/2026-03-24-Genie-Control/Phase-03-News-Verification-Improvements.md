@@ -28,12 +28,15 @@ This phase transforms the News Verification page from a card-based list to a pro
   - Includes prev/next buttons with proper disabled states
   - Includes rows per page dropdown (Select component)
 
-- [ ] Create CSV export utility:
-  - Create `/genie-dashboard/src/lib/export-utils.ts`
+- [x] Create CSV export utility:
+  - Created `/genie-dashboard/src/lib/export-utils.ts`
   - Export `exportToCSV(data, filename, columns)` function
   - Convert array of objects to CSV format
-  - Handle special characters (quote fields containing commas)
+  - Handle special characters (quote fields containing commas, quotes, newlines)
   - Trigger browser download
+  - Added BOM for Excel UTF-8 compatibility
+  - Added `generateExportFilename(baseName)` helper for timestamped filenames
+  - Added `ExportColumn<T>` interface with optional format function
 
 - [ ] Add "News Lead" button to News Verification page:
   - Update `/genie-dashboard/src/app/(dashboard)/news-verification/page.tsx`
