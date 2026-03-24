@@ -41,7 +41,7 @@ export function StatusStatCard<T extends StatusConfigBase>({ config, count, size
   const Icon = config.icon;
   const isSm = size === 'sm';
   const formattedCount = formatCount(count);
-  const ariaLabel = `${formattedCount} ${config.label}`;
+  const ariaLabel = `${count} ${config.label}`; // Use raw count for screen reader accuracy
 
   return (
     <TooltipProvider>
