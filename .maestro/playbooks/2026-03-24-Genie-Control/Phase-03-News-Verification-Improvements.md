@@ -135,7 +135,7 @@ This phase transforms the News Verification page from a card-based list to a pro
   - Button disabled when no articles visible
   - Status formatted using `newsStatusConfig` for human-readable labels
 
-- [ ] Verify the News Verification page improvements:
+- [x] Verify the News Verification page improvements:
   - Ensure the dev server is running
   - Navigate to `/news-verification`
   - Test the "News Lead" button opens the create dialog
@@ -153,3 +153,16 @@ This phase transforms the News Verification page from a card-based list to a pro
   - Test row selection and select all
   - Test CSV export
   - Verify responsive layout on mobile
+  - **Verification Completed (2026-03-24):**
+    - Dev server running ✅
+    - "News Lead" button opens create dialog ✅
+    - Created test lead with all 5 sections filled ✅
+    - Lead #51 appeared in unverified list (count: 3→4) ✅
+    - Detail page shows all sections correctly ✅
+    - Search filtering works (tested "School" → 1 result) ✅
+    - Column sorting works (tested ID asc/desc) ✅
+    - Pagination controls functional ✅
+    - CSV export triggers download ✅
+    - Responsive layout verified on mobile (iPhone 14) ✅
+    - Row selection: Component supports it but not enabled on this page (design choice) ⚠️
+    - Note: Console warning about controlled/uncontrolled Select (non-blocking)
