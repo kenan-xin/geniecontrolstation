@@ -12,21 +12,21 @@ This phase transforms the News Verification page from a card-based list to a pro
   - Made the search input controlled
   - Responsive: stack on mobile (flex-col), inline on desktop (flex-row)
 
-- [ ] Create a reusable paginated data table component:
-  - Create `/genie-dashboard/src/components/shared/paginated-table.tsx`
+- [x] Create a reusable paginated data table component:
+  - Created `/genie-dashboard/src/components/shared/paginated-table.tsx`
   - Props: columns, data, pageSize options (5, 10, 25), onRowClick, selectable, onSelectionChange, actions
-  - Use existing Table components from shadcn/ui
-  - Include checkbox column for row selection (select all in header)
-  - Include pagination controls at bottom (rows per page, page navigation)
-  - Handle empty state gracefully
-  - Export from `/genie-dashboard/src/components/shared/index.ts`
+  - Uses existing Table components from shadcn/ui
+  - Includes checkbox column for row selection (select all in header with indeterminate state)
+  - Includes pagination controls at bottom (rows per page, page navigation)
+  - Handles empty state gracefully with EmptyState component
+  - Exported from `/genie-dashboard/src/components/shared/index.ts`
 
-- [ ] Create table pagination component:
-  - Create `/genie-dashboard/src/components/shared/table-pagination.tsx`
+- [x] Create table pagination component:
+  - Created `/genie-dashboard/src/components/shared/table-pagination.tsx`
   - Props: page, pageSize, total, onPageChange, onPageSizeChange, pageSizeOptions
-  - Show: "Showing X-Y of Z results"
-  - Include prev/next buttons with proper disabled states
-  - Include rows per page dropdown
+  - Shows: "Showing X-Y of Z results"
+  - Includes prev/next buttons with proper disabled states
+  - Includes rows per page dropdown (Select component)
 
 - [ ] Create CSV export utility:
   - Create `/genie-dashboard/src/lib/export-utils.ts`

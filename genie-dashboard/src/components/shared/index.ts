@@ -8,3 +8,5 @@ export * from "./application-status-config";
 export * from "./status-stat-card";
 export * from "./status-badge";
 export * from "./data-table-toolbar";
+export * from "./table-pagination";
+export * from "./paginated-table";
