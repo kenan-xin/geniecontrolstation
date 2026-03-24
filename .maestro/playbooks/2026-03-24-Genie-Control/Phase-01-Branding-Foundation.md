@@ -10,7 +10,7 @@ This phase establishes the "Genie Ops" brand identity and creates the data found
   - Update the home page hero title in `/genie-dashboard/src/app/(dashboard)/page.tsx` from "Genie Control Station" to "Genie Ops"
   - Update header avatar fallback initials from "GC" to "GO" in `/genie-dashboard/src/components/layout/header.tsx`
 
-- [ ] Tone down the color palette for corporate feel:
+- [x] Tone down the color palette for corporate feel:
   - Review `newsStatusConfig` in `/genie-dashboard/src/components/shared/news-status-config.ts`
   - Reduce color intensity: replace vibrant colors with muted corporate equivalents:
     - Unverified: `text-red-500` → `text-red-600`, reduce gradient opacity from `/8` to `/5`

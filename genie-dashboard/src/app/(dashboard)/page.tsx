@@ -69,8 +69,8 @@ export default function HomePage() {
         </div>
 
         {/* Decorative gradient orbs */}
-        <div className="absolute -right-20 -top-20 size-72 rounded-full bg-brand/8 blur-[80px] pointer-events-none" />
-        <div className="absolute right-1/3 -bottom-32 size-64 rounded-full bg-blue-500/6 blur-[60px] pointer-events-none" />
+        <div className="absolute -right-20 -top-20 size-72 rounded-full bg-brand/5 blur-[80px] pointer-events-none" />
+        <div className="absolute right-1/3 -bottom-32 size-64 rounded-full bg-blue-500/4 blur-[60px] pointer-events-none" />
       </section>
 
       {/* Feature Cards */}
