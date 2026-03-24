@@ -27,9 +27,9 @@
   - Update all status configs (Document Assessment, Candidate Screening, Pending Approval, Approved)
   - Remove `border: 'border-l-status-*'` entries
 
-- [ ] **1.3** Update inline configs in `status-cards.tsx`:
+- [x] **1.3** Update inline configs in `status-cards.tsx`:
   - `totalConfig`: Replace `border: 'border-l-brand'` with `cardBg: 'bg-muted/50'`
-  - `pendingApprovalConfig`: Replace `border` with `cardBg`
+  - `pendingApprovalConfig`: Replace `border` with `cardBg: 'bg-amber-500/10 dark:bg-amber-500/5'`
 
 ---
 

@@ -10,7 +10,7 @@ const totalConfig = {
   icon: Layers,
   color: 'text-foreground',
   bg: 'bg-muted',
-  border: 'border-l-brand'
+  cardBg: 'bg-muted/50'
 };
 
 const pendingApprovalConfig = {
@@ -18,7 +18,7 @@ const pendingApprovalConfig = {
   icon: AlertCircle,
   color: 'text-amber-600 dark:text-amber-500',
   bg: 'bg-amber-50 dark:bg-amber-950',
-  border: 'border-l-amber-500'
+  cardBg: 'bg-amber-500/10 dark:bg-amber-500/5'
 };
 
 export function StatusCards() {
