@@ -1,22 +1,15 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
-import { TablePagination } from "./table-pagination";
-import { EmptyState } from "./empty-state";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
+import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Button } from '@/components/ui/button';
+import { TablePagination } from './table-pagination';
+import { EmptyState } from './empty-state';
+import { cn } from '@/lib/utils';
 
-export type SortDirection = "asc" | "desc";
+export type SortDirection = 'asc' | 'desc';
 
 export interface SortState {
   column: string;
@@ -57,11 +50,11 @@ export function PaginatedTable<T extends { id: string | number }>({
   selectable = false,
   onSelectionChange,
   actions,
-  emptyMessage = "No data found",
-  emptyDescription = "There are no items to display.",
+  emptyMessage = 'No data found',
+  emptyDescription = 'There are no items to display.',
   className,
   sort,
-  onSortChange,
+  onSortChange
 }: PaginatedTableProps<T>) {
   const [page, setPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(initialPageSize);
@@ -80,19 +73,19 @@ export function PaginatedTable<T extends { id: string | number }>({
 
       // Handle null/undefined
       if (aVal == null && bVal == null) return 0;
-      if (aVal == null) return sort.direction === "asc" ? 1 : -1;
-      if (bVal == null) return sort.direction === "asc" ? -1 : 1;
+      if (aVal == null) return sort.direction === 'asc' ? 1 : -1;
+      if (bVal == null) return sort.direction === 'asc' ? -1 : 1;
 
       let comparison = 0;
       if (aVal instanceof Date && bVal instanceof Date) {
         comparison = aVal.getTime() - bVal.getTime();
-      } else if (typeof aVal === "number" && typeof bVal === "number") {
+      } else if (typeof aVal === 'number' && typeof bVal === 'number') {
         comparison = aVal - bVal;
       } else {
         comparison = String(aVal).localeCompare(String(bVal));
       }
 
-      return sort.direction === "asc" ? comparison : -comparison;
+      return sort.direction === 'asc' ? comparison : -comparison;
     });
   }, [data, sort, columns]);
 
@@ -171,13 +164,13 @@ export function PaginatedTable<T extends { id: string | number }>({
       // Toggle direction
       onSortChange({
         column: columnKey,
-        direction: sort.direction === "asc" ? "desc" : "asc",
+        direction: sort.direction === 'asc' ? 'desc' : 'asc'
       });
     } else {
       // New column, default to asc
       onSortChange({
         column: columnKey,
-        direction: "asc",
+        direction: 'asc'
       });
     }
   };
@@ -186,15 +179,11 @@ export function PaginatedTable<T extends { id: string | number }>({
     if (sort?.column !== columnKey) {
       return <ArrowUpDown className="size-4 ml-1 opacity-40" />;
     }
-    return sort.direction === "asc" ? (
-      <ArrowUp className="size-4 ml-1" />
-    ) : (
-      <ArrowDown className="size-4 ml-1" />
-    );
+    return sort.direction === 'asc' ? <ArrowUp className="size-4 ml-1" /> : <ArrowDown className="size-4 ml-1" />;
   };
 
   return (
-    <div className={cn("space-y-4", className)}>
+    <div className={cn('space-y-4', className)}>
       <div className="rounded-lg border">
         <Table>
           <TableHeader>
@@ -211,12 +200,7 @@ export function PaginatedTable<T extends { id: string | number }>({
               {columns.map((col) => (
                 <TableHead key={col.key} style={{ width: col.width }}>
                   {col.sortable && onSortChange ? (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="-ml-3 h-8 data-[state=open]:bg-accent"
-                      onClick={() => handleSort(col.key)}
-                    >
+                    <Button variant="ghost" size="sm" className="-ml-3 h-8 data-[state=open]:bg-accent" onClick={() => handleSort(col.key)}>
                       {col.header}
                       {renderSortIcon(col.key)}
                     </Button>
@@ -230,27 +214,18 @@ export function PaginatedTable<T extends { id: string | number }>({
           </TableHeader>
           <TableBody>
             {paginatedData.map((item) => (
-              <TableRow
-                key={item.id}
-                className={cn(onRowClick && "cursor-pointer")}
-                onClick={() => onRowClick?.(item)}
-              >
+              <TableRow key={item.id} className={cn(onRowClick && 'cursor-pointer')} onClick={() => onRowClick?.(item)}>
                 {selectable && (
                   <TableCell onClick={(e) => e.stopPropagation()}>
-                    <Checkbox
-                      checked={selectedIds.has(item.id)}
-                      onCheckedChange={() => toggleRow(item.id)}
-                    />
+                    <Checkbox checked={selectedIds.has(item.id)} onCheckedChange={() => toggleRow(item.id)} />
                   </TableCell>
                 )}
                 {columns.map((col) => (
-                  <TableCell key={col.key}>{col.render(item)}</TableCell>
-                ))}
-                {actions && (
-                  <TableCell onClick={(e) => e.stopPropagation()}>
-                    {actions(item)}
+                  <TableCell key={col.key} style={{ width: col.width }}>
+                    {col.render(item)}
                   </TableCell>
-                )}
+                ))}
+                {actions && <TableCell onClick={(e) => e.stopPropagation()}>{actions(item)}</TableCell>}
               </TableRow>
             ))}
           </TableBody>

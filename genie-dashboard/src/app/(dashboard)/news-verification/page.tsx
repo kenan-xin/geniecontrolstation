@@ -79,7 +79,7 @@ export default function NewsVerificationPage() {
       {
         key: 'title',
         header: 'Title',
-        width: '120px',
+        width: '200px',
         sortable: true,
         getSortValue: (a) => a.title ?? '',
         render: (article) => (
