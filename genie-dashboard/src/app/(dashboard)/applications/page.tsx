@@ -78,11 +78,7 @@ export default function ApplicationsPage() {
         width: '120px',
         sortable: true,
         getSortValue: (a) => a.applicationId ?? '',
-        render: (app) => (
-          <span className="font-mono text-sm text-muted-foreground">
-            {app.applicationId || `#${app.id}`}
-          </span>
-        )
+        render: (app) => <span className="font-mono text-sm text-muted-foreground">{app.applicationId || `#${app.id}`}</span>
       },
       {
         key: 'candidateName',
@@ -102,9 +98,7 @@ export default function ApplicationsPage() {
         width: '120px',
         sortable: true,
         getSortValue: (a) => a.submissionDate,
-        render: (app) => (
-          <span className="text-sm text-muted-foreground">{app.submissionDate}</span>
-        )
+        render: (app) => <span className="text-sm text-muted-foreground">{app.submissionDate}</span>
       },
       {
         key: 'overallProgress',
@@ -151,9 +145,7 @@ export default function ApplicationsPage() {
         width: '140px',
         sortable: true,
         getSortValue: (a) => a.trainingProvider ?? '',
-        render: (app) => (
-          <span className="text-sm text-muted-foreground">{app.trainingProvider || '—'}</span>
-        )
+        render: (app) => <span className="text-sm text-muted-foreground">{app.trainingProvider || '—'}</span>
       },
       {
         key: 'assignedTo',
@@ -161,9 +153,7 @@ export default function ApplicationsPage() {
         width: '120px',
         sortable: true,
         getSortValue: (a) => a.assignedTo ?? '',
-        render: (app) => (
-          <span className="text-sm text-muted-foreground">{app.assignedTo || '—'}</span>
-        )
+        render: (app) => <span className="text-sm text-muted-foreground">{app.assignedTo || '—'}</span>
       }
     ],
     []
@@ -175,7 +165,7 @@ export default function ApplicationsPage() {
       'Document Assessment': 0,
       'Candidate Screening': 0,
       'Pending Approval': 0,
-      'Approved': 0
+      Approved: 0
     };
     if (applications) {
       for (const app of applications) {
@@ -217,7 +207,6 @@ export default function ApplicationsPage() {
         icon={ClipboardList}
         title="Applications"
         description="Manage candidate applications through the 4-stage approval workflow"
-        gradient={{ from: 'from-violet-500', to: 'to-purple-500', shadow: 'shadow-violet-500/20' }}
         actions={
           <Button variant="outline" onClick={handleExport} disabled={!visibleApplications.length}>
             <Download className="size-4 mr-2" />
@@ -244,12 +233,7 @@ export default function ApplicationsPage() {
           {/* Status Summary Cards */}
           <section className="grid gap-4 grid-cols-2 lg:grid-cols-4">
             {applicationStatusOrder.map((status) => (
-              <StatusStatCard
-                key={status}
-                config={applicationStatusConfig[status]}
-                count={statusCounts[status]}
-                showGradient
-              />
+              <StatusStatCard key={status} config={applicationStatusConfig[status]} count={statusCounts[status]} showGradient />
             ))}
           </section>
 
@@ -270,10 +254,7 @@ export default function ApplicationsPage() {
                 searchPlaceholder="Search by name, ID, provider, or assignee..."
               />
               {visibleApplications.length === 0 ? (
-                <EmptyState
-                  title="No results found"
-                  description={`No applications match "${searchValue}". Try a different search term.`}
-                />
+                <EmptyState title="No results found" description={`No applications match "${searchValue}". Try a different search term.`} />
               ) : (
                 <PaginatedTable
                   columns={columns}

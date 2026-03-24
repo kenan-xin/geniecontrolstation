@@ -192,7 +192,6 @@ export default function NewsVerificationPage() {
         icon={Newspaper}
         title="News Verification"
         description="AI-powered editorial workflow for verifying and publishing news stories"
-        gradient={{ from: 'from-amber-500', to: 'to-orange-500', shadow: 'shadow-amber-500/20' }}
         actions={
           <div className="flex items-center gap-2">
             <Button variant="outline" onClick={handleExport} disabled={!visibleArticles.length}>

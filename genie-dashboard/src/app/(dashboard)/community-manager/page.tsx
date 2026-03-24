@@ -1,29 +1,24 @@
-"use client";
+'use client';
 
-import { useState, useRef } from "react";
-import { Radio } from "lucide-react";
-import { useStations } from "@/hooks/use-stations";
-import { useSegments } from "@/hooks/use-segments";
-import { useCommunityManagerStore } from "@/store/community-manager-store";
-import { StationSelector } from "@/components/community-manager/station-selector";
-import { MediaPlayer } from "@/components/community-manager/media-player";
-import { SegmentsTable } from "@/components/community-manager/segments-table";
-import { EditSegmentModal } from "@/components/community-manager/edit-segment-modal";
-import { RegenerateModal } from "@/components/community-manager/regenerate-modal";
-import { DeleteSegmentDialog } from "@/components/community-manager/delete-segment-dialog";
-import { ShareModal } from "@/components/community-manager/share-modal";
-import { QuickSharePopover } from "@/components/community-manager/quick-share-popover";
-import { PageHeader, SectionLabel } from "@/components/shared";
-import type { Segment } from "@/types";
+import { useState, useRef } from 'react';
+import { Radio } from 'lucide-react';
+import { useStations } from '@/hooks/use-stations';
+import { useSegments } from '@/hooks/use-segments';
+import { useCommunityManagerStore } from '@/store/community-manager-store';
+import { StationSelector } from '@/components/community-manager/station-selector';
+import { MediaPlayer } from '@/components/community-manager/media-player';
+import { SegmentsTable } from '@/components/community-manager/segments-table';
+import { EditSegmentModal } from '@/components/community-manager/edit-segment-modal';
+import { RegenerateModal } from '@/components/community-manager/regenerate-modal';
+import { DeleteSegmentDialog } from '@/components/community-manager/delete-segment-dialog';
+import { ShareModal } from '@/components/community-manager/share-modal';
+import { QuickSharePopover } from '@/components/community-manager/quick-share-popover';
+import { PageHeader, SectionLabel } from '@/components/shared';
+import type { Segment } from '@/types';
 
 export default function CommunityManagerPage() {
   const { data: stations = [] } = useStations();
-  const {
-    activeStationId,
-    setActiveStationId,
-    clearSegmentSelection,
-    setPage,
-  } = useCommunityManagerStore();
+  const { activeStationId, setActiveStationId, clearSegmentSelection, setPage } = useCommunityManagerStore();
 
   const activeStation = stations.find((s) => s.id === activeStationId);
   const { data: segments = [] } = useSegments(activeStationId ?? undefined);
@@ -49,12 +44,12 @@ export default function CommunityManagerPage() {
     // Stop any active playback
     if (audioRef.current) {
       audioRef.current.pause();
-      audioRef.current.src = "";
+      audioRef.current.src = '';
       audioRef.current = null;
     }
 
     // Stop any active recording
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
       mediaRecorderRef.current.stop();
       mediaRecorderRef.current = null;
     }
@@ -93,7 +88,6 @@ export default function CommunityManagerPage() {
         icon={Radio}
         title="Community Manager"
         description="Radio station management with live streaming, recording, and AI transcription"
-        gradient={{ from: "from-blue-500", to: "to-indigo-500", shadow: "shadow-blue-500/20" }}
       />
 
       {/* Station Selector */}
@@ -113,14 +107,9 @@ export default function CommunityManagerPage() {
         <div className="flex items-center justify-between mb-3">
           <SectionLabel>Recorded Segments</SectionLabel>
           <div className="flex items-center gap-3">
-            {activeStationId && (
-              <QuickSharePopover
-                segments={segments}
-                stationId={activeStationId}
-              />
-            )}
+            {activeStationId && <QuickSharePopover segments={segments} stationId={activeStationId} />}
             <span className="text-sm text-muted-foreground">
-              {segments.length} segment{segments.length !== 1 ? "s" : ""}
+              {segments.length} segment{segments.length !== 1 ? 's' : ''}
             </span>
           </div>
         </div>
@@ -136,12 +125,7 @@ export default function CommunityManagerPage() {
       {/* Modals */}
       {activeStation && (
         <>
-          <EditSegmentModal
-            segment={editingSegment}
-            open={editModalOpen}
-            onOpenChange={setEditModalOpen}
-            stationId={activeStation.id}
-          />
+          <EditSegmentModal segment={editingSegment} open={editModalOpen} onOpenChange={setEditModalOpen} stationId={activeStation.id} />
           <RegenerateModal
             segment={regeneratingSegment}
             open={regenerateModalOpen}
@@ -154,12 +138,7 @@ export default function CommunityManagerPage() {
             onOpenChange={setDeleteDialogOpen}
             stationId={activeStation.id}
           />
-          <ShareModal
-            segment={sharingSegment}
-            open={shareModalOpen}
-            onOpenChange={setShareModalOpen}
-            stationId={activeStation.id}
-          />
+          <ShareModal segment={sharingSegment} open={shareModalOpen} onOpenChange={setShareModalOpen} stationId={activeStation.id} />
         </>
       )}
     </div>
