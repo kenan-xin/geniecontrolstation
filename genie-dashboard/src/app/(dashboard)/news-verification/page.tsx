@@ -28,6 +28,7 @@ import type { NewsArticle } from '@/types';
 export default function NewsVerificationPage() {
   const { data: articles, isLoading, isError, error, refetch } = useNewsArticles();
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [now] = useState(() => Date.now());
   const [searchValue, setSearchValue] = useState('');
   const [sort, setSort] = useState<SortState>({ column: 'submissionDate', direction: 'desc' });
 
@@ -198,7 +199,6 @@ export default function NewsVerificationPage() {
     );
     if (!mostRecent) return null;
     const updatedDate = new Date(mostRecent.updatedAt || mostRecent.createdAt || 0).getTime();
-    const now = Date.now();
     const diffMs = now - updatedDate;
     const diffMins = Math.floor(diffMs / 60000);
     if (diffMins < 1) return 'Just now';
@@ -207,7 +207,7 @@ export default function NewsVerificationPage() {
     if (diffHours < 24) return `${diffHours}h ago`;
     const diffDays = Math.floor(diffHours / 24);
     return `${diffDays}d ago`;
-  }, [articles]);
+  }, [articles, now]);
 
   return (
     <div className="space-y-8">

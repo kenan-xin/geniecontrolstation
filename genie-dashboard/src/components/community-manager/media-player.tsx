@@ -314,9 +314,9 @@ export function MediaPlayer({ station }: MediaPlayerProps) {
         ref={audioRef}
         style={{ display: 'none' }}
         onError={() => {
-          if (activeAudioRef.current) {
+          if (activeAudioRef.current && station) {
             toast.error('Failed to play stream');
-            updateStationState(station?.id, {
+            updateStationState(station.id, {
               isPlaying: false,
               status: 'Ready'
             });
