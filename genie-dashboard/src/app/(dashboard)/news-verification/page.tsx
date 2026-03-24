@@ -2,73 +2,22 @@
 
 import { useMemo } from "react";
 import Link from "next/link";
-import {
-  AlertTriangle,
-  Clock,
-  CalendarCheck,
-  CheckCircle2,
-  Newspaper,
-  Eye,
-} from "lucide-react";
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+import { Newspaper, Eye } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNewsArticles } from "@/hooks/use-news-articles";
-import { CardGridSkeleton, ErrorState, EmptyState } from "@/components/shared";
+import {
+  PageHeader,
+  CardGridSkeleton,
+  ErrorState,
+  EmptyState,
+  newsStatusConfig,
+  newsStatusOrder,
+  getStatusPath,
+  StatusStatCard,
+} from "@/components/shared";
 import type { NewsArticle } from "@/types";
-
-const statusConfig = {
-  Unverified: {
-    label: "Unverified",
-    icon: AlertTriangle,
-    color: "text-red-500",
-    bg: "bg-red-500/10",
-    border: "border-l-red-500",
-    gradient: "from-red-500/8 to-transparent",
-  },
-  Approval: {
-    label: "Pending Approval",
-    icon: Clock,
-    color: "text-amber-500",
-    bg: "bg-amber-500/10",
-    border: "border-l-amber-500",
-    gradient: "from-amber-500/8 to-transparent",
-  },
-  Schedule: {
-    label: "Scheduled",
-    icon: CalendarCheck,
-    color: "text-blue-500",
-    bg: "bg-blue-500/10",
-    border: "border-l-blue-500",
-    gradient: "from-blue-500/8 to-transparent",
-  },
-  Published: {
-    label: "Published",
-    icon: CheckCircle2,
-    color: "text-emerald-500",
-    bg: "bg-emerald-500/10",
-    border: "border-l-emerald-500",
-    gradient: "from-emerald-500/8 to-transparent",
-  },
-} as const;
-
-const statusOrder = ["Unverified", "Approval", "Schedule", "Published"] as const;
-
-function getStatusPath(status: string): string {
-  switch (status) {
-    case "Approval":
-      return "approval";
-    case "Schedule":
-      return "schedule";
-    case "Published":
-      return "published";
-    default:
-      return "unverified";
-  }
-}
 
 export default function NewsVerificationPage() {
   const { data: articles, isLoading, isError, error, refetch } = useNewsArticles();
@@ -98,22 +47,12 @@ export default function NewsVerificationPage() {
   return (
     <div className="space-y-8">
       {/* Page Header */}
-      <div>
-        <div className="flex items-center gap-3 mb-2">
-          <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 shadow-md shadow-amber-500/20">
-            <Newspaper className="size-5 text-white" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight text-foreground">
-              News Verification
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              AI-powered editorial workflow for verifying and publishing news
-              stories
-            </p>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        icon={Newspaper}
+        title="News Verification"
+        description="AI-powered editorial workflow for verifying and publishing news stories"
+        gradient={{ from: "from-amber-500", to: "to-orange-500", shadow: "shadow-amber-500/20" }}
+      />
 
       {/* Loading State */}
       {isLoading && <CardGridSkeleton count={4} columns={4} />}
@@ -132,35 +71,14 @@ export default function NewsVerificationPage() {
         <>
           {/* Status Summary Cards */}
           <section className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-            {statusOrder.map((status) => {
-              const config = statusConfig[status];
-              const Icon = config.icon;
-              return (
-                <Card
-                  key={status}
-                  className={`relative overflow-hidden border-l-[3px] ${config.border} transition-shadow duration-200 hover:shadow-md`}
-                >
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${config.gradient} pointer-events-none`}
-                  />
-                  <CardContent className="relative flex items-center gap-3">
-                    <div className={`shrink-0 rounded-lg p-2.5 ${config.bg}`}>
-                      <Icon className={`size-4.5 ${config.color}`} />
-                    </div>
-                    <div className="min-w-0">
-                      <p
-                        className={`text-3xl font-bold tracking-tight leading-none ${config.color}`}
-                      >
-                        {statusCounts[status]}
-                      </p>
-                      <p className="mt-1 text-xs text-muted-foreground truncate">
-                        {config.label}
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
+            {newsStatusOrder.map((status) => (
+              <StatusStatCard
+                key={status}
+                config={newsStatusConfig[status]}
+                count={statusCounts[status]}
+                showGradient
+              />
+            ))}
           </section>
 
           {/* Articles List */}
@@ -186,7 +104,7 @@ export default function NewsVerificationPage() {
 }
 
 function ArticleCard({ article }: { article: NewsArticle }) {
-  const config = statusConfig[article.currentStatus as keyof typeof statusConfig] || statusConfig.Unverified;
+  const config = newsStatusConfig[article.currentStatus as keyof typeof newsStatusConfig] || newsStatusConfig.Unverified;
   const statusPath = getStatusPath(article.currentStatus);
 
   return (
