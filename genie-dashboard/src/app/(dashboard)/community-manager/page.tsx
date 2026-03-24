@@ -23,6 +23,12 @@ export default function CommunityManagerPage() {
   const activeStation = stations.find((s) => s.id === activeStationId);
   const { data: segments = [] } = useSegments(activeStationId ?? undefined);
 
+  const segmentStats = {
+    total: segments.length,
+    shared: segments.filter((s) => s.shared).length,
+    categories: [...new Set(segments.map((s) => s.segmentCategory).filter(Boolean))].length
+  };
+
   // Refs for cleanup on station switch
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -111,6 +117,21 @@ export default function CommunityManagerPage() {
             <span className="text-sm text-muted-foreground">
               {segments.length} segment{segments.length !== 1 ? 's' : ''}
             </span>
+          </div>
+        </div>
+        {/* Inline Segment Stats */}
+        <div className="flex flex-wrap items-center gap-4 pb-4 border-b border-border mb-4">
+          <div className="flex items-center gap-2 text-sm">
+            <span className="font-medium">{segmentStats.total}</span>
+            <span className="text-muted-foreground">Total</span>
+          </div>
+          <div className="flex items-center gap-2 text-sm">
+            <span className="font-medium">{segmentStats.shared}</span>
+            <span className="text-muted-foreground">Shared</span>
+          </div>
+          <div className="flex items-center gap-2 text-sm">
+            <span className="font-medium">{segmentStats.categories}</span>
+            <span className="text-muted-foreground">Categories</span>
           </div>
         </div>
         <SegmentsTable

@@ -192,18 +192,6 @@ export default function NewsVerificationPage() {
         icon={Newspaper}
         title="News Verification"
         description="AI-powered editorial workflow for verifying and publishing news stories"
-        actions={
-          <div className="flex items-center gap-2">
-            <Button variant="outline" onClick={handleExport} disabled={!visibleArticles.length}>
-              <Download className="size-4 mr-2" />
-              Export
-            </Button>
-            <Button onClick={() => setIsCreateDialogOpen(true)}>
-              <Plus className="size-4 mr-2" />
-              News Lead
-            </Button>
-          </div>
-        }
       />
 
       {/* Loading State */}
@@ -221,11 +209,30 @@ export default function NewsVerificationPage() {
       {/* Content - only show when not loading and no error */}
       {!isLoading && !isError && (
         <>
-          {/* Status Summary Cards */}
+          {/* Quick Actions Bar */}
+          <div className="flex items-center gap-3 pb-4 border-b border-border">
+            <span className="text-sm font-medium">Quick Actions:</span>
+            <Button size="sm" variant="outline" onClick={() => setIsCreateDialogOpen(true)}>
+              <Plus className="size-3.5 mr-1.5" />
+              New Lead
+            </Button>
+            <Button size="sm" variant="outline" onClick={handleExport} disabled={!visibleArticles.length}>
+              <Download className="size-3.5 mr-1.5" />
+              Export
+            </Button>
+          </div>
+
+          {/* Status Summary Cards - Asymmetric Grid */}
           <section className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-            {newsStatusOrder.map((status) => (
-              <StatusStatCard key={status} config={newsStatusConfig[status]} count={statusCounts[status]} />
-            ))}
+            {/* Unverified spans 2 columns as primary action */}
+            <div className="col-span-2">
+              <StatusStatCard config={newsStatusConfig['Unverified']} count={statusCounts['Unverified']} />
+            </div>
+            {newsStatusOrder
+              .filter((s) => s !== 'Unverified')
+              .map((status) => (
+                <StatusStatCard key={status} config={newsStatusConfig[status]} count={statusCounts[status]} />
+              ))}
           </section>
 
           {/* Articles List */}

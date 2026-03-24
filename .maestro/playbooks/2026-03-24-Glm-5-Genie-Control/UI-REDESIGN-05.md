@@ -11,6 +11,7 @@
 ## Current Pattern (Problem)
 
 Every page has identical structure:
+
 1. PageHeader with icon
 2. 4-card status grid (`grid-cols-2 lg:grid-cols-4`)
 3. Data table with search
@@ -22,8 +23,9 @@ This creates a monotonous, AI-generated feel.
 
 Transform the 4-card grid into a compact horizontal bar.
 
-- [ ] Edit `genie-dashboard/src/app/(dashboard)/applications/page.tsx`
+- [x] Edit `genie-dashboard/src/app/(dashboard)/applications/page.tsx`
   - Replace 4-card grid with horizontal flex layout:
+
     ```tsx
     // Before:
     <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
@@ -35,6 +37,7 @@ Transform the 4-card grid into a compact horizontal bar.
       {/* Compact inline metrics */}
     </div>
     ```
+
   - Use `size="sm"` on StatusStatCard components
   - Add visual separation below metrics
   - Consider: metrics bar as part of table header area
@@ -43,7 +46,7 @@ Transform the 4-card grid into a compact horizontal bar.
 
 Create visual interest with varied card sizes.
 
-- [ ] Edit `genie-dashboard/src/app/(dashboard)/news-verification/page.tsx`
+- [x] Edit `genie-dashboard/src/app/(dashboard)/news-verification/page.tsx`
   - Use asymmetric grid layout:
     ```tsx
     <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
@@ -100,6 +103,7 @@ Establish consistent but varied spacing patterns.
 Not everything needs a Card component - use spacing and borders instead.
 
 - [ ] Audit all pages for unnecessary Card wrappers:
+
   ```bash
   grep -r "<Card" genie-dashboard/src/app --include="*.tsx" | grep -v node_modules
   ```
@@ -137,12 +141,14 @@ Give each page something unique.
 ---
 
 **Verification:**
+
 - [ ] Each page looks distinctly different at a glance
 - [ ] No page has identical 4-card grid + table pattern
 - [ ] Squint test: can identify which page you're on without reading text
 - [ ] Spacing feels intentional, not uniform
 
 **Visual Check:**
+
 1. Open each page in browser tabs
 2. Switch between tabs quickly
 3. Each page should have a unique "shape" or composition
