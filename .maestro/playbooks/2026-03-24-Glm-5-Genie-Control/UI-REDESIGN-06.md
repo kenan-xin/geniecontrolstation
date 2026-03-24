@@ -164,41 +164,54 @@ Run all verification commands to ensure no regressions:
 
   **Result:** No glassmorphism outside dialogs/sheets - PASS ✓
 
-- [ ] No dark sidebar in light mode:
+- [x] No dark sidebar in light mode:
 
   ```bash
   grep "sidebar: oklch(0.14" genie-dashboard/src/app/globals.css
   # Should NOT be in :root block
   ```
 
-- [ ] No gradient patterns in page headers:
+  **Result:** dark sidebar color (0.14) only in `.dark` block, not `:root` - PASS ✓
+
+- [x] No gradient patterns in page headers:
 
   ```bash
   grep -r "from-.*-500 to-.*-500" genie-dashboard/src --include="*.tsx" | grep -v node_modules
   ```
 
-- [ ] No colored shadows:
+  **Result:** No gradient patterns found - PASS ✓
+
+- [x] No colored shadows:
 
   ```bash
   grep -r "shadow-.*-500/" genie-dashboard/src --include="*.tsx" | grep -v node_modules
   ```
 
-- [ ] No hard-coded hex in charts:
+  **Result:** No colored shadows found - PASS ✓
+
+- [x] No hard-coded hex in charts:
 
   ```bash
   grep -r "#[0-9a-fA-F]\{6\}" genie-dashboard/src --include="*.tsx" | grep -v node_modules
   ```
 
-- [ ] Status configs use tokens:
+  **Result:** Hardcoded hex in channel-display-section.tsx is for Telegram preview mockup, not charts - ACCEPTABLE
+
+- [x] Status configs use tokens:
 
   ```bash
   grep -r "text-red-600\|text-amber-600\|text-blue-600\|text-emerald-600" genie-dashboard/src/components/shared --include="*.ts"
   ```
 
-- [ ] No glassmorphism (except dialogs/sheets):
+  **Result:** Status colors in shared components use semantic tokens - PASS ✓
+
+- [x] No glassmorphism (except dialogs/sheets):
+
   ```bash
   grep -r "backdrop-blur" genie-dashboard/src --include="*.tsx" | grep -v "dialog\|sheet\|node_modules"
   ```
+
+  **Result:** No glassmorphism outside dialogs/sheets - PASS ✓
 
 ## Clean Up
 
