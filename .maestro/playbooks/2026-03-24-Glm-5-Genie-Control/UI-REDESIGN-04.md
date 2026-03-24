@@ -12,37 +12,39 @@
 
 Create status-specific CSS custom properties for consistent theming.
 
-- [ ] Edit `genie-dashboard/src/app/globals.css` - Add to `:root` block after chart colors:
+- [x] Edit `genie-dashboard/src/app/globals.css` - Add to `:root` block after chart colors:
+
   ```css
   /* Semantic Status Colors - Muted Corporate Palette */
-  --status-error: oklch(0.50 0.15 25);
-  --status-error-muted: oklch(0.50 0.15 25 / 10%);
-  --status-warning: oklch(0.65 0.10 80);
-  --status-warning-muted: oklch(0.65 0.10 80 / 10%);
-  --status-info: oklch(0.50 0.08 250);
-  --status-info-muted: oklch(0.50 0.08 250 / 10%);
-  --status-success: oklch(0.55 0.10 160);
-  --status-success-muted: oklch(0.55 0.10 160 / 10%);
+  --status-error: oklch(0.5 0.15 25);
+  --status-error-muted: oklch(0.5 0.15 25 / 10%);
+  --status-warning: oklch(0.65 0.1 80);
+  --status-warning-muted: oklch(0.65 0.1 80 / 10%);
+  --status-info: oklch(0.5 0.08 250);
+  --status-info-muted: oklch(0.5 0.08 250 / 10%);
+  --status-success: oklch(0.55 0.1 160);
+  --status-success-muted: oklch(0.55 0.1 160 / 10%);
   --status-neutral: oklch(0.45 0.02 250);
   --status-neutral-muted: oklch(0.45 0.02 250 / 10%);
   ```
 
-- [ ] Edit `genie-dashboard/src/app/globals.css` - Add to `.dark` block:
+- [x] Edit `genie-dashboard/src/app/globals.css` - Add to `.dark` block:
+
   ```css
   /* Semantic Status Colors - Dark Mode */
-  --status-error: oklch(0.60 0.18 25);
-  --status-error-muted: oklch(0.60 0.18 25 / 15%);
+  --status-error: oklch(0.6 0.18 25);
+  --status-error-muted: oklch(0.6 0.18 25 / 15%);
   --status-warning: oklch(0.72 0.12 80);
   --status-warning-muted: oklch(0.72 0.12 80 / 15%);
-  --status-info: oklch(0.60 0.10 250);
-  --status-info-muted: oklch(0.60 0.10 250 / 15%);
+  --status-info: oklch(0.6 0.1 250);
+  --status-info-muted: oklch(0.6 0.1 250 / 15%);
   --status-success: oklch(0.62 0.12 160);
   --status-success-muted: oklch(0.62 0.12 160 / 15%);
   --status-neutral: oklch(0.55 0.02 250);
   --status-neutral-muted: oklch(0.55 0.02 250 / 15%);
   ```
 
-- [ ] Edit `genie-dashboard/src/app/globals.css` - Register tokens in `@theme inline`:
+- [x] Edit `genie-dashboard/src/app/globals.css` - Register tokens in `@theme inline`:
   ```css
   --color-status-error: var(--status-error);
   --color-status-error-muted: var(--status-error-muted);
@@ -60,7 +62,7 @@ Create status-specific CSS custom properties for consistent theming.
 
 Replace hard-coded Tailwind classes with semantic token classes.
 
-- [ ] Edit `genie-dashboard/src/components/shared/news-status-config.ts`
+- [x] Edit `genie-dashboard/src/components/shared/news-status-config.ts`
   - Replace color classes:
     - `text-red-600` → `text-status-error`
     - `bg-red-500/10` → `bg-status-error-muted`
@@ -75,7 +77,7 @@ Replace hard-coded Tailwind classes with semantic token classes.
     - `bg-emerald-500/10` → `bg-status-success-muted`
     - `border-l-emerald-600` → `border-l-status-success`
 
-- [ ] Edit `genie-dashboard/src/components/shared/application-status-config.ts`
+- [x] Edit `genie-dashboard/src/components/shared/application-status-config.ts`
   - Same token replacements
   - `text-slate-600` → `text-status-neutral`
   - `bg-slate-500/10` → `bg-status-neutral-muted`
@@ -85,7 +87,8 @@ Replace hard-coded Tailwind classes with semantic token classes.
 
 Create a utility for theme-aware chart colors.
 
-- [ ] Create `genie-dashboard/src/lib/chart-theme.ts`:
+- [x] Create `genie-dashboard/src/lib/chart-theme.ts`:
+
   ```typescript
   export function getChartColors() {
     if (typeof document === 'undefined') {
@@ -94,7 +97,7 @@ Create a utility for theme-aware chart colors.
         secondary: 'oklch(0.55 0.06 250)',
         muted: 'oklch(0.50 0.02 250)',
         border: 'oklch(0.90 0.005 250)',
-        background: 'oklch(0.985 0.002 250)',
+        background: 'oklch(0.985 0.002 250)'
       };
     }
     const styles = getComputedStyle(document.documentElement);
@@ -103,7 +106,7 @@ Create a utility for theme-aware chart colors.
       secondary: styles.getPropertyValue('--chart-2').trim() || 'oklch(0.55 0.06 250)',
       muted: styles.getPropertyValue('--muted-foreground').trim() || 'oklch(0.50 0.02 250)',
       border: styles.getPropertyValue('--border').trim() || 'oklch(0.90 0.005 250)',
-      background: styles.getPropertyValue('--background').trim() || 'oklch(0.985 0.002 250)',
+      background: styles.getPropertyValue('--background').trim() || 'oklch(0.985 0.002 250)'
     };
   }
 
@@ -113,21 +116,22 @@ Create a utility for theme-aware chart colors.
   }
   ```
 
-- [ ] Edit `genie-dashboard/src/components/dashboard/application-trends-chart.tsx`
+- [x] Edit `genie-dashboard/src/components/dashboard/application-trends-chart.tsx`
   - Import `getChartColors` and `getChartTheme` from `@/lib/chart-theme`
   - Replace `colors: ["#3b82f6"]` with `colors: [chartColors.primary]`
   - Replace hard-coded label colors with `chartColors.muted`
   - Replace hard-coded grid color with `chartColors.border`
   - Replace `theme: "light"` with `theme: getChartTheme()`
 
-- [ ] Edit `genie-dashboard/src/components/dashboard/monthly-statistics-chart.tsx`
+- [x] Edit `genie-dashboard/src/components/dashboard/monthly-statistics-chart.tsx`
   - Same hard-coded color replacements
 
 ## Create Progress Color Utility
 
 Centralize progress bar color logic.
 
-- [ ] Create `genie-dashboard/src/lib/status-colors.ts`:
+- [x] Create `genie-dashboard/src/lib/status-colors.ts`:
+
   ```typescript
   export function getProgressColor(percent: number): string {
     if (percent >= 80) return 'bg-status-success';
@@ -137,21 +141,23 @@ Centralize progress bar color logic.
   }
   ```
 
-- [ ] Edit `genie-dashboard/src/app/(dashboard)/applications/page.tsx`
+- [x] Edit `genie-dashboard/src/app/(dashboard)/applications/page.tsx`
   - Import and use `getProgressColor` utility
   - Replace inline color logic
 
-- [ ] Edit `genie-dashboard/src/components/applications/sections/application-progress-section.tsx`
+- [x] Edit `genie-dashboard/src/components/applications/sections/application-progress-section.tsx`
   - Same utility usage for progress bar colors
 
 ## Audit Remaining Hard-Coded Colors
 
-- [ ] Search for remaining hard-coded colors:
+- [x] Search for remaining hard-coded colors:
+
   ```bash
   grep -r "#[0-9a-fA-F]\{6\}" genie-dashboard/src --include="*.tsx" | grep -v node_modules
   ```
 
-- [ ] Search for remaining Tailwind color classes in components:
+- [x] Search for remaining Tailwind color classes in components:
+
   ```bash
   grep -r "text-red-\|text-amber-\|text-blue-\|text-emerald-\|text-green-\|text-purple-\|text-orange-" genie-dashboard/src/components --include="*.tsx" | grep -v node_modules
   ```
@@ -159,6 +165,7 @@ Centralize progress bar color logic.
 ---
 
 **Verification:** After changes:
+
 ```bash
 # Check for remaining hard-coded hex in charts
 grep -r "#[0-9a-fA-F]\{6\}" genie-dashboard/src --include="*.tsx" | grep -v node_modules
@@ -171,8 +178,21 @@ grep "status-error\|status-warning\|status-info\|status-success" genie-dashboard
 ```
 
 **Success Criteria:**
-- [ ] All status colors use semantic tokens
-- [ ] Charts use theme-aware colors
-- [ ] Progress bars use centralized utility
-- [ ] No hard-coded hex colors in components
-- [ ] Theme switching works correctly for all colors
+
+- [x] All status colors use semantic tokens
+- [x] Charts use theme-aware colors
+- [x] Progress bars use centralized utility
+- [x] No hard-coded hex colors in components (note: channel-display-section.tsx has intentional Telegram-style colors)
+- [x] Theme switching works correctly for all colors
+
+---
+
+**Completed:** 2026-03-24
+
+**Notes:**
+
+- Status tokens added for light/dark modes in globals.css
+- chart-theme.ts utility created for theme-aware chart colors
+- status-colors.ts utility created for centralized progress bar colors
+- Application and news status configs updated to use semantic tokens
+- Remaining hex colors in channel-display-section.tsx are intentional (Telegram channel styling)
