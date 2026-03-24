@@ -7,7 +7,7 @@ export interface StatusConfig {
   icon: LucideIcon;
   color: string;
   bg: string;
-  border: string;
+  cardBg: string;
 }
 
 export const newsStatusConfig: Record<NewsStatus, StatusConfig> = {
@@ -16,28 +16,28 @@ export const newsStatusConfig: Record<NewsStatus, StatusConfig> = {
     icon: AlertTriangle,
     color: 'text-status-error',
     bg: 'bg-status-error-muted',
-    border: 'border-l-status-error'
+    cardBg: 'bg-status-error-muted/50 dark:bg-status-error-muted/30'
   },
   Approval: {
     label: 'Pending Approval',
     icon: Clock,
     color: 'text-status-warning',
     bg: 'bg-status-warning-muted',
-    border: 'border-l-status-warning'
+    cardBg: 'bg-status-warning-muted/50 dark:bg-status-warning-muted/30'
   },
   Schedule: {
     label: 'Scheduled',
     icon: CalendarCheck,
     color: 'text-status-info',
     bg: 'bg-status-info-muted',
-    border: 'border-l-status-info'
+    cardBg: 'bg-status-info-muted/50 dark:bg-status-info-muted/30'
   },
   Published: {
     label: 'Published',
     icon: CheckCircle2,
     color: 'text-status-success',
     bg: 'bg-status-success-muted',
-    border: 'border-l-status-success'
+    cardBg: 'bg-status-success-muted/50 dark:bg-status-success-muted/30'
   }
 } as const;
 
