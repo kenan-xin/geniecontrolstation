@@ -22,13 +22,20 @@ This phase transforms the current landing page into a proper dashboard with real
     - Created status-cards.tsx with 4 cards: Total (Layers icon), Document Assessment, Candidate Screening, Pending Approval
     - Uses `CardGridSkeleton` for loading state
 
-- [ ] Create application trends chart (area chart):
+- [x] Create application trends chart (area chart):
   - Create `/genie-dashboard/src/components/dashboard/application-trends-chart.tsx`
   - Use ApexCharts with a clean area chart design
   - Show application submissions over the last 7 days
   - Use muted corporate colors matching the brand palette
   - Include chart title "Application Trends"
   - Make the chart responsive
+  - **Completion Notes:**
+    - Used dynamic import for react-apexcharts to avoid SSR issues
+    - Blue-500 (#3b82f6) color with gradient fill for corporate look
+    - Smooth curve area chart with markers
+    - Shows 7-day weekday labels on x-axis
+    - Includes loading skeleton state
+    - Grouped applications by submission date
 
 - [ ] Create monthly statistics chart (bar chart):
   - Create `/genie-dashboard/src/components/dashboard/monthly-statistics-chart.tsx`
