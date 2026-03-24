@@ -190,16 +190,16 @@ export default function NewsVerificationPage() {
     if (!articles || articles.length === 0) return null;
     const mostRecent = articles.reduce(
       (latest, article) => {
-        const articleDate = new Date(article.updatedAt || article.createdAt || 0);
-        const latestDate = latest ? new Date(latest.updatedAt || latest.createdAt || 0) : new Date(0);
+        const articleDate = new Date(article.updatedAt || article.createdAt || 0).getTime();
+        const latestDate = latest ? new Date(latest.updatedAt || latest.createdAt || 0).getTime() : 0;
         return articleDate > latestDate ? article : latest;
       },
       null as NewsArticle | null
     );
     if (!mostRecent) return null;
-    const updatedDate = new Date(mostRecent.updatedAt || mostRecent.createdAt || Date.now());
-    const now = new Date();
-    const diffMs = now.getTime() - updatedDate.getTime();
+    const updatedDate = new Date(mostRecent.updatedAt || mostRecent.createdAt || 0).getTime();
+    const now = Date.now();
+    const diffMs = now - updatedDate;
     const diffMins = Math.floor(diffMs / 60000);
     if (diffMins < 1) return 'Just now';
     if (diffMins < 60) return `${diffMins}m ago`;
