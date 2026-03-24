@@ -19,7 +19,7 @@
 
 Replace the gold/amber brand with muted slate blue. Change dark sidebar to light.
 
-- [ ] Edit `genie-dashboard/src/app/globals.css` - Replace entire `:root` block:
+- [x] Edit `genie-dashboard/src/app/globals.css` - Replace entire `:root` block:
 
   ```css
   :root {
@@ -81,7 +81,7 @@ Replace the gold/amber brand with muted slate blue. Change dark sidebar to light
   }
   ```
 
-- [ ] Edit `genie-dashboard/src/app/globals.css` - Update `.dark` block:
+- [x] Edit `genie-dashboard/src/app/globals.css` - Update `.dark` block:
 
   ```css
   .dark {
@@ -143,7 +143,7 @@ Replace the gold/amber brand with muted slate blue. Change dark sidebar to light
 
 ## Update Sidebar Component - Remove Gradient Logo
 
-- [ ] Edit `genie-dashboard/src/components/layout/sidebar.tsx`
+- [x] Edit `genie-dashboard/src/components/layout/sidebar.tsx`
   - Remove gradient from logo box (line 90):
 
     ```tsx
@@ -159,7 +159,7 @@ Replace the gold/amber brand with muted slate blue. Change dark sidebar to light
 
 ## Update Page Header - Remove Gradients
 
-- [ ] Edit `genie-dashboard/src/components/shared/page-header.tsx`
+- [x] Edit `genie-dashboard/src/components/shared/page-header.tsx`
   - Remove `gradient` prop from interface (lines 11-15)
   - Replace gradient icon box with simple muted background:
 
@@ -179,7 +179,7 @@ Replace the gold/amber brand with muted slate blue. Change dark sidebar to light
 
 ## Update Status Stat Card - Remove Gradient
 
-- [ ] Edit `genie-dashboard/src/components/shared/status-stat-card.tsx`
+- [x] Edit `genie-dashboard/src/components/shared/status-stat-card.tsx`
   - Remove `showGradient` prop from interface (line 20)
   - Remove gradient rendering logic (lines 38, 41-48)
   - Card should use solid white background only
@@ -196,22 +196,22 @@ Replace the gold/amber brand with muted slate blue. Change dark sidebar to light
 
 ## Update Chart Colors
 
-- [ ] Edit `genie-dashboard/src/components/dashboard/application-trends-chart.tsx`
+- [x] Edit `genie-dashboard/src/components/dashboard/application-trends-chart.tsx`
   - Replace hard-coded `#3b82f6` with CSS variable approach
   - Use muted chart colors from theme
 
-- [ ] Edit `genie-dashboard/src/components/dashboard/monthly-statistics-chart.tsx`
+- [x] Edit `genie-dashboard/src/components/dashboard/monthly-statistics-chart.tsx`
   - Same hard-coded color replacements
 
 ## Update Page-Level Components
 
-- [ ] Edit `genie-dashboard/src/app/(dashboard)/news-verification/page.tsx`
+- [x] Edit `genie-dashboard/src/app/(dashboard)/news-verification/page.tsx`
   - Remove `gradient` prop from PageHeader component call
 
-- [ ] Edit `genie-dashboard/src/app/(dashboard)/applications/page.tsx`
+- [x] Edit `genie-dashboard/src/app/(dashboard)/applications/page.tsx`
   - Remove `gradient` prop from PageHeader component call
 
-- [ ] Edit `genie-dashboard/src/app/(dashboard)/community-manager/page.tsx`
+- [x] Edit `genie-dashboard/src/app/(dashboard)/community-manager/page.tsx`
   - Remove `gradient` prop from PageHeader component call
 
 ---
@@ -231,8 +231,17 @@ grep -r "oklch(0.14" genie-dashboard/src/app/globals.css
 
 **Visual Check:**
 
-- [ ] Sidebar is light gray, not dark
-- [ ] Brand color is muted slate blue, not gold
-- [ ] No gradient icons anywhere
-- [ ] Cards are white with neutral shadows
-- [ ] Overall look is clean, corporate, low-profile
+- [x] Sidebar is light gray, not dark
+- [x] Brand color is muted slate blue, not gold
+- [x] No gradient icons anywhere
+- [x] Cards are white with neutral shadows
+- [x] Overall look is clean, corporate, low-profile
+
+---
+
+**Notes:**
+
+- status-stat-card.tsx had no gradient-related code to remove (already clean)
+- Page-level components had no gradient props on PageHeader (already clean)
+- Chart colors replaced with CSS variables `var(--chart-1)`
+- Lint passed with only pre-existing warnings
