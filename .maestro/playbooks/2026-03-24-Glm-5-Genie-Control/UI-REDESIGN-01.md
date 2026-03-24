@@ -5,6 +5,7 @@
 **Impact:** Immediate visual transformation - biggest impact on user perception.
 
 **Target Aesthetic:**
+
 - Light gray/white background throughout
 - Light sidebar (not dark)
 - Muted slate blue brand color (subtle, not attention-grabbing)
@@ -19,17 +20,18 @@
 Replace the gold/amber brand with muted slate blue. Change dark sidebar to light.
 
 - [ ] Edit `genie-dashboard/src/app/globals.css` - Replace entire `:root` block:
+
   ```css
   :root {
     /* Base */
     --background: oklch(0.985 0.002 250);
-    --foreground: oklch(0.20 0.02 250);
+    --foreground: oklch(0.2 0.02 250);
 
     /* Cards & Popovers - White */
     --card: oklch(1 0 0);
-    --card-foreground: oklch(0.20 0.02 250);
+    --card-foreground: oklch(0.2 0.02 250);
     --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.20 0.02 250);
+    --popover-foreground: oklch(0.2 0.02 250);
 
     /* Primary - Muted Slate Blue */
     --primary: oklch(0.45 0.08 250);
@@ -39,18 +41,18 @@ Replace the gold/amber brand with muted slate blue. Change dark sidebar to light
     --secondary: oklch(0.96 0.005 250);
     --secondary-foreground: oklch(0.25 0.02 250);
     --muted: oklch(0.96 0.005 250);
-    --muted-foreground: oklch(0.50 0.02 250);
+    --muted-foreground: oklch(0.5 0.02 250);
 
     /* Accent */
     --accent: oklch(0.94 0.008 250);
     --accent-foreground: oklch(0.25 0.02 250);
 
     /* Destructive */
-    --destructive: oklch(0.55 0.20 25);
+    --destructive: oklch(0.55 0.2 25);
 
     /* Borders & Inputs */
-    --border: oklch(0.90 0.005 250);
-    --input: oklch(0.90 0.005 250);
+    --border: oklch(0.9 0.005 250);
+    --input: oklch(0.9 0.005 250);
     --ring: oklch(0.45 0.08 250);
 
     /* Brand - Muted Slate Blue (low chroma) */
@@ -61,8 +63,8 @@ Replace the gold/amber brand with muted slate blue. Change dark sidebar to light
     /* Charts - Muted palette */
     --chart-1: oklch(0.45 0.08 250);
     --chart-2: oklch(0.55 0.06 250);
-    --chart-3: oklch(0.60 0.05 200);
-    --chart-4: oklch(0.50 0.04 30);
+    --chart-3: oklch(0.6 0.05 200);
+    --chart-4: oklch(0.5 0.04 30);
     --chart-5: oklch(0.55 0.05 300);
 
     --radius: 0.5rem;
@@ -74,12 +76,13 @@ Replace the gold/amber brand with muted slate blue. Change dark sidebar to light
     --sidebar-primary-foreground: oklch(0.98 0.002 250);
     --sidebar-accent: oklch(0.94 0.008 250);
     --sidebar-accent-foreground: oklch(0.25 0.02 250);
-    --sidebar-border: oklch(0.90 0.005 250);
+    --sidebar-border: oklch(0.9 0.005 250);
     --sidebar-ring: oklch(0.45 0.08 250);
   }
   ```
 
 - [ ] Edit `genie-dashboard/src/app/globals.css` - Update `.dark` block:
+
   ```css
   .dark {
     /* Base */
@@ -93,14 +96,14 @@ Replace the gold/amber brand with muted slate blue. Change dark sidebar to light
     --popover-foreground: oklch(0.92 0.005 250);
 
     /* Primary - Slightly lighter in dark mode */
-    --primary: oklch(0.55 0.10 250);
+    --primary: oklch(0.55 0.1 250);
     --primary-foreground: oklch(0.12 0.015 250);
 
     /* Secondary & Muted */
     --secondary: oklch(0.22 0.015 250);
     --secondary-foreground: oklch(0.92 0.005 250);
     --muted: oklch(0.22 0.015 250);
-    --muted-foreground: oklch(0.60 0.02 250);
+    --muted-foreground: oklch(0.6 0.02 250);
 
     /* Accent */
     --accent: oklch(0.25 0.02 250);
@@ -112,29 +115,29 @@ Replace the gold/amber brand with muted slate blue. Change dark sidebar to light
     /* Borders & Inputs */
     --border: oklch(0.28 0.015 250);
     --input: oklch(0.28 0.015 250);
-    --ring: oklch(0.55 0.10 250);
+    --ring: oklch(0.55 0.1 250);
 
     /* Brand */
-    --brand: oklch(0.55 0.10 250);
+    --brand: oklch(0.55 0.1 250);
     --brand-foreground: oklch(0.12 0.015 250);
-    --brand-muted: oklch(0.55 0.10 250 / 12%);
+    --brand-muted: oklch(0.55 0.1 250 / 12%);
 
     /* Charts */
-    --chart-1: oklch(0.55 0.10 250);
-    --chart-2: oklch(0.60 0.08 250);
+    --chart-1: oklch(0.55 0.1 250);
+    --chart-2: oklch(0.6 0.08 250);
     --chart-3: oklch(0.65 0.06 200);
     --chart-4: oklch(0.55 0.05 30);
-    --chart-5: oklch(0.60 0.06 300);
+    --chart-5: oklch(0.6 0.06 300);
 
     /* Sidebar - Darker in dark mode but not black */
     --sidebar: oklch(0.14 0.015 250);
     --sidebar-foreground: oklch(0.88 0.005 250);
-    --sidebar-primary: oklch(0.55 0.10 250);
+    --sidebar-primary: oklch(0.55 0.1 250);
     --sidebar-primary-foreground: oklch(0.12 0.015 250);
     --sidebar-accent: oklch(0.22 0.02 250);
     --sidebar-accent-foreground: oklch(0.92 0.005 250);
     --sidebar-border: oklch(0.25 0.015 250);
-    --sidebar-ring: oklch(0.55 0.10 250);
+    --sidebar-ring: oklch(0.55 0.1 250);
   }
   ```
 
@@ -142,6 +145,7 @@ Replace the gold/amber brand with muted slate blue. Change dark sidebar to light
 
 - [ ] Edit `genie-dashboard/src/components/layout/sidebar.tsx`
   - Remove gradient from logo box (line 90):
+
     ```tsx
     // Before:
     <div className="relative flex size-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-sidebar-primary to-sidebar-primary/70 shadow-md shadow-sidebar-primary/20">
@@ -149,6 +153,7 @@ Replace the gold/amber brand with muted slate blue. Change dark sidebar to light
     // After:
     <div className="relative flex size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary">
     ```
+
   - Same change for mobile sidebar logo (line 138)
   - Remove colored shadow, use solid background
 
@@ -157,6 +162,7 @@ Replace the gold/amber brand with muted slate blue. Change dark sidebar to light
 - [ ] Edit `genie-dashboard/src/components/shared/page-header.tsx`
   - Remove `gradient` prop from interface (lines 11-15)
   - Replace gradient icon box with simple muted background:
+
     ```tsx
     // Before:
     <div className={cn("flex size-10 items-center justify-center rounded-xl bg-gradient-to-br shadow-md", gradient.from, gradient.to, gradient.shadow)}>
@@ -168,6 +174,7 @@ Replace the gold/amber brand with muted slate blue. Change dark sidebar to light
       <Icon className="size-5" />
     </div>
     ```
+
   - Icon should use muted-foreground color, not white
 
 ## Update Status Stat Card - Remove Gradient
@@ -179,11 +186,11 @@ Replace the gold/amber brand with muted slate blue. Change dark sidebar to light
 
 ## Update Status Configs - Remove Gradient Property
 
-- [ ] Edit `genie-dashboard/src/components/shared/news-status-config.ts`
+- [x] Edit `genie-dashboard/src/components/shared/news-status-config.ts`
   - Remove `gradient` property from `StatusConfig` interface
   - Remove `gradient` values from all status entries
 
-- [ ] Edit `genie-dashboard/src/components/shared/application-status-config.ts`
+- [x] Edit `genie-dashboard/src/components/shared/application-status-config.ts`
   - Remove `gradient` property from `AppStatusConfig` interface
   - Remove `gradient` values from all status entries
 
@@ -210,6 +217,7 @@ Replace the gold/amber brand with muted slate blue. Change dark sidebar to light
 ---
 
 **Verification:** After changes:
+
 ```bash
 # Start dev server
 cd genie-dashboard && npm run dev
@@ -222,6 +230,7 @@ grep -r "oklch(0.14" genie-dashboard/src/app/globals.css
 ```
 
 **Visual Check:**
+
 - [ ] Sidebar is light gray, not dark
 - [ ] Brand color is muted slate blue, not gold
 - [ ] No gradient icons anywhere
