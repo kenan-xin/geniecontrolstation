@@ -7,6 +7,8 @@ import type {
   SegmentInsert,
   StationScheduleSelect,
   StationScheduleInsert,
+  ApplicationSelect,
+  ApplicationInsert,
 } from "@/lib/schema";
 
 // Friendly type names
@@ -21,6 +23,9 @@ export type NewSegment = SegmentInsert;
 
 export type StationSchedule = StationScheduleSelect;
 export type NewStationSchedule = StationScheduleInsert;
+
+export type Application = ApplicationSelect;
+export type NewApplication = ApplicationInsert;
 
 // Additional types for JSON fields
 export interface Attachment {

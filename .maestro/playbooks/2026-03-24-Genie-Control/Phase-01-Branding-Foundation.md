@@ -36,11 +36,12 @@ This phase establishes the "Genie Ops" brand identity and creates the data found
     - createdAt, updatedAt timestamps
   - Export types: `ApplicationSelect`, `ApplicationInsert`
 
-- [ ] Create applications API routes:
+- [x] Create applications API routes:
   - Create `/genie-dashboard/src/app/api/applications/route.ts` with GET (list all) and POST (create) handlers
   - Create `/genie-dashboard/src/app/api/applications/[id]/route.ts` with GET, PUT, DELETE handlers
   - Follow the existing pattern from `/genie-dashboard/src/app/api/news-articles/route.ts`
   - Use the db instance from `/genie-dashboard/src/lib/db.ts`
+  - Added Application types to `/genie-dashboard/src/types/index.ts`
 
 - [ ] Create useApplications hook:
   - Create `/genie-dashboard/src/hooks/use-applications.ts`
