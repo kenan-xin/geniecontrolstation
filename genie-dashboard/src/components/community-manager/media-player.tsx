@@ -328,7 +328,7 @@ export function MediaPlayer({ station }: MediaPlayerProps) {
           {/* Station Icon/Logo */}
           <div className="shrink-0 mx-auto sm:mx-0">
             {station ? (
-              <div className="flex size-20 sm:size-24 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/20">
+              <div className="flex size-20 sm:size-24 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/20">
                 {station.logo ? (
                   <img src={station.logo} alt={station.name} className="size-14 sm:size-16 rounded-lg object-cover" />
                 ) : (

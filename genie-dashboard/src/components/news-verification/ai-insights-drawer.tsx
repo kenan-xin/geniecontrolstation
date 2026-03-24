@@ -1,23 +1,12 @@
-"use client";
+'use client';
 
-import { useMemo } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-} from "@/components/ui/sheet";
-import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { useMemo } from 'react';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   AlertCircle,
   CheckCircle,
@@ -28,10 +17,10 @@ import {
   FileCheck,
   BookOpen,
   RefreshCw,
-  Shield,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import type { FactCheckResponse, FactCheckItem, Reference } from "@/types/fact-check";
+  Shield
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import type { FactCheckResponse, FactCheckItem, Reference } from '@/types/fact-check';
 
 interface AiInsightsDrawerProps {
   factCheckData: FactCheckResponse | null;
@@ -63,9 +52,7 @@ function ErrorState({ error, onRetry }: { error: Error | null; onRetry: () => vo
       <AlertCircle className="h-10 w-10 text-destructive" />
       <div>
         <p className="font-medium">Failed to load analysis</p>
-        <p className="text-sm text-muted-foreground mt-1">
-          {error?.message || "An error occurred while fetching fact-check data."}
-        </p>
+        <p className="text-sm text-muted-foreground mt-1">{error?.message || 'An error occurred while fetching fact-check data.'}</p>
       </div>
       <Button variant="outline" size="sm" onClick={onRetry}>
         <RefreshCw className="h-4 w-4 mr-2" />
@@ -75,34 +62,34 @@ function ErrorState({ error, onRetry }: { error: Error | null; onRetry: () => vo
   );
 }
 
-function StatusIcon({ status }: { status: FactCheckItem["status"] }) {
-  if (status === "ok") {
+function StatusIcon({ status }: { status: FactCheckItem['status'] }) {
+  if (status === 'ok') {
     return <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />;
   }
-  if (status === "warning") {
+  if (status === 'warning') {
     return <AlertTriangle className="h-4 w-4 text-amber-500 flex-shrink-0" />;
   }
   return <XCircle className="h-4 w-4 text-red-500 flex-shrink-0" />;
 }
 
-function ConfidenceBadge({ confidence }: { confidence: Reference["confidence"] }) {
+function ConfidenceBadge({ confidence }: { confidence: Reference['confidence'] }) {
   const variants = {
-    High: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
-    Medium: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400",
-    Low: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400",
+    High: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+    Medium: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400',
+    Low: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
   };
 
   return (
-    <Badge variant="secondary" className={cn("text-xs font-medium", variants[confidence])}>
+    <Badge variant="secondary" className={cn('text-xs font-medium', variants[confidence])}>
       {confidence}
     </Badge>
   );
 }
 
 function getScoreColor(score: number): string {
-  if (score < 4) return "bg-red-500";
-  if (score <= 6) return "bg-amber-500";
-  return "bg-green-500";
+  if (score < 4) return 'bg-red-500';
+  if (score <= 6) return 'bg-amber-500';
+  return 'bg-green-500';
 }
 
 export function AiInsightsDrawer({
@@ -113,24 +100,18 @@ export function AiInsightsDrawer({
   error,
   onRegenerate,
   open,
-  onOpenChange,
+  onOpenChange
 }: AiInsightsDrawerProps) {
   const showLoading = isLoading || isFetching;
   const warningCount = useMemo(() => {
     if (!factCheckData) return 0;
-    const items = [
-      ...factCheckData.factualAccuracy.items,
-      ...factCheckData.contentIntegrity.items,
-    ];
-    return items.filter((item) => item.status === "error" || item.status === "warning").length;
+    const items = [...factCheckData.factualAccuracy.items, ...factCheckData.contentIntegrity.items];
+    return items.filter((item) => item.status === 'error' || item.status === 'warning').length;
   }, [factCheckData]);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent
-        side="right"
-        className="w-full sm:max-w-[450px] p-0 flex flex-col"
-      >
+      <SheetContent side="right" className="w-full sm:max-w-[450px] p-0 flex flex-col">
         <SheetHeader className="border-b px-4 py-4 flex-shrink-0">
           <div className="flex items-center justify-between">
             <SheetTitle className="flex items-center gap-2 text-base">
@@ -142,20 +123,12 @@ export function AiInsightsDrawer({
                 </Badge>
               )}
             </SheetTitle>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onRegenerate}
-              disabled={showLoading}
-              className="gap-1"
-            >
-              <RefreshCw className={cn("h-4 w-4", showLoading && "animate-spin")} />
+            <Button variant="ghost" size="sm" onClick={onRegenerate} disabled={showLoading} className="gap-1">
+              <RefreshCw className={cn('h-4 w-4', showLoading && 'animate-spin')} />
               <span className="hidden sm:inline">Regenerate</span>
             </Button>
           </div>
-          <SheetDescription className="sr-only">
-            AI-powered fact-checking analysis and editorial recommendations
-          </SheetDescription>
+          <SheetDescription className="sr-only">AI-powered fact-checking analysis and editorial recommendations</SheetDescription>
         </SheetHeader>
 
         <div className="flex-1 overflow-y-auto">
@@ -165,16 +138,14 @@ export function AiInsightsDrawer({
             <ErrorState error={error} onRetry={onRegenerate} />
           ) : factCheckData ? (
             <div className="p-4">
-              <Accordion defaultValue={["factual", "relevance", "integrity", "references"]} className="space-y-3">
+              <Accordion defaultValue={['factual', 'relevance', 'integrity', 'references']} className="space-y-3">
                 {/* Factual Accuracy */}
                 <AccordionItem value="factual" className="border rounded-lg px-4">
                   <AccordionTrigger className="hover:no-underline">
                     <div className="flex items-center gap-2">
                       <Shield className="h-4 w-4 text-violet-600" />
                       <span className="font-medium">Factual Accuracy</span>
-                      <span className="text-xs text-muted-foreground">
-                        ({factCheckData.factualAccuracy.items.length})
-                      </span>
+                      <span className="text-xs text-muted-foreground">({factCheckData.factualAccuracy.items.length})</span>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent>
@@ -203,13 +174,11 @@ export function AiInsightsDrawer({
                   <AccordionContent>
                     <div className="space-y-3 pt-2">
                       <div className="flex items-center gap-3">
-                        <span className="text-3xl font-bold">
-                          {factCheckData.newsworthyRelevance.overallScore}
-                        </span>
+                        <span className="text-3xl font-bold">{factCheckData.newsworthyRelevance.overallScore}</span>
                         <span className="text-sm text-muted-foreground">/ 10</span>
                         <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
                           <div
-                            className={cn("h-full transition-all", getScoreColor(factCheckData.newsworthyRelevance.overallScore))}
+                            className={cn('h-full transition-all', getScoreColor(factCheckData.newsworthyRelevance.overallScore))}
                             style={{ width: `${(factCheckData.newsworthyRelevance.overallScore / 10) * 100}%` }}
                           />
                         </div>
@@ -235,9 +204,7 @@ export function AiInsightsDrawer({
                     <div className="flex items-center gap-2">
                       <FileCheck className="h-4 w-4 text-violet-600" />
                       <span className="font-medium">Content Integrity</span>
-                      <span className="text-xs text-muted-foreground">
-                        ({factCheckData.contentIntegrity.items.length})
-                      </span>
+                      <span className="text-xs text-muted-foreground">({factCheckData.contentIntegrity.items.length})</span>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent>
@@ -261,9 +228,7 @@ export function AiInsightsDrawer({
                     <div className="flex items-center gap-2">
                       <BookOpen className="h-4 w-4 text-violet-600" />
                       <span className="font-medium">References & Sources</span>
-                      <span className="text-xs text-muted-foreground">
-                        ({factCheckData.references.length})
-                      </span>
+                      <span className="text-xs text-muted-foreground">({factCheckData.references.length})</span>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent>
@@ -283,9 +248,7 @@ export function AiInsightsDrawer({
                               <ConfidenceBadge confidence={ref.confidence} />
                             </div>
                             <p className="text-xs text-muted-foreground mt-1.5">{ref.reason}</p>
-                            <p className="text-xs text-muted-foreground italic mt-1 line-clamp-2">
-                              &ldquo;{ref.snippet}&rdquo;
-                            </p>
+                            <p className="text-xs text-muted-foreground italic mt-1 line-clamp-2">&ldquo;{ref.snippet}&rdquo;</p>
                           </CardContent>
                         </Card>
                       ))}
@@ -317,7 +280,7 @@ export function AiInsightsFab({
   isFetching,
   onClick,
   disabled = false,
-  tooltip = "AI Newsworthy Insights",
+  tooltip = 'AI Newsworthy Insights'
 }: AiInsightsFabProps) {
   const showSpinner = isLoading || isFetching;
 
@@ -327,10 +290,10 @@ export function AiInsightsFab({
         onClick={onClick}
         disabled={disabled}
         className={cn(
-          "relative h-14 w-14 rounded-full shadow-lg flex items-center justify-center transition-all",
-          "bg-gradient-to-br from-violet-600 to-purple-600 text-white",
-          "hover:scale-110 active:scale-95",
-          "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+          'relative h-14 w-14 rounded-full shadow-lg flex items-center justify-center transition-all',
+          'bg-primary text-primary-foreground',
+          'hover:scale-110 active:scale-95',
+          'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100'
         )}
         title={tooltip}
       >
@@ -346,7 +309,7 @@ export function AiInsightsFab({
         {/* Warning/error badge */}
         {warningCount > 0 && !showSpinner && (
           <span className="absolute -top-1 -right-1 h-5 min-w-5 px-1 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
-            {warningCount > 9 ? "9+" : warningCount}
+            {warningCount > 9 ? '9+' : warningCount}
           </span>
         )}
       </button>

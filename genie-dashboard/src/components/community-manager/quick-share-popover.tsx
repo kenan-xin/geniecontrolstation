@@ -1,30 +1,26 @@
-"use client";
+'use client';
 
-import { useState, useMemo } from "react";
-import { Share2, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { useUpdateSegment } from "@/hooks/use-segments";
-import { useCommunityManagerStore } from "@/store/community-manager-store";
-import type { Segment } from "@/types";
-import { toast } from "sonner";
+import { useState, useMemo } from 'react';
+import { Share2, Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { useUpdateSegment } from '@/hooks/use-segments';
+import { useCommunityManagerStore } from '@/store/community-manager-store';
+import type { Segment } from '@/types';
+import { toast } from 'sonner';
 
 // Platform configuration
 const PLATFORMS = [
-  { id: "whatsapp", label: "WhatsApp", color: "bg-green-500" },
-  { id: "telegram", label: "Telegram", color: "bg-blue-500" },
-  { id: "wechat", label: "WeChat", color: "bg-green-600" },
-  { id: "facebook", label: "Facebook", color: "bg-blue-600" },
-  { id: "instagram", label: "Instagram", color: "bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500" },
+  { id: 'whatsapp', label: 'WhatsApp', color: 'bg-green-500' },
+  { id: 'telegram', label: 'Telegram', color: 'bg-blue-500' },
+  { id: 'wechat', label: 'WeChat', color: 'bg-green-600' },
+  { id: 'facebook', label: 'Facebook', color: 'bg-blue-600' },
+  { id: 'instagram', label: 'Instagram', color: 'bg-instagram' }
 ] as const;
 
-type PlatformId = (typeof PLATFORMS)[number]["id"];
+type PlatformId = (typeof PLATFORMS)[number]['id'];
 
 // Parse shared platforms from JSON
 const parseSharedPlatforms = (platformsJson: string | null): PlatformId[] => {
@@ -45,9 +41,7 @@ interface QuickSharePopoverProps {
 export function QuickSharePopover({ segments, stationId }: QuickSharePopoverProps) {
   const updateSegment = useUpdateSegment();
   const { selectedSegmentIds, clearSegmentSelection } = useCommunityManagerStore();
-  const [selectedPlatforms, setSelectedPlatforms] = useState<PlatformId[]>(
-    PLATFORMS.map((p) => p.id)
-  );
+  const [selectedPlatforms, setSelectedPlatforms] = useState<PlatformId[]>(PLATFORMS.map((p) => p.id));
   const [isSharing, setIsSharing] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -59,11 +53,7 @@ export function QuickSharePopover({ segments, stationId }: QuickSharePopoverProp
   const selectedCount = selectedSegmentIds.length;
 
   const togglePlatform = (platformId: PlatformId) => {
-    setSelectedPlatforms((prev) =>
-      prev.includes(platformId)
-        ? prev.filter((p) => p !== platformId)
-        : [...prev, platformId]
-    );
+    setSelectedPlatforms((prev) => (prev.includes(platformId) ? prev.filter((p) => p !== platformId) : [...prev, platformId]));
   };
 
   const handleShare = async () => {
@@ -85,19 +75,19 @@ export function QuickSharePopover({ segments, stationId }: QuickSharePopoverProp
           stationId,
           data: {
             shared: true,
-            sharedPlatforms: JSON.stringify(mergedPlatforms),
-          },
+            sharedPlatforms: JSON.stringify(mergedPlatforms)
+          }
         });
       }
 
       toast.success(
-        `Shared ${selectedCount} segment${selectedCount > 1 ? "s" : ""} to ${selectedPlatforms.length} platform${selectedPlatforms.length > 1 ? "s" : ""}`
+        `Shared ${selectedCount} segment${selectedCount > 1 ? 's' : ''} to ${selectedPlatforms.length} platform${selectedPlatforms.length > 1 ? 's' : ''}`
       );
       clearSegmentSelection();
       setOpen(false);
     } catch (error) {
-      console.error("Failed to share segments:", error);
-      toast.error("Failed to share segments");
+      console.error('Failed to share segments:', error);
+      toast.error('Failed to share segments');
     } finally {
       setIsSharing(false);
     }
@@ -109,7 +99,7 @@ export function QuickSharePopover({ segments, stationId }: QuickSharePopoverProp
         render={
           <Button variant="default" disabled={selectedCount === 0}>
             <Share2 className="size-4 mr-2" />
-            Share{selectedCount > 0 ? ` (${selectedCount})` : ""}
+            Share{selectedCount > 0 ? ` (${selectedCount})` : ''}
           </Button>
         }
       />
@@ -118,7 +108,7 @@ export function QuickSharePopover({ segments, stationId }: QuickSharePopoverProp
           <div>
             <h4 className="font-medium text-sm">Share to Platforms</h4>
             <p className="text-xs text-muted-foreground mt-1">
-              {selectedCount} segment{selectedCount !== 1 ? "s" : ""} selected
+              {selectedCount} segment{selectedCount !== 1 ? 's' : ''} selected
             </p>
           </div>
 
@@ -131,23 +121,16 @@ export function QuickSharePopover({ segments, stationId }: QuickSharePopoverProp
                   onCheckedChange={() => togglePlatform(platform.id)}
                 />
                 <div className={`size-3 rounded-full ${platform.color}`} />
-                <Label
-                  htmlFor={`platform-${platform.id}`}
-                  className="text-sm cursor-pointer flex-1"
-                >
+                <Label htmlFor={`platform-${platform.id}`} className="text-sm cursor-pointer flex-1">
                   {platform.label}
                 </Label>
               </div>
             ))}
           </div>
 
-          <Button
-            className="w-full"
-            onClick={handleShare}
-            disabled={isSharing || selectedPlatforms.length === 0}
-          >
+          <Button className="w-full" onClick={handleShare} disabled={isSharing || selectedPlatforms.length === 0}>
             {isSharing && <Loader2 className="size-4 animate-spin mr-2" />}
-            {isSharing ? "Sharing..." : "Share to Selected Platforms"}
+            {isSharing ? 'Sharing...' : 'Share to Selected Platforms'}
           </Button>
         </div>
       </PopoverContent>

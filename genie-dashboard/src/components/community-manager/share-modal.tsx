@@ -1,32 +1,25 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useMemo } from "react";
-import { Share2, Loader2 } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { useUpdateSegment } from "@/hooks/use-segments";
-import type { Segment } from "@/types";
-import { toast } from "sonner";
+import { useState, useEffect, useMemo } from 'react';
+import { Share2, Loader2 } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { useUpdateSegment } from '@/hooks/use-segments';
+import type { Segment } from '@/types';
+import { toast } from 'sonner';
 
 // Platform configuration
 const PLATFORMS = [
-  { id: "whatsapp", label: "WhatsApp", color: "bg-green-500" },
-  { id: "telegram", label: "Telegram", color: "bg-blue-500" },
-  { id: "wechat", label: "WeChat", color: "bg-green-600" },
-  { id: "facebook", label: "Facebook", color: "bg-blue-600" },
-  { id: "instagram", label: "Instagram", color: "bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500" },
+  { id: 'whatsapp', label: 'WhatsApp', color: 'bg-green-500' },
+  { id: 'telegram', label: 'Telegram', color: 'bg-blue-500' },
+  { id: 'wechat', label: 'WeChat', color: 'bg-green-600' },
+  { id: 'facebook', label: 'Facebook', color: 'bg-blue-600' },
+  { id: 'instagram', label: 'Instagram', color: 'bg-instagram' }
 ] as const;
 
-type PlatformId = (typeof PLATFORMS)[number]["id"];
+type PlatformId = (typeof PLATFORMS)[number]['id'];
 
 // Parse shared platforms from JSON
 const parseSharedPlatforms = (platformsJson: string | null): PlatformId[] => {
@@ -46,12 +39,7 @@ interface ShareModalProps {
   stationId: number;
 }
 
-export function ShareModal({
-  segment,
-  open,
-  onOpenChange,
-  stationId,
-}: ShareModalProps) {
+export function ShareModal({ segment, open, onOpenChange, stationId }: ShareModalProps) {
   const updateSegment = useUpdateSegment();
   const [selectedPlatforms, setSelectedPlatforms] = useState<PlatformId[]>([]);
   const [isSharing, setIsSharing] = useState(false);
@@ -70,11 +58,7 @@ export function ShareModal({
   }, [open, segment, existingPlatforms]);
 
   const togglePlatform = (platformId: PlatformId) => {
-    setSelectedPlatforms((prev) =>
-      prev.includes(platformId)
-        ? prev.filter((id) => id !== platformId)
-        : [...prev, platformId]
-    );
+    setSelectedPlatforms((prev) => (prev.includes(platformId) ? prev.filter((id) => id !== platformId) : [...prev, platformId]));
   };
 
   const handleShare = async () => {
@@ -90,17 +74,15 @@ export function ShareModal({
         stationId,
         data: {
           shared: true,
-          sharedPlatforms: JSON.stringify(mergedPlatforms),
-        },
+          sharedPlatforms: JSON.stringify(mergedPlatforms)
+        }
       });
 
-      toast.success(
-        `Shared to ${selectedPlatforms.length} platform${selectedPlatforms.length > 1 ? "s" : ""}`
-      );
+      toast.success(`Shared to ${selectedPlatforms.length} platform${selectedPlatforms.length > 1 ? 's' : ''}`);
       onOpenChange(false);
     } catch (error) {
-      console.error("Failed to share segment:", error);
-      toast.error("Failed to share segment");
+      console.error('Failed to share segment:', error);
+      toast.error('Failed to share segment');
     } finally {
       setIsSharing(false);
     }
@@ -114,21 +96,15 @@ export function ShareModal({
             <Share2 className="size-5 text-primary" />
             Share Segment
           </DialogTitle>
-          <DialogDescription>
-            Share this segment&apos;s AI post to social media platforms.
-          </DialogDescription>
+          <DialogDescription>Share this segment&apos;s AI post to social media platforms.</DialogDescription>
         </DialogHeader>
 
         <div className="grid gap-4 py-4">
           {/* Post preview */}
           {segment?.agentResponse && (
             <div className="p-3 rounded-lg bg-muted/50 border">
-              <p className="text-xs font-medium text-muted-foreground mb-2">
-                AI Post Preview
-              </p>
-              <p className="text-sm whitespace-pre-wrap line-clamp-6">
-                {segment.agentResponse}
-              </p>
+              <p className="text-xs font-medium text-muted-foreground mb-2">AI Post Preview</p>
+              <p className="text-sm whitespace-pre-wrap line-clamp-6">{segment.agentResponse}</p>
             </div>
           )}
 
@@ -143,32 +119,20 @@ export function ShareModal({
                   onCheckedChange={() => togglePlatform(platform.id)}
                 />
                 <div className={`size-3 rounded-full ${platform.color}`} />
-                <Label
-                  htmlFor={`share-platform-${platform.id}`}
-                  className="text-sm cursor-pointer flex-1"
-                >
+                <Label htmlFor={`share-platform-${platform.id}`} className="text-sm cursor-pointer flex-1">
                   {platform.label}
                 </Label>
-                {existingPlatforms.includes(platform.id) && (
-                  <span className="text-xs text-muted-foreground">Already shared</span>
-                )}
+                {existingPlatforms.includes(platform.id) && <span className="text-xs text-muted-foreground">Already shared</span>}
               </div>
             ))}
           </div>
         </div>
 
         <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-            disabled={isSharing}
-          >
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isSharing}>
             Cancel
           </Button>
-          <Button
-            onClick={handleShare}
-            disabled={isSharing || selectedPlatforms.length === 0}
-          >
+          <Button onClick={handleShare} disabled={isSharing || selectedPlatforms.length === 0}>
             {isSharing && <Loader2 className="size-4 animate-spin mr-2" />}
             Share
           </Button>

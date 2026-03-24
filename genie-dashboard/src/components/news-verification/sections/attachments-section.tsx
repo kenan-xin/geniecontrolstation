@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { Paperclip, Image, Video, FileText, ExternalLink } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import type { NewsArticle, Attachment } from "@/types";
+import { Paperclip, Image, Video, FileText, ExternalLink } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import type { NewsArticle, Attachment } from '@/types';
 
 // Helper to safely parse JSON that may already be an object
 function safeJsonParse<T>(value: T | string | null): T | null {
   if (!value) return null;
-  if (typeof value === "object") return value;
-  if (typeof value !== "string") return null;
+  if (typeof value === 'object') return value;
+  if (typeof value !== 'string') return null;
   try {
     return JSON.parse(value);
   } catch {
@@ -23,8 +23,8 @@ interface AttachmentsSectionProps {
 
 function getAttachmentIcon(type: string) {
   const lower = type.toLowerCase();
-  if (lower.startsWith("image/") || lower === "image") return Image;
-  if (lower.startsWith("video/") || lower === "video") return Video;
+  if (lower.startsWith('image/') || lower === 'image') return Image;
+  if (lower.startsWith('video/') || lower === 'video') return Video;
   return FileText;
 }
 
@@ -41,9 +41,7 @@ export function AttachmentsSection({ article }: AttachmentsSectionProps) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground italic">
-            No attachments provided
-          </p>
+          <p className="text-sm text-muted-foreground italic">No attachments provided</p>
         </CardContent>
       </Card>
     );
@@ -64,7 +62,7 @@ export function AttachmentsSection({ article }: AttachmentsSectionProps) {
         <div className="grid gap-3 sm:grid-cols-2">
           {attachments.map((attachment) => {
             const Icon = getAttachmentIcon(attachment.type);
-            const isImage = attachment.type.toLowerCase().startsWith("image/");
+            const isImage = attachment.type.toLowerCase().startsWith('image/');
 
             return (
               <div
@@ -74,7 +72,7 @@ export function AttachmentsSection({ article }: AttachmentsSectionProps) {
                 {/* Preview/Icon */}
                 <div className="shrink-0 size-16 rounded-md overflow-hidden bg-muted flex items-center justify-center">
                   {isImage ? (
-                    <div className="size-full bg-gradient-to-br from-primary/5 to-primary/10 flex items-center justify-center">
+                    <div className="size-full bg-muted flex items-center justify-center">
                       <Image className="size-6 text-primary/40" />
                     </div>
                   ) : (
@@ -85,9 +83,7 @@ export function AttachmentsSection({ article }: AttachmentsSectionProps) {
                 {/* Details */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
-                    <p className="text-sm font-medium text-foreground truncate">
-                      {attachment.name}
-                    </p>
+                    <p className="text-sm font-medium text-foreground truncate">{attachment.name}</p>
                     <a
                       href={attachment.url}
                       target="_blank"
@@ -97,11 +93,7 @@ export function AttachmentsSection({ article }: AttachmentsSectionProps) {
                       <ExternalLink className="size-3.5 text-muted-foreground hover:text-foreground" />
                     </a>
                   </div>
-                  {attachment.description && (
-                    <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">
-                      {attachment.description}
-                    </p>
-                  )}
+                  {attachment.description && <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">{attachment.description}</p>}
                   {attachment.source && (
                     <Badge variant="outline" className="mt-1.5 font-normal text-xs">
                       {attachment.source}
