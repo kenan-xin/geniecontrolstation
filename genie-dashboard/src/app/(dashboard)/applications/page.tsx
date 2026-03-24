@@ -224,12 +224,12 @@ export default function ApplicationsPage() {
       {/* Content - only show when not loading and no error */}
       {!isLoading && !isError && (
         <>
-          {/* Status Summary Cards */}
-          <section className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+          {/* Status Summary Cards - Horizontal Metrics Bar */}
+          <div className="flex flex-wrap items-center gap-4 pb-4 border-b border-border">
             {applicationStatusOrder.map((status) => (
-              <StatusStatCard key={status} config={applicationStatusConfig[status]} count={statusCounts[status]} />
+              <StatusStatCard key={status} config={applicationStatusConfig[status]} count={statusCounts[status]} size="sm" />
             ))}
-          </section>
+          </div>
 
           {/* Applications List */}
           {visibleApplications.length === 0 && !searchValue ? (
