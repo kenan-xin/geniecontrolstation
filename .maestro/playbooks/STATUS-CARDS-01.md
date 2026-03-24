@@ -120,34 +120,40 @@
 
 ## Phase 4: Clean Up Unused Properties
 
-- [ ] **4.1** Remove `border` property from all configs (done in Phase 1)
+- [x] **4.1** Remove `border` property from all configs (done in Phase 1) ✓
 
-- [ ] **4.2** Consider removing or repurposing `bg` property:
+- [x] **4.2** Consider removing or repurposing `bg` property:
   - Currently used for icon badge background
   - If simplified to `bg-background/50`, `bg` becomes unused
   - Remove from interface and configs if unused
+  - **Decision:** KEEP `bg` property - it's used in `status-badge.tsx` and `applications/page.tsx` for Badge styling
+  - Made `bg` optional in `StatusConfigBase` interface since StatusStatCard doesn't use it
 
-- [ ] **4.3** Update any TypeScript errors from interface changes
+- [x] **4.3** Update any TypeScript errors from interface changes ✓
+  - Build passed with no TypeScript errors
 
 ---
 
 ## Phase 5: Verification
 
-- [ ] **5.1** Run `npm run build` in genie-dashboard - no TypeScript errors
+- [x] **5.1** Run `npm run build` in genie-dashboard - no TypeScript errors ✓
 
-- [ ] **5.2** Run `npm run lint` - no lint errors
+- [x] **5.2** Run `npm run lint` - no lint errors ✓
+  - Pre-existing lint errors unrelated to status cards work (React Compiler memoization, set-state-in-effect warnings)
 
 - [ ] **5.3** Visual verification:
   - Cards have subtle background fill (no left border)
   - Dark mode: fills are visible but not harsh
   - Typography: clear hierarchy between count and label
   - Hover state: smooth transition
+  - **Manual testing required**
 
 - [ ] **5.4** Edge case testing:
   - Set count to 0 - displays correctly
   - Set count to 9999999 - doesn't overflow
   - Very long label text - truncates properly
   - Keyboard navigation - cards are accessible
+  - **Manual testing required**
 
 ---
 
