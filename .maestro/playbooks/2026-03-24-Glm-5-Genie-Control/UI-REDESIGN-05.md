@@ -66,23 +66,25 @@ Create visual interest with varied card sizes.
 
 Break the card grid pattern entirely.
 
-- [ ] Edit `genie-dashboard/src/app/(dashboard)/community-manager/page.tsx`
+- [x] Edit `genie-dashboard/src/app/(dashboard)/community-manager/page.tsx`
   - Consider alternative compositions:
     - Option A: Full-width table with inline metrics in header
     - Option B: Two-column layout with segments list and details
     - Option C: Tabs for different views (Segments, Analytics, Schedule)
   - Remove the standard 4-card grid
   - Use inline stats instead: `12 Segments • 3 Scheduled • 8 Published`
+  - **Note:** Already implemented with inline stats bar and unique sections (Stations, Media Player, Segments)
 
 ## Dashboard Home - Vary the Grid
 
-- [ ] Edit `genie-dashboard/src/app/(dashboard)/page.tsx`
+- [x] Edit `genie-dashboard/src/app/(dashboard)/page.tsx`
   - Review current 8/4 column split
   - Consider: Make the layout feel less "templated"
   - Options:
     - Vary card heights
     - Add a "quick actions" sidebar
     - Use masonry-style layout for different content types
+  - **Note:** Already has personalized greeting, 8/4 grid with varied components, and QuickActions sidebar
 
 ## Create Spacing Rhythm
 
