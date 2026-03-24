@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { CalendarClock, Check } from "lucide-react";
+import { CalendarClock, Check, Sparkles } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -36,6 +37,7 @@ interface PublishingScheduleSectionProps {
   }) => void;
   readOnly?: boolean;
   confirmed?: boolean;
+  onRegeneratePublisherNotes?: () => void;
 }
 
 export function PublishingScheduleSection({
@@ -43,6 +45,7 @@ export function PublishingScheduleSection({
   onChange,
   readOnly = false,
   confirmed = false,
+  onRegeneratePublisherNotes,
 }: PublishingScheduleSectionProps) {
   const handleChannelToggle = (channelId: string) => {
     if (readOnly) return;
@@ -116,9 +119,22 @@ export function PublishingScheduleSection({
         </div>
 
         <div className="space-y-2">
-          <Label className="text-xs font-medium text-muted-foreground">
-            Publisher Notes
-          </Label>
+          <div className="flex items-center justify-between">
+            <Label className="text-xs font-medium text-muted-foreground">
+              Publisher Notes
+            </Label>
+            {onRegeneratePublisherNotes && !readOnly && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onRegeneratePublisherNotes}
+                className="h-7 gap-1 text-xs"
+              >
+                <Sparkles className="h-3 w-3" />
+                Regenerate AI Notes
+              </Button>
+            )}
+          </div>
           <Textarea
             value={scheduleData.publisherNotes}
             onChange={(e) =>

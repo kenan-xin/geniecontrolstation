@@ -69,3 +69,8 @@ export interface StationWithSchedules extends Station {
 export interface StationWithDetails extends StationWithSchedules {
   segments: Segment[];
 }
+
+// Station creation data (includes schedules for API)
+export interface CreateStationData extends NewStation {
+  schedules?: Omit<NewStationSchedule, "stationId">[];
+}

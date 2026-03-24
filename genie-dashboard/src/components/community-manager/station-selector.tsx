@@ -263,8 +263,10 @@ export function StationSelector() {
 
   return (
     <>
-      <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4">
-        {stations.map((station) => (
+      {/* Scrollable wrapper with padding for ring overflow */}
+      <div className="overflow-x-auto py-2 -mx-4 px-4">
+        <div className="flex gap-3">
+          {stations.map((station) => (
           <Card
             key={station.id}
             className={`group relative cursor-pointer shrink-0 w-[120px] transition-all duration-200 hover:shadow-md ${
@@ -336,6 +338,7 @@ export function StationSelector() {
             </p>
           </CardContent>
         </Card>
+        </div>
       </div>
 
       {/* Add Station Dialog */}

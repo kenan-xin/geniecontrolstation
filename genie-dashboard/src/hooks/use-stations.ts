@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import type { Station, NewStation, StationWithSchedules } from "@/types";
+import type { Station, NewStation, StationWithSchedules, CreateStationData } from "@/types";
 
 // Query key factory
 export const stationKeys = {
@@ -40,7 +40,7 @@ export function useCreateStation() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: NewStation): Promise<StationWithSchedules> => {
+    mutationFn: async (data: CreateStationData): Promise<StationWithSchedules> => {
       const response = await fetch("/api/stations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

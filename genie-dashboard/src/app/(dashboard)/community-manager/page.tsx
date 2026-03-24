@@ -13,7 +13,7 @@ import { RegenerateModal } from "@/components/community-manager/regenerate-modal
 import { DeleteSegmentDialog } from "@/components/community-manager/delete-segment-dialog";
 import { ShareModal } from "@/components/community-manager/share-modal";
 import { QuickSharePopover } from "@/components/community-manager/quick-share-popover";
-import { ErrorState } from "@/components/shared";
+import { PageHeader, SectionLabel } from "@/components/shared";
 import type { Segment } from "@/types";
 
 export default function CommunityManagerPage() {
@@ -89,45 +89,29 @@ export default function CommunityManagerPage() {
   return (
     <div className="space-y-8">
       {/* Page Header */}
-      <div>
-        <div className="flex items-center gap-3 mb-2">
-          <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 shadow-md shadow-blue-500/20">
-            <Radio className="size-5 text-white" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight text-foreground">
-              Community Manager
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Radio station management with live streaming, recording, and AI
-              transcription
-            </p>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        icon={Radio}
+        title="Community Manager"
+        description="Radio station management with live streaming, recording, and AI transcription"
+        gradient={{ from: "from-blue-500", to: "to-indigo-500", shadow: "shadow-blue-500/20" }}
+      />
 
       {/* Station Selector */}
       <section>
-        <h2 className="text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground/60 mb-3">
-          Stations
-        </h2>
+        <SectionLabel className="mb-3">Stations</SectionLabel>
         <StationSelector />
       </section>
 
       {/* Media Player */}
       <section>
-        <h2 className="text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground/60 mb-3">
-          Media Player
-        </h2>
+        <SectionLabel className="mb-3">Media Player</SectionLabel>
         <MediaPlayer station={activeStation ?? null} />
       </section>
 
       {/* Segments Table */}
       <section>
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground/60">
-            Recorded Segments
-          </h2>
+          <SectionLabel>Recorded Segments</SectionLabel>
           <div className="flex items-center gap-3">
             {activeStationId && (
               <QuickSharePopover
