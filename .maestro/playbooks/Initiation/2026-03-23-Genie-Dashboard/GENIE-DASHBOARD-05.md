@@ -16,7 +16,7 @@ This phase integrates the AI-powered features that make the verification workflo
 
 ## Tasks
 
-- [ ] Create the `useNewsFactCheck` hook at `src/hooks/use-news-fact-check.ts`:
+- [x] Create the `useNewsFactCheck` hook at `src/hooks/use-news-fact-check.ts`:
   - Define TypeScript types in `src/types/fact-check.ts`:
     ```typescript
     export interface FactCheckItem {
