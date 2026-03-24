@@ -129,7 +129,7 @@ This phase integrates the AI-powered features that make the verification workflo
     - **ApprovalView**: When "Approve" dialog opens, pre-fill with `generateSeniorEditorialNotes()`. Add regenerate button.
     - **ScheduleView**: Pre-fill publisher notes textarea with `generatePublisherNotes()`.
 
-- [ ] Integrate the AI Insights drawer into the Unverified, Approval, and Schedule detail views:
+- [x] Integrate the AI Insights drawer into the Unverified, Approval, and Schedule detail views:
   - In each stage view component, add state for drawer open/close
   - Instantiate `useNewsFactCheck(article.storyTitle, article.storyDescription)` — this will auto-fetch when the page loads
   - Render the FAB + AiInsightsDrawer at the bottom of the component (absolutely positioned FAB, Sheet overlay for drawer)
