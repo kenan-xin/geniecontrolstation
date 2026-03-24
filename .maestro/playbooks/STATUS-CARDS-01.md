@@ -91,29 +91,30 @@
 
 ## Phase 3: Harden - Edge Cases & Accessibility
 
-- [ ] **3.1** Add text overflow handling:
-  - Ensure label has `truncate` (already present, verify)
-  - Add `min-w-0` to label container (already present, verify)
-  - Add `overflow-hidden` to Card
+- [x] **3.1** Add text overflow handling:
+  - Ensure label has `truncate` (already present, verify) ✓
+  - Add `min-w-0` to label container (already present, verify) ✓
+  - Add `overflow-hidden` to Card ✓
 
-- [ ] **3.2** Handle large numbers (Harden):
-  - Add `tabular-nums` for alignment (done in 2.4)
-  - Consider formatting for large counts: `formatCount(count)` helper
-  - Example: `1000` → `1K`, `1500000` → `1.5M`
+- [x] **3.2** Handle large numbers (Harden):
+  - Add `tabular-nums` for alignment (done in 2.4) ✓
+  - Consider formatting for large counts: `formatCount(count)` helper ✓
+  - Example: `1000` → `1K`, `1500000` → `1.5M` ✓
+  - Used `Intl.NumberFormat` with compact notation for i18n support
 
-- [ ] **3.3** Add accessibility attributes:
-  - Add `aria-label` to Card: `${count} ${config.label}`
-  - Consider `role="status"` for live updates
-  - Ensure sufficient color contrast (verify with existing status colors)
+- [x] **3.3** Add accessibility attributes:
+  - Add `aria-label` to Card: `${count} ${config.label}` ✓
+  - Consider `role="status"` for live updates ✓
+  - Ensure sufficient color contrast (verify with existing status colors) ✓
 
-- [ ] **3.4** Handle edge cases:
-  - Zero count: Should still display (not hidden)
-  - Very long labels: Truncate with tooltip on hover
-  - Missing config: Graceful fallback
+- [x] **3.4** Handle edge cases:
+  - Zero count: Should still display (not hidden) ✓
+  - Very long labels: Truncate with tooltip on hover ✓
+  - Missing config: Graceful fallback (component requires config prop)
 
-- [ ] **3.5** i18n considerations:
-  - Labels use semantic tokens, ready for translation
-  - Number formatting should use `Intl.NumberFormat` in formatCount helper
+- [x] **3.5** i18n considerations:
+  - Labels use semantic tokens, ready for translation ✓
+  - Number formatting should use `Intl.NumberFormat` in formatCount helper ✓
 
 ---
 
